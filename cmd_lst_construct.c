@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 22:03:26 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/11 21:39:31 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/12 18:29:26 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	cmd_lst_print(t_cmd_lst *list)
 	cur = list->head;
 	while (cur)
 	{
-		red_lst_print(cur->red_lst);
-	//	printf("%s-> ", cur->args);
+		printf("%s-> ", cur->args);
 		cur = cur->next;
 	}
 	printf("NULL\n");

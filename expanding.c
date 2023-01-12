@@ -33,7 +33,7 @@ char	*get_env(t_env_lst *env_lst, char *del)
 	t_env	*env_node;
 
 	env_node = env_lst->head->next;
-	while (env_node->next && del)
+	while (env_node->next && del && *del)
 	{
 		if (!ft_strncmp(env_node->data, del, ft_strlen(del)))
 			return (env_node->data + ft_strlen(del) + 1);
@@ -61,6 +61,7 @@ int	find_del(char *s, char **del, int i, int start, t_env_lst *env_lst)
 		*del = ft_substr_m(s, start, start + k);
 	return (i);
 }
+
 //end is always on '$', start is 0, then it becomes the next of del
 int	find_dollar_del(char *s, char **str, int i, int q_idx, int *start, t_env_lst *env_lst, int hdoc_flg)
 {
@@ -81,13 +82,19 @@ int	find_dollar_del(char *s, char **str, int i, int q_idx, int *start, t_env_lst
 			i++;
 			exp_start = i;
 			i = find_del(s, &del, i, exp_start, env_lst);
+			if (del && !(*del))// for one $
+				end++;
 			*str = ft_strjoin(*str, s, end, *start);
 			*start = end + ft_strlen(del) + 1;
+			if (del && !(*del))//for one $
+				(*start)--;
 			*str = ft_strjoin(*str, get_env(env_lst, del), ft_strlen(get_env(env_lst, del)), 0);
 		}
 		else
 			i++;
 	}
+	if (s[i] == '\'')// for $'$HOME'
+		return (i - 1);
 	return (i);
 }
 

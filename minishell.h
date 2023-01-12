@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 19:37:36 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/11 21:48:53 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/12 18:27:00 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,9 @@ void		env_lst_print(t_env_lst *list);
 
 //environment.c
 t_env_lst	*getting_env(char **env);
+
 //parsing.c
 void	parsing(char **env);
 void	cmd_expanded(t_cmd_lst *cmd_lst, t_env_lst *env_lst);
+void	cmd_quote_clear(t_cmd_lst *cmd_lst);
 #endif
