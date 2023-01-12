@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 20:20:02 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/09 14:34:08 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/12 20:51:37 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ int	ft_strlen(char *s)
 	while (s[++i])
 		;
 	return (i);
+}
+
+int	ft_is_space(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\f'
+		|| c == '\n' || c == '\r' || c == '\v');
 }
 
 char	*str_return_trimmed(char *s, int start, int end, char *val)
@@ -80,6 +86,8 @@ int	ft_strncmp(char *s1, char *s2, unsigned int n)
 	unsigned int	i;
 
 	i = 0;
+	if (!s1 || !s2)
+		return (9);
 	while (i < n && ((unsigned char)s1[i] || (unsigned char)s2[i]))
 	{
 		if ((unsigned char)s1[i] != (unsigned char)s2[i])
@@ -89,8 +97,9 @@ int	ft_strncmp(char *s1, char *s2, unsigned int n)
 	return (0);
 }
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(char *s, int fd, int fl)
 {
 	write(fd, s, ft_strlen(s));
-	write(fd, "\n", 1);
+	if (fl == 1)
+		write(fd, "\n", 1);
 }

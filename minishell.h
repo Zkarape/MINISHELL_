@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 19:37:36 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/12 18:27:00 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/12 21:28:05 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_red_lst
 typedef	struct	s_cmd
 {
 	char				*args;
+	char				**no_cmd;
 	int					fd_out;
 	int					fd_in;
 	struct s_cmd		*next;
@@ -89,6 +90,12 @@ typedef struct	s_env_lst
 //ft_split
 int		ft_is_space(char c);
 int		word_cpy(char *s_m, char *s, char quote);
+
+//split.c
+//char	**ft_split(char *s, char c);
+
+//split_spaces.c
+char	**split(char *s);
 
 //quote_checks
 int		find_d_unquote(char *s);
@@ -128,7 +135,7 @@ int				return_type(char c, char c_next);
 //utils.c
 char	*ft_strjoin(char *s1, char *s2, int start, int end);
 int		ft_strncmp(char *s1, char *s2, unsigned int n);
-void	ft_putstr_fd(char *s, int fd);
+void	ft_putstr_fd(char *s, int fd, int fl);
 int		ft_strlen(char *s);
 //trimming
 t_list	*lst_construct(void);
@@ -169,4 +176,7 @@ t_env_lst	*getting_env(char **env);
 void	parsing(char **env);
 void	cmd_expanded(t_cmd_lst *cmd_lst, t_env_lst *env_lst);
 void	cmd_quote_clear(t_cmd_lst *cmd_lst);
+
+//builtins.c
+void	echo(t_cmd *cmd_node);
 #endif

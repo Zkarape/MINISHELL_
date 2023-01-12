@@ -2,23 +2,9 @@
 
 int	main(int ac, char **av, char **env)
 {
-	//int i;
-	t_cmd	*cmd_node = NULL;
-
-	//i = -1;
-	//int i = -1;
-	//char *s = readline("minishell$");
-	//printf("s is : %s\n", s);
-//	expand(s);
+//	int fd1 = open("oko", O_WRONLY | O_APPEND | O_CREAT, 0644);
+//	printf("fd == %d\n", fd1);
+	int fd2 = open("l", O_WRONLY | O_APPEND | O_CREAT, 0644);
+	printf("fd == %d\n", fd2);
 	parsing(env);
-//	grouping_with_red(group_until_pipe(s), getting_env(env));
-//	printf("%s\n", expand(s, getting_env(env)));
-	//char **arr = ft_split(s);
-	//char *cpy;
-	//while (arr[++i])
-	//{
-///	printf("sizeof %lu\n", sizeof(d)/sizeof(int));
-	//	cpy = strcpy_noquotes(arr[i], '"');
-	//	printf("after %s\n", cpy);
-	//printf("%d",return_type('>', '>'));
 }

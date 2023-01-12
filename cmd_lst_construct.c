@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 22:03:26 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/12 18:29:26 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/12 19:12:33 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_cmd	*cmd_node_initialize(void)
 	node->fd_in = 0;
 	node->next = NULL;
 	node->red_lst = NULL;
+	node->no_cmd = NULL;
 	return (node);
 }
 

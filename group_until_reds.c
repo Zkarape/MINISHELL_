@@ -53,6 +53,7 @@ void	find_start_end(char *s, t_cmd *cmd_node, t_red_lst *red_lst)
 		}
 	}
 	cmd_node->args = ft_strjoin(str, s, i, end + 1);
+	printf("args == %s\n", cmd_node->args);
 }
 
 void	one_cmd_init(t_node *node, t_cmd_lst *cmd_lst, t_env_lst *env_lst)

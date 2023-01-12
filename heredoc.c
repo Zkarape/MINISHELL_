@@ -6,7 +6,7 @@
 /*   By: aivanyan <aivanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:32:53 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/12 18:16:28 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/12 19:33:09 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	heredoc(t_red *red_node, t_env_lst *env_lst)
 		if (find_d_quotes(red_node->file, 0) == ft_strlen(red_node->file) - 1)
 			s = hdoc_expand(s, env_lst);
 //		printf("s == %s\n", s);
-		ft_putstr_fd(s, tmp_fd);
+		ft_putstr_fd(s, tmp_fd, 1);
 		s = readline("> ");
 //		printf("retval == %d\n", find_d_quotes(red_node->file, 0));
 	}
