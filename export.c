@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	*quality_out_of_quotes(char *s)
+char	*equality_out_of_quotes(char *s)
 {
 	int	i;
 
@@ -60,7 +60,7 @@ t_env_lst	*ft_export(t_env_lst *env_lst)
 	return (exp_lst);
 }
 
-void	export_pars(t_cmd *cmd_node, t_env_lst *env_lst, t_exp_lst *exp_lst)
+void	export_pars(t_cmd *cmd_node, t_env_lst *env_lst, t_env_lst *exp_lst)
 {
 	int		i;
 	char	*data;

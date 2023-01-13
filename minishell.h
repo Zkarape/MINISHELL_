@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 19:37:36 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/13 21:47:46 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/13 22:13:11 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,9 @@ void	echo(t_cmd *cmd_node);
 void	env(t_env_lst *env_lst);
 void	pwd();
 char    *ft_strcpy(char *s1, char *s2);
-void	ft_export(t_env_lst *env_lst);
+t_env_lst	*ft_export(t_env_lst *env_lst);
+char	*adding_quotes(char *s);
+char	*equality_out_of_quotes(char *s);
 void	unset(t_env_lst *env_lst, t_cmd *cmd_node);
 void	error_checks_for_var(char *s, int until);
 int		until_equal_sign(char *s);
