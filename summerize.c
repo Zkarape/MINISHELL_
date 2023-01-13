@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 21:13:41 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/11 20:12:12 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/13 21:53:27 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_substr_m(char *s, int start, int end)
 	char *dst;
 	int	i;
 
+	if (!s)
+		return 0;
 	i = 0;
 	dst = malloc(sizeof(char) * (end - start + 1));
 	while (start < end)

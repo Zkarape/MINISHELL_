@@ -6,11 +6,21 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 19:06:24 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/12 21:57:39 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/13 21:47:12 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	until_equal_sign(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] && s[i] != '=')
+		i++;
+	return (i);
+}
 
 void	echo(t_cmd *cmd_node)
 {
@@ -35,13 +45,62 @@ void	echo(t_cmd *cmd_node)
 		ft_putstr_fd("\n", cmd_node->fd_out, 0);
 }
 
-void	unset(t_env_lst *env_lst, t_cmd *cmd_node)
+void	error_checks_for_var(char *s, int until)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
+	if (is_num(s[0]))
+	{
+		ft_putstr(s);
+		ft_print_error_and_exit(": not a valid identifier\n", 1);
+	}
+	while (s[i] && i < until)
+	{
+		if (!is_num(s[i]) && s[i] != '_' && !is_alpha(s[i]))
+		{
+			ft_putstr(s);
+			ft_print_error_and_exit(": not a valid identifier\n", 1);
+		}
+		i++;
+	}
+}
+
+void	unset(t_env_lst *env_lst, t_cmd *cmd_node)
+{
+	int		i;
+	int		j;
+	t_env	*env_node;
+
+	i = 0;
+	j = -1;
+	env_node = env_lst->head->next;
 	while (cmd_node->no_cmd[++i])
 	{
-		
+		error_checks_for_var(cmd_node->no_cmd[i], ft_strlen(cmd_node->no_cmd[i]));
+		while (env_node->next)
+		{
+			if (!ft_strncmp(env_node->data, cmd_node->no_cmd[i],
+					until_equal_sign(env_node->data)))
+			{
+				remove_from_between(env_node, env_lst);
+			}
+			env_node = env_node->next;
+		}
 	}
+}
+
+void	env(t_env_lst *env_lst)
+{
+	env_lst_print(env_lst);
+}
+
+void	pwd()
+{
+	char	cwd[PATH_MAX];
+
+	if (getcwd(cwd, sizeof(cwd)) != NULL)
+			printf("%s\n", cwd);
+	else
+		perror("pwd error\n");
 }

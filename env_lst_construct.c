@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 21:06:39 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/11 20:10:46 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/13 21:11:58 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_env	*env_def_initialize(void)
 	if (!node)
 		return (NULL);
 	node->data = NULL;
+	node->idx = -1;
 	node->next = NULL;
 	node->prev = NULL;
 	return (node);
@@ -62,6 +63,7 @@ t_env	*env_initialize(char *data, t_env *next, t_env *prev)
 	node->data = data;
 	node->next = next;
 	node->prev = prev;
+	node->idx = -1;
 	return (node);
 }
 

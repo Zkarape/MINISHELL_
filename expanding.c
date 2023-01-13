@@ -35,7 +35,7 @@ char	*get_env(t_env_lst *env_lst, char *del)
 	env_node = env_lst->head->next;
 	while (env_node->next && del && *del)
 	{
-		if (!ft_strncmp(env_node->data, del, ft_strlen(del)))
+		if (!ft_strncmp(env_node->data, del, until_equal_sign(env_node->data)))
 			return (env_node->data + ft_strlen(del) + 1);
 		env_node = env_node->next;
 	}

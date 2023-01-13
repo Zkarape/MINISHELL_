@@ -27,6 +27,8 @@ void	find_start_end(char *s, t_cmd *cmd_node, t_red_lst *red_lst)
 	int		end;
 	char	*str;
 	int		type;
+	char	*tmp;
+	char	*file;
 
 	i = -1;
 	start = 0;
@@ -39,17 +41,19 @@ void	find_start_end(char *s, t_cmd *cmd_node, t_red_lst *red_lst)
 			i += find_last_quote(&s[i], s[i]);
 		else if (is_red(s[i]))
 		{
-			str = ft_strjoin(str, s, i, end + 1);
+			tmp = str;
+			str = ft_strjoin(tmp, s, i, end + 1);
 			type = return_type(s[i], s[i + 1]);
 			if (type == 2 || type == 3)
 				i++;
 			while (ft_is_space(s[i]))
 				i++;
 			start = i;
-			while (!ft_is_space(s[i + 1]) && !is_red(s[i + 1]) && s[i + 1])
+			while (s[i + 1] && !ft_is_space(s[i + 1]) && !is_red(s[i + 1]))
 			 	i++;
 			end = i;
-			red_lst_add_last(red_lst, filename_trim(&s[start + 1], end - start, type), type);
+			file = filename_trim(&s[start + 1], end - start, type);
+			red_lst_add_last(red_lst, file, type);
 		}
 	}
 	cmd_node->args = ft_strjoin(str, s, i, end + 1);

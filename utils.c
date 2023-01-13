@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 20:20:02 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/12 20:51:37 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/13 21:04:34 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*ft_strjoin(char *s1, char *s2, int start, int end)
 
 	i = 0;
 	len = ft_strlen(s1);
-	dst = (char *)malloc((len + start - end) * sizeof(char));
+	dst = (char *)malloc((len + start - end + 1) * sizeof(char));
 	if (!dst)
 		return (NULL);
 	while (i < len)
@@ -103,3 +103,17 @@ void	ft_putstr_fd(char *s, int fd, int fl)
 	if (fl == 1)
 		write(fd, "\n", 1);
 }
+
+char    *ft_strcpy(char *s1, char *s2)
+  {
+      int i;
+
+      i = 0;
+      while (s2[i])
+      {
+          s1[i] = s2[i];
+          i++;
+      }
+      s1[i] = s2[i];
+      return (s1);
+  }

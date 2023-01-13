@@ -9,20 +9,28 @@ char	*filename_trim(char *s, int k, int type)
 {
 	int		i;
 	char	*file;
-	char	*file_trimmed;
+	char	*file_trimmed = NULL;
 
 	i = 0;
 	if (k < 0)
 		return (NULL);
-	file = malloc(sizeof(char) * k + 1);
+	file = malloc(sizeof(char) * (k + 1));
+	if (!file)
+		return (NULL);
 	while (s[i] && i < k)
 	{
 		file[i] = s[i];
 		i++;
 	}
 	file[i] = '\0';
+	return (file);
+	file_trimmed = file;
 	if (type != 2)
-		file = filling_with_nulls(file);
+	{
+		free(file);
+		file = filling_with_nulls(file_trimmed);
+	}
+	printf("file == %s\n", file);
 	return (file);
 }
 

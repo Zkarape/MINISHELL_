@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 19:37:36 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/12 21:28:05 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/13 21:47:46 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stddef.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -62,6 +63,7 @@ typedef	struct	s_cmd
 typedef struct	s_env
 {
 	char			*data;
+	int				idx;
 	struct s_env	*next;
 	struct s_env	*prev;
 }	t_env;
@@ -114,6 +116,7 @@ int		find_last_quote_with_full_index(char *s, char quote, int i);
 
 //file_for_red.c
 char	*filename_trim(char *s, int k, int type);
+char	*filename_trim2(char *s, int k, int type, int st);
 char	*less_red(char *s, int st, int end);
 int		is_red(char c);
 void	func_for_reds(t_cmd *cmd_node, t_red *red_node);
@@ -121,6 +124,9 @@ void	red_big_loop(t_red_lst *red_lst, t_cmd *cmd);
 
 //error_cases
 void	ft_print_error_and_exit(char *error, int code);
+int		is_num(char c);
+int		is_alpha(char c);
+void	ft_putstr(char *str);
 
 //group_until_reds.c
 t_cmd_lst		*cmd_lst_construct(void);
@@ -179,4 +185,11 @@ void	cmd_quote_clear(t_cmd_lst *cmd_lst);
 
 //builtins.c
 void	echo(t_cmd *cmd_node);
+void	env(t_env_lst *env_lst);
+void	pwd();
+char    *ft_strcpy(char *s1, char *s2);
+void	ft_export(t_env_lst *env_lst);
+void	unset(t_env_lst *env_lst, t_cmd *cmd_node);
+void	error_checks_for_var(char *s, int until);
+int		until_equal_sign(char *s);
 #endif
