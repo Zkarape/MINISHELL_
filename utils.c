@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 20:20:02 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/13 21:04:34 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/14 18:09:52 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,28 +55,19 @@ char	*str_return_trimmed(char *s, int start, int end, char *val)
 	return (dst);
 }
 
-char	*ft_strjoin(char *s1, char *s2, int start, int end)
+char	*ft_strjoin(char *s1, char *s2, int start, int end, int len)
 {
 	int		i;
-	int 	len;
 	char	*dst;
 
-	i = 0;
-	len = ft_strlen(s1);
+	i = -1;
 	dst = (char *)malloc((len + start - end + 1) * sizeof(char));
 	if (!dst)
 		return (NULL);
-	while (i < len)
-	{
+	while (++i < len)
 		dst[i] = s1[i];
-		i++;
-	}
 	while (end < start && s2)
-	{
-		dst[i] = s2[end];
-		i++;
-		end++;
-	}
+		dst[i++] = s2[end++];
 	dst[i] = '\0';
 	return (dst);
 }
@@ -105,15 +96,15 @@ void	ft_putstr_fd(char *s, int fd, int fl)
 }
 
 char    *ft_strcpy(char *s1, char *s2)
-  {
-      int i;
+{
+	int i;
 
-      i = 0;
-      while (s2[i])
-      {
-          s1[i] = s2[i];
-          i++;
-      }
-      s1[i] = s2[i];
-      return (s1);
-  }
+	i = 0;
+	while (s2[i])
+	{
+		s1[i] = s2[i];
+		i++;
+	}
+	s1[i] = s2[i];
+	return (s1);
+}

@@ -42,7 +42,7 @@ void	find_start_end(char *s, t_cmd *cmd_node, t_red_lst *red_lst)
 		else if (is_red(s[i]))
 		{
 			tmp = str;
-			str = ft_strjoin(tmp, s, i, end + 1);
+			str = ft_strjoin(tmp, s, i, end + 1, ft_strlen(tmp));
 			type = return_type(s[i], s[i + 1]);
 			if (type == 2 || type == 3)
 				i++;
@@ -56,7 +56,7 @@ void	find_start_end(char *s, t_cmd *cmd_node, t_red_lst *red_lst)
 			red_lst_add_last(red_lst, file, type);
 		}
 	}
-	cmd_node->args = ft_strjoin(str, s, i, end + 1);
+	cmd_node->args = ft_strjoin(str, s, i, end + 1, ft_strlen(str));
 	printf("args == %s\n", cmd_node->args);
 }
 

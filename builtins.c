@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 19:06:24 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/13 21:47:12 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/14 20:23:16 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,16 @@ void	echo(t_cmd *cmd_node)
 	
 	i = 1;
 	k = 1;
+		printf("s == %s\n", cmd_node->no_cmd[i]);
 	if (ft_strncmp(cmd_node->no_cmd[1], "-n", 2) == 0)
 	{
+		printf("mtaa\n");
 		i++;
 		k = 0;
 	}
 	while (cmd_node->no_cmd[i])
 	{
+		printf("s2 == %s\n", cmd_node->no_cmd[i]);
 		ft_putstr_fd(cmd_node->no_cmd[i], cmd_node->fd_out, 0);
 		i++;
 		if (cmd_node->no_cmd[i])
@@ -45,12 +48,14 @@ void	echo(t_cmd *cmd_node)
 		ft_putstr_fd("\n", cmd_node->fd_out, 0);
 }
 
-void	error_checks_for_var(char *s, int until)
+int	error_checks_for_var(char *s, int until)
 {
 	int	i;
 
 	i = 0;
-	if (is_num(s[0]))
+	if (!s || s[0] == '_')
+		return (0);
+	if (!is_alpha(s[0]))
 	{
 		ft_putstr(s);
 		ft_print_error_and_exit(": not a valid identifier\n", 1);
@@ -64,6 +69,7 @@ void	error_checks_for_var(char *s, int until)
 		}
 		i++;
 	}
+	return (1);
 }
 
 void	unset(t_env_lst *env_lst, t_cmd *cmd_node)

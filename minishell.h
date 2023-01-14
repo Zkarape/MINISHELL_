@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 19:37:36 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/13 22:13:11 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/14 18:47:01 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ t_cmd			*cmd_node_initialize(void);
 char			*str_return_trimmed(char *s, int start, int end, char *val);
 int				return_type(char c, char c_next);
 //utils.c
-char	*ft_strjoin(char *s1, char *s2, int start, int end);
+char	*ft_strjoin(char *s1, char *s2, int start, int end, int len);
 int		ft_strncmp(char *s1, char *s2, unsigned int n);
 void	ft_putstr_fd(char *s, int fd, int fl);
 int		ft_strlen(char *s);
@@ -188,10 +188,14 @@ void	echo(t_cmd *cmd_node);
 void	env(t_env_lst *env_lst);
 void	pwd();
 char    *ft_strcpy(char *s1, char *s2);
-t_env_lst	*ft_export(t_env_lst *env_lst);
 char	*adding_quotes(char *s);
 char	*equality_out_of_quotes(char *s);
 void	unset(t_env_lst *env_lst, t_cmd *cmd_node);
-void	error_checks_for_var(char *s, int until);
+int		error_checks_for_var(char *s, int until);
 int		until_equal_sign(char *s);
+
+//export.c
+t_env_lst	*exp_cpy_env(t_env_lst *env_lst);
+void		export_pars(char *s, t_env_lst *exp_lst);
+void		ft_export(t_cmd *cmd, t_env_lst *env_lst, t_env_lst *exp_lst);
 #endif

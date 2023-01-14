@@ -9,9 +9,10 @@ char	*equality_out_of_quotes(char *s)
 	{
 		if (is_quote(s[i]))
 			i += find_last_quote(&s[i], s[i]);
-		else if (s[++i] == '=')
+		else if (s[i] == '=')
 		{
-			error_checks_for_var(s, i);
+			if (!error_checks_for_var(s, i))
+				return (NULL);
 			return (&s[i + 1]);
 		}
 	}
@@ -40,37 +41,64 @@ char	*adding_quotes(char *s)
 	return (dst);
 }
 
-t_env_lst	*ft_export(t_env_lst *env_lst)
+void	ft_export(t_cmd *cmd, t_env_lst *env_lst, t_env_lst *exp_lst)
 {
-	t_env_lst	*exp_lst;
-	t_env		*env_node;
-	char		*data;
+	int	i;
 
-	env_node = env_lst->head->next;
-	exp_lst = env_lst_construct();
-	data = NULL;
-	while (env_node->next)
+	i = 0;
+	while (cmd->no_cmd[++i])
 	{
-		data = ft_strjoin("declare -x ", env_node->data,
-			ft_strlen(env_node->data), 0);
-		env_lst_add_last(exp_lst, data);
-		env_node = env_node->next;
+		if (equality_out_of_quotes(cmd->no_cmd[i]))
+			env_lst_add_last(env_lst, cmd->no_cmd[i]);
+		export_pars(cmd->no_cmd[i], exp_lst);
 	}
 	env(exp_lst);
+}
+
+void	export_pars(char *s, t_env_lst *exp_lst)
+{
+	int			i;
+	char		*data;
+	char		*unquoted;
+	char		*quoted;
+
+	i = 0;
+	data = NULL;
+	unquoted = equality_out_of_quotes(s);
+	quoted = adding_quotes(unquoted);
+	data = ft_strjoin(s, quoted, ft_strlen(quoted),
+		0, ft_strlen(s) - ft_strlen(unquoted));
+	env_lst_add_last(exp_lst, ft_strjoin("declare -x ", data, ft_strlen(data), 0, 11));
+}
+
+t_env_lst	*exp_cpy_env(t_env_lst *env_lst)
+{
+	t_env		*cur;
+	t_env_lst	*exp_lst;
+
+	cur = env_lst->head->next;
+	exp_lst = env_lst_construct();
+	while (cur->next)
+	{
+		export_pars(cur->data, exp_lst);
+		cur = cur->next;
+	}
 	return (exp_lst);
 }
 
-void	export_pars(t_cmd *cmd_node, t_env_lst *env_lst, t_env_lst *exp_lst)
-{
-	int		i;
-	char	*data;
 
-	i = -1;
-	data = NULL;
-	while (cmd_node->no_cmd[++i])
-	{
-		
-		//data = ft_strjoin("")
-		env_lst_add_last(exp_lst, data);
-	}
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

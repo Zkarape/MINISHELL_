@@ -35,8 +35,8 @@ char	*get_env(t_env_lst *env_lst, char *del)
 	env_node = env_lst->head->next;
 	while (env_node->next && del && *del)
 	{
-		if (!ft_strncmp(env_node->data, del, until_equal_sign(env_node->data)))
-			return (env_node->data + ft_strlen(del) + 1);
+		if (!ft_strncmp(&env_node->data[11], del, until_equal_sign(&env_node->data[11])))
+			return (&env_node->data[11 + ft_strlen(del) + 1]);
 		env_node = env_node->next;
 	}
 	return (NULL);
@@ -47,11 +47,8 @@ int	find_del(char *s, char **del, int i, int start, t_env_lst *env_lst)
 	int	k;
 
 	k = 0;
-	while (!ft_is_space(s[i]) && !is_quote(s[i]) && s[i] && s[i] != '$')
-	{
-		i++;
+	while (!ft_is_space(s[i]) && !is_quote(s[i]) && s[i] && s[i++] != '$')
 		k++;
-	}
 	if (s[i - 1] == '$' && is_quote(s[i]))
 	{
 		*del = NULL;
@@ -84,11 +81,14 @@ int	find_dollar_del(char *s, char **str, int i, int q_idx, int *start, t_env_lst
 			i = find_del(s, &del, i, exp_start, env_lst);
 			if (del && !(*del))// for one $
 				end++;
-			*str = ft_strjoin(*str, s, end, *start);
+			*str = ft_strjoin(*str, s, end, *start, ft_strlen(*str));
 			*start = end + ft_strlen(del) + 1;
 			if (del && !(*del))//for one $
 				(*start)--;
-			*str = ft_strjoin(*str, get_env(env_lst, del), ft_strlen(get_env(env_lst, del)), 0);
+			printf("get_env == %s\n", get_env(env_lst, del));
+			*str = ft_strjoin(*str, get_env(env_lst, del),
+				ft_strlen(get_env(env_lst, del)), 0, ft_strlen(*str));
+			printf("str == %s\n", *str);
 		}
 		else
 			i++;
@@ -117,7 +117,7 @@ char	*expand(char *s, t_env_lst *env_lst)
 		else
 			i = find_dollar_del(s, &str, i, find_d_quotes(s, i), &start, env_lst, 1);
 	}
-	str = ft_strjoin(str, s, i, start);
+	str = ft_strjoin(str, s, i, start, ft_strlen(str));
 	return (str);
 }
 
@@ -132,6 +132,6 @@ char	*hdoc_expand(char *s, t_env_lst *env_lst)
 	start = 0;
 	while (s[++i])
 		i = find_dollar_del(s, &str, i, find_d_quotes(s, i), &start, env_lst, 0);
-	str = ft_strjoin(str, s, i, start);
+	str = ft_strjoin(str, s, i, start, ft_strlen(str));
 	return (str);
 }
