@@ -85,10 +85,10 @@ int	find_dollar_del(char *s, char **str, int i, int q_idx, int *start, t_env_lst
 			*start = end + ft_strlen(del) + 1;
 			if (del && !(*del))//for one $
 				(*start)--;
-			printf("get_env == %s\n", get_env(env_lst, del));
+		//	printf("get_env == %s\n", get_env(env_lst, del));
 			*str = ft_strjoin(*str, get_env(env_lst, del),
 				ft_strlen(get_env(env_lst, del)), 0, ft_strlen(*str));
-			printf("str == %s\n", *str);
+		//	printf("str == %s\n", *str);
 		}
 		else
 			i++;

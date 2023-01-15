@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/14 20:48:46 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/15 21:34:58 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	parsing(char **env_)
 {
 	char		*s;
-	int i = 1;
+	int i = 2;
 	t_list		*lst;
 	t_env_lst	*env_lst;
 	t_cmd_lst	*cmd_lst;
@@ -30,13 +30,13 @@ void	parsing(char **env_)
 		lst = group_until_pipe(s);
 		cmd_lst = grouping_with_red(lst, env_lst);
 		cmd_expanded(cmd_lst, exp_lst);
-		printf("data == %s\n", cmd_lst->head->args);
+//		printf("data == %s\n", cmd_lst->head->args);
 		cmd_quote_clear(cmd_lst);
-		cmd_lst_print(cmd_lst);
+//		cmd_lst_print(cmd_lst);
 //		unset(env_lst, cmd_lst->head);
-//		ft_export(cmd_lst->head, env_lst, exp_lst);
+		ft_export(cmd_lst->head, env_lst, exp_lst);
 		echo(cmd_lst->head);
-		//env(exp_lst);
+		env(exp_lst);
 //		env_lst_print(env_lst);
 		//cmd_lst_print(cmd_lst);
 	}
@@ -51,18 +51,10 @@ void	cmd_expanded(t_cmd_lst *cmd_lst, t_env_lst *exp_lst)
 	str = NULL;
 	while (cur)
 	{
-		str = cur->args;
+		str = expand(cur->args, exp_lst);
 		free(cur->args);
-		cur->args = expand(str, exp_lst);
+		cur->args = str;
 		cur = cur->next;
-	}
-}
-
-void	print(char **spl)
-{
-	for (int i = 0; i < 3; i++)
-	{
-		printf("spl == %s\n", spl[i]);
 	}
 }
 
@@ -77,7 +69,7 @@ void	cmd_quote_clear(t_cmd_lst *cmd_lst)
 	{
 		str = filling_with_nulls(cur->args);
 		cur->no_cmd = split(str);
-		print(cur->no_cmd);
+	//	print(cur->no_cmd);
 		cur = cur->next;
 	}
 }

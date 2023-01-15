@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 19:06:24 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/14 20:23:16 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/15 21:30:22 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,8 @@ void	echo(t_cmd *cmd_node)
 	
 	i = 1;
 	k = 1;
-		printf("s == %s\n", cmd_node->no_cmd[i]);
 	if (ft_strncmp(cmd_node->no_cmd[1], "-n", 2) == 0)
 	{
-		printf("mtaa\n");
 		i++;
 		k = 0;
 	}
