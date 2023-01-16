@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 19:06:24 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/16 17:45:27 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/16 20:06:43 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	until_equal_sign(char *s)
 	int	i;
 
 	i = 0;
-//	printf("****s**** ==  %s\n", s);
 	while (s && s[i] && s[i] != '=')
 		i++;
 	return (i);
@@ -30,14 +29,13 @@ void	echo(t_cmd *cmd_node)
 	
 	i = 1;
 	k = 1;
-	if (ft_strncmp(cmd_node->no_cmd[1], "-n", 2) == 0)
+	if (ft_strncmp(cmd_node->no_cmd[1], "-n", 3) == 0)
 	{
 		i++;
 		k = 0;
 	}
 	while (cmd_node->no_cmd[i])
 	{
-		printf("s2 == %s\n", cmd_node->no_cmd[i]);
 		ft_putstr_fd(cmd_node->no_cmd[i], cmd_node->fd_out, 0);
 		i++;
 		if (cmd_node->no_cmd[i])
@@ -45,30 +43,6 @@ void	echo(t_cmd *cmd_node)
 	}
 	if (k)
 		ft_putstr_fd("\n", cmd_node->fd_out, 0);
-}
-
-int	error_checks_for_var(char *s, int until)
-{
-	int	i;
-
-	i = 0;
-	if (!s || s[0] == '_')
-		return (0);
-	if (!is_alpha(s[0]))
-	{
-		ft_putstr(s);
-		ft_print_error_and_exit(": not a valid identifier\n", 1);
-	}
-	while (s[i] && i < until)
-	{
-		if (!is_num(s[i]) && s[i] != '_' && !is_alpha(s[i]))
-		{
-			ft_putstr(s);
-			ft_print_error_and_exit(": not a valid identifier\n", 1);
-		}
-		i++;
-	}
-	return (1);
 }
 
 void	remove_cur_env_node(t_env_lst *env_lst, char *s)
@@ -109,19 +83,4 @@ void	unset(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd_node)
 			exp_node = exp_node->next;
 		}
 	}
-}
-
-void	env(t_env_lst *env_lst)
-{
-	env_lst_print(env_lst);
-}
-
-void	pwd()
-{
-	char	cwd[PATH_MAX];
-
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-			printf("%s\n", cwd);
-	else
-		perror("pwd error\n");
 }
