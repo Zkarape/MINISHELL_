@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 21:39:09 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/16 17:56:01 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:19:15 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,18 @@ void	ft_export(t_cmd *cmd, t_env_lst *env_lst, t_env_lst *exp_lst)
 	while (cmd->no_cmd[++i])
 	{
 		val = equality_out_of_quotes(cmd->no_cmd[i]);
-		exp_cur = is_in_export_or_not(exp_lst, cmd->no_cmd[i]);
+//		exp_cur = is_in_export_or_not(exp_lst, cmd->no_cmd[i]);
 		remove_from_between(exp_cur, exp_lst);
 		export_pars(cmd->no_cmd[i], exp_lst);
 		if (val)
 		{
 			env_cur = is_in_env_or_not(env_lst, cmd->no_cmd[i]);
-			remove_from_between(env_cur, env_lst);
+//			remove_from_between(env_cur, env_lst);
 			env_lst_add_last(env_lst, cmd->no_cmd[i]);
 		}
 	}
-	sort(exp_lst);
-//	env(exp_lst);
+//	sort(exp_lst);
+	env(exp_lst);
 }
 
 void	export_pars(char *s, t_env_lst *exp_lst)
@@ -67,4 +67,16 @@ t_env_lst	*exp_cpy_env(t_env_lst *env_lst)
 		cur = cur->next;
 	}
 	return (exp_lst);
+}
+
+void	sorting_in_alphabetical_order(t_env_lst *exp_lst)
+{
+	t_env	*cur;
+
+	cur = exp_lst->head;
+	while (cur->next)
+	{
+		
+		cur = cur->next;
+	}
 }

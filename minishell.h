@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 19:37:36 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/14 18:47:01 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/16 12:59:00 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ void	pwd();
 char    *ft_strcpy(char *s1, char *s2);
 char	*adding_quotes(char *s);
 char	*equality_out_of_quotes(char *s);
-void	unset(t_env_lst *env_lst, t_cmd *cmd_node);
+void	unset(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd_node);
 int		error_checks_for_var(char *s, int until);
 int		until_equal_sign(char *s);
 
@@ -198,4 +198,11 @@ int		until_equal_sign(char *s);
 t_env_lst	*exp_cpy_env(t_env_lst *env_lst);
 void		export_pars(char *s, t_env_lst *exp_lst);
 void		ft_export(t_cmd *cmd, t_env_lst *env_lst, t_env_lst *exp_lst);
+
+//export_utils.c
+char	*adding_quotes(char *s);
+char	*equality_out_of_quotes(char *s);
+void	sort(t_env_lst	*exp_lst);
+t_env	*is_in_env_or_not(t_env_lst *env_lst, char *arg);
+t_env	*is_in_export_or_not(t_env_lst *exp_lst, char *arg);
 #endif

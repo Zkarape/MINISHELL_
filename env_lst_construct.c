@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 21:06:39 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/13 21:11:58 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:54:14 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,11 @@ void	env_lst_add_last(t_env_lst *list, char *data)
 
 void	remove_from_between(t_env *env, t_env_lst *env_lst)
 {
-	env->prev->next = env->next;
-	env->next->prev = env->prev;
-	env_lst->size--;
-	free(env);
+	if (env && env_lst)
+	{
+		env->prev->next = env->next;
+		env->next->prev = env->prev;
+		env_lst->size--;
+		free(env);
+	}
 }

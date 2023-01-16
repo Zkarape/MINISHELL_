@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 19:06:24 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/15 21:30:22 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/16 17:45:27 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	until_equal_sign(char *s)
 	int	i;
 
 	i = 0;
-	while (s[i] && s[i] != '=')
+//	printf("****s**** ==  %s\n", s);
+	while (s && s[i] && s[i] != '=')
 		i++;
 	return (i);
 }
@@ -70,26 +71,42 @@ int	error_checks_for_var(char *s, int until)
 	return (1);
 }
 
-void	unset(t_env_lst *env_lst, t_cmd *cmd_node)
+void	remove_cur_env_node(t_env_lst *env_lst, char *s)
+{
+	t_env	*cur;
+
+	cur = env_lst->head->next;
+	while (cur->next)
+	{
+		if (!ft_strncmp(cur->data, s, until_equal_sign(cur->data) + 1))
+			remove_from_between(cur, env_lst);
+		cur = cur->next;
+	}
+}
+
+void	unset(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd_node)
 {
 	int		i;
 	int		j;
-	t_env	*env_node;
+	int		k;
+	t_env	*exp_node;
 
 	i = 0;
 	j = -1;
-	env_node = env_lst->head->next;
+	exp_node = exp_lst->head->next;
 	while (cmd_node->no_cmd[++i])
 	{
 		error_checks_for_var(cmd_node->no_cmd[i], ft_strlen(cmd_node->no_cmd[i]));
-		while (env_node->next)
+		while (exp_node->next)
 		{
-			if (!ft_strncmp(env_node->data, cmd_node->no_cmd[i],
-					until_equal_sign(env_node->data)))
+			k = until_equal_sign(&exp_node->data[11]);
+			if (!ft_strncmp(&exp_node->data[11], cmd_node->no_cmd[i], k)
+				&& k == ft_strlen(cmd_node->no_cmd[i]))
 			{
-				remove_from_between(env_node, env_lst);
+				remove_cur_env_node(env_lst, &exp_node->data[11]);
+				remove_from_between(exp_node, exp_lst);
 			}
-			env_node = env_node->next;
+			exp_node = exp_node->next;
 		}
 	}
 }

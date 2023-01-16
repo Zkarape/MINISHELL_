@@ -31,11 +31,13 @@ int	find_d_quotes(char *s, int i)
 char	*get_env(t_env_lst *env_lst, char *del)
 {
 	t_env	*env_node;
+	int		k;
 
 	env_node = env_lst->head->next;
 	while (env_node->next && del && *del)
 	{
-		if (!ft_strncmp(&env_node->data[11], del, until_equal_sign(&env_node->data[11])))
+		k = until_equal_sign(&env_node->data[11]);
+		if (!ft_strncmp(&env_node->data[11], del, k) && k == ft_strlen(del))
 			return (&env_node->data[11 + ft_strlen(del) + 1]);
 		env_node = env_node->next;
 	}
