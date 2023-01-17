@@ -6,13 +6,13 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:02:39 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/17 18:03:39 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/17 18:14:48 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_check_alloc(char **split, char *str, int index)
+int	ft_check_alloc(char **split, char *str, int index)
 {
 	if (str)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 19:37:36 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/17 17:59:10 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/17 18:15:17 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,11 @@ typedef struct	s_env_lst
 int		ft_is_space(char c);
 int		word_cpy(char *s_m, char *s, char quote);
 
-//split.c
-//char	**ft_split(char *s, char c);
+//split_utils.c
+void	*ft_calloc(size_t count, size_t size);
+size_t	ft_strlcpy(char *dest, char *src, size_t dstsize);
+void	*ft_memset(void *b, int c, size_t len);
+int		ft_check_alloc(char **split, char *str, int index);
 
 //split_spaces.c
 char	**split(char *s, char c);
