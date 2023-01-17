@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:37:14 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/16 17:53:53 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/17 18:04:55 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void sort(t_env_lst	*exp_lst)
 	t_env	*lptr = NULL;
 
 	head = exp_lst->head->next;
+	swapped = 1;
 	if (head == NULL)
 		return ;
 	while (swapped)
