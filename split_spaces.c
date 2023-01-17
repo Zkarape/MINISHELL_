@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_spaces.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/17 17:38:37 by zkarapet          #+#    #+#             */
+/*   Updated: 2023/01/17 17:51:54 by zkarapet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int count(char *s)
@@ -38,7 +50,7 @@ char *word_alloc(char *s)
 	return word;
 }
 
-char	**split(char *s)
+char	**split2(char *s)
 {
 	int i = 0;
 	char **arr;
@@ -53,7 +65,7 @@ char	**split(char *s)
 		{
 			arr[i] = word_alloc(s);
 			if (!arr[i])
-				return NULL;
+				return (NULL);
 			i++;
 		}
 		while (*s && (*s != ' ' && *s != '\t' && *s != '\n'))
