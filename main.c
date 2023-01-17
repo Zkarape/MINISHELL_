@@ -2,5 +2,10 @@
 
 int	main(int ac, char **av, char **env)
 {
-	parsing(env);
+	while (1)
+	{
+		parsing(env);
+
+		
+	}
 }

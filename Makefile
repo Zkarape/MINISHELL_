@@ -4,11 +4,11 @@ SRCS = $(wildcard *.c)
 
 OBJS = $(SRCS:.c=.o)
 
-GCC = cc
-FLAGS = -g -ggdb3 -lreadline -Wall -Werror -Wextra #-fsanitize=address 
+CC = cc
+CFLAGS = -g -Wall -Wextra #-Werror #-fsanitize=address 
 
 $(NAME) : $(OBJS)
-	$(GCC) $(FLAGS) $(OBJS) -o $(NAME) -I ./
+	$(CC) $(CFLAGS) $(OBJS)  -lreadline -o $(NAME) -I ./
 
 all: $(NAME)
 

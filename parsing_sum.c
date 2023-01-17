@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_sum.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/16 19:50:54 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/17 16:16:18 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	parsing(char **env_)
 	while (i-- > 0)
 	{
 		s = readline("minishell$ ");
+		add_history(s);
 		lst = group_until_pipe(s);
 		cmd_lst = grouping_with_red(lst, env_lst);
 		cmd_expanded(cmd_lst, exp_lst);
