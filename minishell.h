@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 19:37:36 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/16 12:59:00 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/17 17:59:10 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int		word_cpy(char *s_m, char *s, char quote);
 //char	**ft_split(char *s, char c);
 
 //split_spaces.c
-char	**split(char *s);
+char	**split(char *s, char c);
 
 //quote_checks
 int		find_d_unquote(char *s);

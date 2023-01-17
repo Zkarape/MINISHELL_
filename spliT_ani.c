@@ -6,11 +6,13 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:49:14 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/17 17:51:45 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/17 18:00:18 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-static int	ft_count(char const *s, char c)
+#include "minishell.h"
+
+static int	ft_count(char *s, char c)
 {
 	int	count;
 
@@ -26,7 +28,7 @@ static int	ft_count(char const *s, char c)
 	return (count);
 }
 
-static char const	*ft_start(char const *s, char c)
+static char	*ft_start(char *s, char c)
 {
 	while (*s)
 	{
@@ -37,7 +39,7 @@ static char const	*ft_start(char const *s, char c)
 	return (NULL);
 }
 
-static char const	*ft_end(char const *s, char c)
+static char	*ft_end(char *s, char c)
 {
 	while (*s)
 	{
@@ -58,7 +60,26 @@ static int	ft_check_alloc(char **split, char *str, int index)
 	return (1);
 }
 
-size_t	ft_strlcpy(char *dest, const char *src, size_t dstsize)
+void	*ft_memset(void *b, int c, size_t len)
+{
+	unsigned char	*s;
+
+	s = b;
+	while (len)
+	{
+		*s = c;
+		s++;
+		len--;
+	}
+	return (b);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	ft_memset(s, 0, n);
+}
+
+size_t	ft_strlcpy(char *dest, char *src, size_t dstsize)
 {
 	size_t	i;
 
@@ -86,7 +107,7 @@ void	*ft_calloc(size_t count, size_t size)
 	return (ptr);
 }
 
-char	**split(char const *s, char c)
+char	**split(char *s, char c)
 {
 	char	**split;
 	int		count;
