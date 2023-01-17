@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 19:51:16 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/16 21:54:46 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/17 16:02:48 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ long long	ft_atoi(const char *str)
 		i++;
 	}
 	if ((res * min) > 2147483647 || (res * min) < -2147483648)
-		ft_print_error_and_exit("INT IS NOT UNLIMIT!!", 1);
+		ft_print_error_and_exit("INT IS NOT UNLIMIT!!\n", 1);
 	return (res * min);
 }
 
@@ -63,11 +63,11 @@ void	ft_exit(t_cmd *cmd_head)
 
 	i = -1;
 	if (!nothing_but_int(cmd_head->no_cmd[1]))	
-		ft_print_error_and_exit("exit: numeric argument required\n");
+		ft_print_error_and_exit("exit: numeric argument required\n", 1);
 	while (cmd_head->no_cmd[++i])
 		;
 	if (i > 2)
-		ft_print_error_and_exit("exit: too many arguments\n");
+		ft_print_error_and_exit("exit: too many arguments\n", 1);
 	x = ft_atoi(cmd_head->no_cmd[1]);
 	exit(x);
 }
