@@ -5,106 +5,83 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/14 20:20:02 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/14 18:09:52 by zkarapet         ###   ########.fr       */
+/*   Created: 2022/10/29 14:42:34 by aivanyan          #+#    #+#             */
+/*   Updated: 2022/10/29 19:16:53 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "pipex.h"
 
-int	ft_strlen(char *s)
+char	*get_environment(char *name)
 {
 	int	i;
 
-	i = -1;
-	if (!s)
-		return (0);
-	while (s[++i])
-		;
-	return (i);
-}
-
-int	ft_is_space(char c)
-{
-	return (c == ' ' || c == '\t' || c == '\f'
-		|| c == '\n' || c == '\r' || c == '\v');
-}
-
-char	*str_return_trimmed(char *s, int start, int end, char *val)
-{
-	char	*dst;
-	int		len;
-	int		i;
-	int		j;
-
-	i = -1;
-	j = -1;
-	len = ft_strlen(s) - end + start + ft_strlen(val);
-	dst = malloc(sizeof(char) * len);
-	while (++i < start)
-		dst[i] = s[i];
-	while (val && val[++j])
-		dst[i++] = val[j];
-	while (s[end])
-	{
-		dst[i] = s[end];
-		end++;
-		i++;
-	} 
-	dst[i] = '\0';
-	return (dst);
-}
-
-char	*ft_strjoin(char *s1, char *s2, int start, int end, int len)
-{
-	int		i;
-	char	*dst;
-
-	i = -1;
-	dst = (char *)malloc((len + start - end + 1) * sizeof(char));
-	if (!dst)
-		return (NULL);
-	while (++i < len)
-		dst[i] = s1[i];
-	while (end < start && s2)
-		dst[i++] = s2[end++];
-	dst[i] = '\0';
-	return (dst);
-}
-
-int	ft_strncmp(char *s1, char *s2, unsigned int n)
-{
-	unsigned int	i;
-
 	i = 0;
-	if (!s1 || !s2)
-		return (9);
-	while (i < n && ((unsigned char)s1[i] || (unsigned char)s2[i]))
+	while (g_envp[i])
 	{
-		if ((unsigned char)s1[i] != (unsigned char)s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		if (!ft_strncmp(g_envp[i], name, ft_strlen(name)))
+			return (g_envp[i] + ft_strlen(name));
 		i++;
+	}
+	return (NULL);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char	*join;
+	int		i;
+
+	join = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (join == NULL)
+		return (NULL);
+	i = 0;
+	while (*s1)
+	{
+		join[i] = *s1;
+		s1++;
+		i++;
+	}
+	while (*s2)
+	{
+		join[i] = *s2;
+		s2++;
+		i++;
+	}
+	join[i] = '\0';
+	return (join);
+}
+
+char	*ft_strjoin3(char *str1, char *str2, char *str3)
+{
+	char	*str12;
+	char	*str123;
+
+	str12 = ft_strjoin(str1, str2);
+	str123 = ft_strjoin(str12, str3);
+	free(str12);
+	return (str123);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	unsigned const char	*str1;
+	unsigned const char	*str2;
+
+	str1 = (unsigned const char *)s1;
+	str2 = (unsigned const char *)s2;
+	while ((*str1 || *str2) && n > 0)
+	{
+		if (*str1 != *str2)
+			return (*str1 - *str2);
+		n--;
+		str1++;
+		str2++;
 	}
 	return (0);
 }
 
-void	ft_putstr_fd(char *s, int fd, int fl)
+void	ft_exit(void)
 {
-	write(fd, s, ft_strlen(s));
-	if (fl == 1)
-		write(fd, "\n", 1);
-}
-
-char    *ft_strcpy(char *s1, char *s2)
-{
-	int i;
-
-	i = 0;
-	while (s2[i])
-	{
-		s1[i] = s2[i];
-		i++;
-	}
-	s1[i] = s2[i];
-	return (s1);
+	perror("Error");
+	exit(EXIT_FAILURE);
 }

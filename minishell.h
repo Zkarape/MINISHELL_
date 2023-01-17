@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 19:37:36 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/17 18:15:17 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/17 18:34:48 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # define INPUT_REDIRECTION 1
 # define OUTPUT_REDIRECTION 4
 # define APPEND_REDIRECTION 3
+
+extern char	**g_envp;
 
 typedef struct	s_red
 {
@@ -88,6 +90,19 @@ typedef struct	s_env_lst
 	t_env	*tail;
 	int		size;
 }	t_env_lst;
+
+//pipex
+int			main(int argc, char **argv, char **envp);
+void		forking(int *pipefd, int *filefd, char **argv);
+void		process(int *pipefd, int fd, char *cmd, int is_first);
+void		execute(char *cmd);
+
+//utils
+char		*get_environment(char *name);
+char		*ft_strjoin(char const *s1, char const *s2);
+char		*ft_strjoin3(char *str1, char *str2, char *str3);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
+void		ft_exit(void);
 
 //ft_split
 int		ft_is_space(char c);

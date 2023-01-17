@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expanding.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/17 18:24:09 by zkarapet          #+#    #+#             */
+/*   Updated: 2023/01/17 18:25:53 by zkarapet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	is_quote(char c)
@@ -44,7 +56,7 @@ char	*get_env(t_env_lst *env_lst, char *del)
 	return (NULL);
 }
 
-int	find_del(char *s, char **del, int i, int start, t_env_lst *env_lst)
+int	find_del(char *s, char **del, int i, int start)
 {
 	int	k;
 
@@ -80,7 +92,7 @@ int	find_dollar_del(char *s, char **str, int i, int q_idx, int *start, t_env_lst
 			end = i;
 			i++;
 			exp_start = i;
-			i = find_del(s, &del, i, exp_start, env_lst);
+			i = find_del(s, &del, i, exp_start);
 			if (del && !(*del))// for one $
 				end++;
 			*str = ft_strjoin(*str, s, end, *start, ft_strlen(*str));

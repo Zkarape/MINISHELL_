@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/17 17:56:05 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/17 18:23:48 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	cmd_quote_clear(t_cmd_lst *cmd_lst)
 	while (cur)
 	{
 		str = filling_with_nulls(cur->args);//null here
+		printf("***str*** == %s\n", str);
 		cur->no_cmd = split(str, ' ');
 	//	print(cur->no_cmd);
 		cur = cur->next;
