@@ -6,14 +6,14 @@
 /*   By: aivanyan <aivanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:32:53 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/14 18:01:24 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:42:11 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 	
 
-int	heredoc(t_red *red_node, t_env_lst *env_lst)
+void	heredoc(t_red *red_node, t_env_lst *env_lst, t_cmd *cmd, int yep)
 {
 	int		i;
 	int		tmp_fd;
@@ -35,10 +35,11 @@ int	heredoc(t_red *red_node, t_env_lst *env_lst)
 		s = readline("> ");
 	}
 	//signal for ^C
-	return (tmp_fd);
+	if (yep)
+		dup2(tmp_fd, cmd->fd_in);
 }
 
-void	big_loop(t_cmd *cmd, t_env_lst *env_lst)
+void	big_loop(t_cmd *cmd, t_env_lst *env_lst, int yep)
 {
 	int		tmp_fd;
 	t_red	*cur;
@@ -49,7 +50,7 @@ void	big_loop(t_cmd *cmd, t_env_lst *env_lst)
 		if (cur->type == 2)
 		{
 			cmd->red_lst->heredoc_k--;
-			tmp_fd = heredoc(cur, env_lst);
+			tmp_fd = heredoc(cur, env_lst, cmd, yep);
 			if (cmd->red_lst->heredoc_k > 0)
 				close(tmp_fd);
 		}

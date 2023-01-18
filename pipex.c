@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2022/10/29 19:57:43 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/18 15:01:48 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,10 @@
 
 char	**g_envp;
 
-int	main(int argc, char **argv, char **envp)
-{
+void	pipex_main(t_env_lst *env_lst, t_env_lst *exp_lst)
+{	
 	int		pipefd[2];
-	int		filefd[2];
 
-	g_envp = envp;
-	if (argc != 5)
-	{
-		write(STDOUT_FILENO, "Invalid number of arguments\n", 28);
-		return (EXIT_FAILURE);
-	}
-	filefd[0] = open(argv[1], O_RDONLY);
-	filefd[1] = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
-	if (filefd[0] < 0 || filefd[1] < 0)
-		ft_exit();
 	if (pipe(pipefd) < 0)
 		ft_exit();
 	forking(pipefd, filefd, argv);
@@ -53,26 +42,26 @@ void	forking(int *pipefd, int *filefd, char **argv)
 	}
 }
 
-void	process(int *pipefd, int fd, char *cmd, int is_first)
+void	process(int *pipefd, char **env, int is_first, t_cmd *cmd)
 {
 	if (is_first)
 	{
 		close(pipefd[0]);
-		if (dup2(fd, STDIN_FILENO) < 0 || dup2(pipefd[1], STDOUT_FILENO) < 0)
+		if (dup2(fd, cmd->fd_in) < 0 || dup2(pipefd[1], cmd->fd_out) < 0)
 			ft_exit();
 		close(fd);
 	}
 	else
 	{
 		close(pipefd[1]);
-		if (dup2(pipefd[0], STDIN_FILENO) < 0 || dup2(fd, STDOUT_FILENO) < 0)
+		if (dup2(pipefd[0], cmd->fd_in) < 0 || dup2(fd, cmd->fd_out) < 0)
 			ft_exit();
 		close(fd);
 	}
-	execute(cmd);
+	execute(cmd->no_cmd[0], env);
 }
 
-void	execute(char *cmd)
+void	execute(char *cmd, char **env)
 {
 	char	**args;
 	char	*paths;
@@ -83,7 +72,7 @@ void	execute(char *cmd)
 	i = 0;
 	absolue_path = NULL;
 	args = ft_split(cmd, ' ');
-	execve(args[0], args, g_envp);
+	execve(args[0], args, env);
 	paths = get_environment("PATH=");
 	path = ft_split(paths, ':');
 	if (path)
@@ -91,9 +80,9 @@ void	execute(char *cmd)
 		while (path[i])
 		{
 			absolue_path = ft_strjoin3(path[i++], "/", args[0]);
-			execve(absolue_path, args, g_envp);
+			execve(absolue_path, args, env);
 			free(absolue_path);
-		}	
+		}
 	}
 	ft_exit();
 }
