@@ -6,13 +6,13 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:56:46 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/18 14:03:25 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/20 14:14:02 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	builtins_routine(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd, char *arg)
+void	builtins_routine(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd)
 {
 	if (!ft_strncmp(cmd->no_cmd[0], "exit", 5))
 		ft_exit(cmd);

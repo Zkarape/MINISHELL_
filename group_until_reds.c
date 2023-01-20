@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:11 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/18 14:54:17 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/20 14:15:21 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ t_cmd_lst	*grouping_with_red(t_list *pipe_group, t_env_lst *env_lst)
 	int			i;
 	t_node		*cur;
 	t_cmd_lst	*cmd_lst;
-	t_red_lst	*red_lst;
 
 	i = -1;
 	cmd_lst = cmd_lst_construct();

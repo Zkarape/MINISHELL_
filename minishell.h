@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 19:37:36 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/17 18:34:48 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/20 14:27:49 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef	struct	s_cmd
 	char				**no_cmd;
 	int					fd_out;
 	int					fd_in;
+	int					status;
 	struct s_cmd		*next;
 	struct s_red_lst	*red_lst;
 }	t_cmd;
@@ -91,18 +92,17 @@ typedef struct	s_env_lst
 	int		size;
 }	t_env_lst;
 
+
 //pipex
-int			main(int argc, char **argv, char **envp);
-void		forking(int *pipefd, int *filefd, char **argv);
-void		process(int *pipefd, int fd, char *cmd, int is_first);
-void		execute(char *cmd);
+void	execute(t_cmd *cmd, char **env);
+void	process(int pipefd_in, int pipefd_out, char **env, int i, int size, t_cmd *cmd);
+void	forking(int pipefd_in, int pipefd_out, int i, int size, char **env, t_cmd *cur);
+void	pipex_main(t_cmd_lst *cmd_lst, char **env);
 
 //utils
-char		*get_environment(char *name);
-char		*ft_strjoin(char const *s1, char const *s2);
+char		*get_environment(char *name, char **env);
+char		*ft_strjoin_m(char *s1, char *s2);
 char		*ft_strjoin3(char *str1, char *str2, char *str3);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
-void		ft_exit(void);
 
 //ft_split
 int		ft_is_space(char c);
@@ -137,8 +137,8 @@ char	*filename_trim(char *s, int k, int type);
 char	*filename_trim2(char *s, int k, int type, int st);
 char	*less_red(char *s, int st, int end);
 int		is_red(char c);
-void	func_for_reds(t_cmd *cmd_node, t_red *red_node);
-void	red_big_loop(t_red_lst *red_lst, t_cmd *cmd);
+void	func_for_reds(t_cmd *cmd_node, t_red *red_node, int yep);
+void	red_big_loop(t_red_lst *red_lst, t_cmd *cmd, int yep);
 
 //error_cases
 void	ft_print_error_and_exit(char *error, int code);
@@ -167,13 +167,13 @@ t_list	*lst_construct(void);
 char	*filling_without_c(char *s, char c, int len, int count);
 char	*filling_with_nulls(char *s);
 //heredoc.c
-int			heredoc(t_red *red_node, t_env_lst *env_lst);
+void		heredoc(t_red *red_node, t_env_lst *env_lst, t_cmd *cmd, int yep);
 void		red_lst_print(t_red_lst *list);
 t_red_lst	*red_lst_construct(void);
 t_red		*red_node_initialize(void);
 t_red		*red_node_initialize_pro(char *file, int type);
 void		red_lst_add_last(t_red_lst *list, char *file, int type);
-void		big_loop(t_cmd *cmd_node, t_env_lst *env_lst);
+void		big_loop(t_cmd *cmd_node, t_env_lst *env_lst, int yep);
 
 //expanding.c
 int		is_quote(char c);
@@ -202,6 +202,8 @@ void	cmd_expanded(t_cmd_lst *cmd_lst, t_env_lst *env_lst);
 void	cmd_quote_clear(t_cmd_lst *cmd_lst);
 
 //builtins.c
+void	cd(char *path);
+void	ft_exit(t_cmd *cmd_head);
 void	echo(t_cmd *cmd_node);
 void	env(t_env_lst *env_lst);
 void	pwd();
@@ -211,6 +213,12 @@ char	*equality_out_of_quotes(char *s);
 void	unset(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd_node);
 int		error_checks_for_var(char *s, int until);
 int		until_equal_sign(char *s);
+
+//exec_sum_up.c
+char	*ft_strjoin3(char *str1, char *str2, char *str3);
+void	dup_in_or_not_ttq(t_cmd *cur, int pipefd);
+void	dup_out_or_not_ttq(t_cmd *cmd, int pipefd);
+int		last_input_work(t_red_lst *red_lst);
 
 //export.c
 t_env_lst	*exp_cpy_env(t_env_lst *env_lst);

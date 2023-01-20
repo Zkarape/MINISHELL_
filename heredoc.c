@@ -6,7 +6,7 @@
 /*   By: aivanyan <aivanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:32:53 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/18 14:42:11 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/20 02:55:49 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	heredoc(t_red *red_node, t_env_lst *env_lst, t_cmd *cmd, int yep)
 
 void	big_loop(t_cmd *cmd, t_env_lst *env_lst, int yep)
 {
-	int		tmp_fd;
 	t_red	*cur;
 
 	cur = cmd->red_lst->head;
@@ -50,11 +49,8 @@ void	big_loop(t_cmd *cmd, t_env_lst *env_lst, int yep)
 		if (cur->type == 2)
 		{
 			cmd->red_lst->heredoc_k--;
-			tmp_fd = heredoc(cur, env_lst, cmd, yep);
-			if (cmd->red_lst->heredoc_k > 0)
-				close(tmp_fd);
+			heredoc(cur, env_lst, cmd, yep);
 		}
 		cur = cur->next;
 	}
-	cmd->fd_in = tmp_fd;
 }

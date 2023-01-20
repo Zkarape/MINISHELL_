@@ -6,13 +6,38 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 14:42:34 by aivanyan          #+#    #+#             */
-/*   Updated: 2022/10/29 19:16:53 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/20 14:26:29 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "minishell.h"
 
-char	*get_environment(char *name)
+int	ft_is_space(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\f'
+		|| c == '\n' || c == '\r' || c == '\v');
+}
+
+void	ft_putstr_fd(char *s, int fd, int fl)
+{
+	write(fd, s, ft_strlen(s));
+	if (fl)
+		write(fd, "\n", 1);
+}
+
+int	ft_strlen(char *s)
+{
+	int	i;
+
+	i = -1;
+	if (!s)
+		return (0);
+	while (s[++i])
+		;
+	return (i);
+}
+
+char	*get_environment(char *name, char **g_envp)
 {
 	int	i;
 
@@ -26,7 +51,7 @@ char	*get_environment(char *name)
 	return (NULL);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin_m(char *s1, char *s2)
 {
 	char	*join;
 	int		i;
@@ -51,37 +76,51 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (join);
 }
 
+char	*ft_strjoin(char *s1, char *s2, int start, int end, int len)
+{
+	int		i;
+	char	*dst;
+
+	i = 0;
+	dst = (char *)malloc((len + start - end + 1) * sizeof(char));
+	if (!dst)
+		return (NULL);
+	while (i < len)
+	{
+		dst[i] = s1[i];
+		i++;
+	}
+	while (end < start && s2)
+	{
+		dst[i] = s2[end];
+		i++;
+		end++;
+	}
+	dst[i] = '\0';
+	return (dst);
+}
+
 char	*ft_strjoin3(char *str1, char *str2, char *str3)
 {
 	char	*str12;
 	char	*str123;
 
-	str12 = ft_strjoin(str1, str2);
-	str123 = ft_strjoin(str12, str3);
+	str12 = ft_strjoin_m(str1, str2);
+	str123 = ft_strjoin_m(str12, str3);
 	free(str12);
 	return (str123);
 }
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_strncmp(char *s1, char *s2, unsigned int n)
 {
-	unsigned const char	*str1;
-	unsigned const char	*str2;
+	unsigned int	i;
 
-	str1 = (unsigned const char *)s1;
-	str2 = (unsigned const char *)s2;
-	while ((*str1 || *str2) && n > 0)
+	i = 0;
+	while (i < n && ((unsigned char)s1[i] || (unsigned char)s2[i]))
 	{
-		if (*str1 != *str2)
-			return (*str1 - *str2);
-		n--;
-		str1++;
-		str2++;
+		if ((unsigned char)s1[i] != (unsigned char)s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
 	}
 	return (0);
-}
-
-void	ft_exit(void)
-{
-	perror("Error");
-	exit(EXIT_FAILURE);
 }
