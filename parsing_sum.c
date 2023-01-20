@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/20 07:26:11 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/20 21:30:29 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,22 @@ void	parsing(char **env_)
 	s = NULL;
 	env_lst = getting_env(env_);
 	exp_lst = exp_cpy_env(env_lst);
-	while (i-- > 0)
+	while (1)
 	{
 		s = readline("minishell$ ");
 		add_history(s);
 		lst = group_until_pipe(s);
 		cmd_lst = grouping_with_red(lst, env_lst);
+		cmd_lst_print(cmd_lst);
 		cmd_expanded(cmd_lst, exp_lst);
 		cmd_quote_clear(cmd_lst);
-//		cmd_lst_print(cmd_lst);
 		pipex_main(cmd_lst,  env_);
-//		cmd_lst_print(cmd_lst);
-//		unset(env_lst, cmd_lst->head);
-//		ft_export(cmd_lst->head, env_lst, exp_lst);
-//		echo(cmd_lst->head);
-//		env(exp_lst);
-//		env_lst_print(env_lst);
+		//		cmd_lst_print(cmd_lst);
+		//		unset(env_lst, cmd_lst->head);
+		//		ft_export(cmd_lst->head, env_lst, exp_lst);
+		//		echo(cmd_lst->head);
+		//		env(exp_lst);
+		//		env_lst_print(env_lst);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 19:37:36 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/20 14:27:49 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/20 21:40:04 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,11 @@ typedef struct	s_env_lst
 }	t_env_lst;
 
 
-//pipex
+//pipeX
+void	pipex_main_for_one(t_cmd_lst *cmd_lst, char **env);
 void	execute(t_cmd *cmd, char **env);
-void	process(int pipefd_in, int pipefd_out, char **env, int i, int size, t_cmd *cmd);
-void	forking(int pipefd_in, int pipefd_out, int i, int size, char **env, t_cmd *cur);
+void	process(int pipefd_in, int pipefd_out, char **env, int i, int size, t_cmd *cmd, int (*pipefds)[2]);
+void	forking(int pipefd_in, int pipefd_out, int i, int size, char **env, t_cmd *cur, int (*pipefds)[2]);
 void	pipex_main(t_cmd_lst *cmd_lst, char **env);
 
 //utils

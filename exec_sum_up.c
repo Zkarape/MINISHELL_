@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:03:48 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/20 12:59:50 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/20 21:35:31 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,19 @@ int	last_input_work(t_red_lst *red_lst)
 
 void	dup_in_or_not_ttq(t_cmd *cur, int pipe_fd_in)
 {
-	if (cur->fd_in != 0)
-	{
-		if (dup2(cur->fd_in, pipe_fd_in) < 0)
+//	if (cur->fd_in != 0)
+//	{
+		printf("aaaaaaaaaaaaaaaaaaaaaa\n");
+		if (dup2(pipe_fd_in, STDIN_FILENO) < 0)
 			ft_print_error_and_exit("dup2 failed in fd_in\n", 1);
-	}
+//	}
 }
 
 void	dup_out_or_not_ttq(t_cmd *cur, int pipe_fd_out)
 {
-	if (cur->fd_out != 1)
-	{
-		if (dup2(cur->fd_out, pipe_fd_out) < 0)
+	//if (cur->fd_out != 1)
+	//{
+		if (dup2(pipe_fd_out, STDOUT_FILENO) < 0)
 			ft_print_error_and_exit("dup2 failed in fd_out\n", 1);
-	}
+	//}
 }

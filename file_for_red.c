@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:00 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/18 14:44:35 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/20 20:03:04 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ void	func_for_reds(t_cmd *cmd_node, t_red *red_node, int yep)
 	if (cmd_node->fd_out != 1)
 		close(cmd_node->fd_out);
 	if (red_node->type == INPUT_REDIRECTION)
-		fd_in = open(red_node->file, O_RDONLY);
+		dup2(open(red_node->file, O_RDONLY), fd_in);
 	else if (red_node->type == APPEND_REDIRECTION)
-		fd_out = open(red_node->file, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		dup2(open(red_node->file, O_WRONLY | O_APPEND | O_CREAT, 0644), fd_out);
 	else if (red_node->type == OUTPUT_REDIRECTION)
-		fd_out = open(red_node->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		dup2(open(red_node->file, O_WRONLY | O_TRUNC | O_CREAT, 0644), fd_out);
 	if (fd_in == -1 || fd_out == -1)
 		ft_print_error_and_exit("file not found\n", EXIT_FAILURE);
-	if (fd_in != -4 && !yep)
+	if (fd_in != -4 && yep == 0)
 		dup2(fd_in, cmd_node->fd_in);
 	if (fd_out != -3)
 		dup2(fd_out, cmd_node->fd_out);
