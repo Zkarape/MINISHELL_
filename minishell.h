@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 19:37:36 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/20 21:40:04 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/21 17:08:57 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,4 +232,6 @@ char	*equality_out_of_quotes(char *s);
 void	sort(t_env_lst	*exp_lst);
 t_env	*is_in_env_or_not(t_env_lst *env_lst, char *arg);
 t_env	*is_in_export_or_not(t_env_lst *exp_lst, char *arg);
+//error
+void	error_dup(int du);
 #endif

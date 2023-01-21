@@ -6,7 +6,7 @@
 /*   By: aivanyan <aivanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:32:53 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/20 02:55:49 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/21 18:32:00 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	heredoc(t_red *red_node, t_env_lst *env_lst, t_cmd *cmd, int yep)
 	}
 	//signal for ^C
 	if (yep)
-		dup2(tmp_fd, cmd->fd_in);
+		cmd->fd_in = tmp_fd;
 }
 
 void	big_loop(t_cmd *cmd, t_env_lst *env_lst, int yep)

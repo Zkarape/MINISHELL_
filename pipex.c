@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/01/20 21:39:58 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/21 18:11:47 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,9 @@ void	pipe_error(int pip)
 		perror("pipe() returns -1\n");
 }
 
-void	pipex_main_for_one(t_cmd_lst *cmd_lst, char **env)
-{
-	//forking(cmd_lst->head->fd_in, cmd_lst->head->fd_out, 0, 1, env, cmd_lst->head);
-}
-
 void	pipex_main(t_cmd_lst *cmd_lst, char **env)
 {
 	int		i;
-	int		fds[2];
 	int		(*pipefds)[2];
 	t_cmd	*cur;
 	int		status;
@@ -43,7 +37,7 @@ void	pipex_main(t_cmd_lst *cmd_lst, char **env)
 	if (!cur)
 		ft_print_error_and_exit("nooooooooo\n", 1);
 	if (cmd_lst->size == 1)
-		;//forking(cur->fd_in, cur->fd_out, 0, 1, env, cur);
+		forking(cur->fd_in, cur->fd_out, 0, 1, env, cur, NULL);
 	else
 	{
 		pipefds = malloc(sizeof(*pipefds) * (cmd_lst->size - 1));
@@ -54,13 +48,13 @@ void	pipex_main(t_cmd_lst *cmd_lst, char **env)
 		i = 0;
 		forking(cur->fd_in, pipefds[0][1], 0, cmd_lst->size - 1, env, cur, pipefds);
 		cur = cur->next;
-	//	while (cur->next)
-	//	{
-	//		forking(pipefds[i][0], pipefds[i + 1][1], i + 1, cmd_lst->size - 1, env, cur);
-	//		if (i < cmd_lst->size - 2)
-	//			i++;
-	//		cur = cur->next;
-	//	}
+		while (cur->next)
+		{
+			forking(pipefds[i][0], pipefds[i + 1][1], i + 1, cmd_lst->size - 1, env, cur, pipefds);
+			if (i < cmd_lst->size - 2)
+				i++;
+			cur = cur->next;
+		}
 		forking(pipefds[i][0], cur->fd_out, i + 1, cmd_lst->size - 1, env, cur, pipefds);
 		i = -1;
 		while (++i < cmd_lst->size - 1)
@@ -69,7 +63,6 @@ void	pipex_main(t_cmd_lst *cmd_lst, char **env)
 			close(pipefds[i][1]);
 		}
 	}
-//	//	closing(pipefds, cmd_lst->size);
 	i = -1;
 	while (++i < cmd_lst->size)
 		waitpid(-1, &status, 0);
@@ -88,24 +81,12 @@ void	forking(int pipefd_in, int pipefd_out, int i, int size, char **env, t_cmd *
 
 void	process(int pipefd_in, int pipefd_out, char **env, int i, int size, t_cmd *cmd, int (*pipefds)[2])
 {
-	printf("%d\n", i);
 	if (i != 0)
-	{
-		printf("caaaaaaaat%d %s\n", pipefd_in, cmd->no_cmd[0]);
-		//close(pipefd_out);
-
-		printf("whattttttttttttt%d %s\n", pipefd_in, cmd->no_cmd[0]);
 		dup_in_or_not_ttq(cmd, pipefd_in);
-		//close(pipefd_in);
-	}
 	if (i != size)
-	{
-		printf("HELLO2\n");
-		//close(pipefd_in);
 		dup_out_or_not_ttq(cmd, pipefd_out);
-	}
 	i = -1;
-	while (++i < size)
+	while (pipefds && ++i < size)
 	{
 		close(pipefds[i][0]);
 		close(pipefds[i][1]);
@@ -122,23 +103,14 @@ void	execute(t_cmd *cmd, char **env)
 
 	i = 0;
 	absolue_path = NULL;
-	if (access(cmd->no_cmd[0], F_OK) == 0)
-	{
-		printf("tpeci\n");
-		return ;
-	}
-//	execve(cmd->no_cmd[0], cmd->no_cmd, env);
+	execve(cmd->no_cmd[0], cmd->no_cmd, env);
 	paths = get_environment("PATH=", env);
-	if (!paths)
-		printf("tpeci\n");
 	path = split(paths, ':');
 	if (path)
 	{
 		while (path[i])
 		{
 			absolue_path = ft_strjoin3(path[i++], "/", cmd->no_cmd[0]);
-		//	printf("path == %s\n", path[i]);
-		//	printf("abs_path == |%s| cmd->no_cmd[0] == |%s|\n", absolue_path, cmd->no_cmd[0]);
 			execve(absolue_path, cmd->no_cmd, env);
 			free(absolue_path);
 		}
