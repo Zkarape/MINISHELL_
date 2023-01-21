@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/01/21 18:11:47 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/21 21:56:38 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	pipex_main(t_cmd_lst *cmd_lst, char **env)
 	if (!cur)
 		ft_print_error_and_exit("nooooooooo\n", 1);
 	if (cmd_lst->size == 1)
-		forking(cur->fd_in, cur->fd_out, 0, 1, env, cur, NULL);
+		forking(cur->fd_in, cur->fd_out, 12657, 1, env, cur, NULL);
 	else
 	{
 		pipefds = malloc(sizeof(*pipefds) * (cmd_lst->size - 1));

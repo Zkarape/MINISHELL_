@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:11 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/21 16:23:01 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/21 21:18:08 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	one_cmd_init(t_node *node, t_cmd_lst *cmd_lst, t_env_lst *env_lst)
 	find_start_end(s, cmd_lst->tail, red_lst);
 	cmd_lst->tail->red_lst = red_lst;
 	yep = last_input_work(red_lst);
-	printf("yepppp == %d\n", yep);
 	big_loop(cmd_lst->tail, env_lst, yep);
 	red_big_loop(red_lst, cmd_lst->tail, yep);
 }

@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:00 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/21 18:12:49 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/21 22:03:47 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,24 @@ void	func_for_reds(t_cmd *cmd_node, t_red *red_node, int yep)
 
 //	fd_in = -4;
 //	fd_out = -3;
-	if (cmd_node->fd_in != 0)
-		close(cmd_node->fd_in);
-	if (cmd_node->fd_out != 1)
-		close(cmd_node->fd_out);
-	if (red_node->type == INPUT_REDIRECTION && !yep)
+//	if (cmd_node->fd_in != 0)
+//		close(cmd_node->fd_in);
+//	if (cmd_node->fd_out != 1)
+//		close(cmd_node->fd_out);
+	if (red_node->type == INPUT_REDIRECTION)
 		cmd_node->fd_in = open(red_node->file, O_RDONLY);
+	else if (red_node->type == HEREDOC && yep)
+	{
+		cmd_node->fd_in = open("/Users/zkarapet/Desktop/MINISHELL_/k5", O_RDWR | O_APPEND, 0644);
+	}
 	else if (red_node->type == APPEND_REDIRECTION)
 		cmd_node->fd_out = open(red_node->file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	else if (red_node->type == OUTPUT_REDIRECTION)
+	{
+		printf("cmd_in == %d, cmd_out == %d\n", cmd_node->fd_in, cmd_node->fd_out);
 		cmd_node->fd_out = open(red_node->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		printf("after cmd_in == %d, after cmd_out == %d\n", cmd_node->fd_in, cmd_node->fd_out);
+	}
 	if (cmd_node->fd_in == -1 || cmd_node->fd_out == -1)
 		ft_print_error_and_exit("file not found\n", EXIT_FAILURE);
 //	if (cmd_node->fd_in && yep == 0)
@@ -89,7 +97,6 @@ void	func_for_reds(t_cmd *cmd_node, t_red *red_node, int yep)
 //		if (fd_in != -4)
 //			close(fd_in);
 //	}
-	printf("cmd_in == %d, cmd_out == %d\n", cmd_node->fd_in, cmd_node->fd_out);
 }
 
 void	red_big_loop(t_red_lst *red_lst, t_cmd *cmd, int yep)
@@ -99,8 +106,7 @@ void	red_big_loop(t_red_lst *red_lst, t_cmd *cmd, int yep)
 	cur = red_lst->head;
 	while (cur)
 	{
-		if (cur->type != HEREDOC)
-			func_for_reds(cmd, cur, yep);
+		func_for_reds(cmd, cur, yep);
 		cur = cur->next;
 	}
 }

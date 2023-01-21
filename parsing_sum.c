@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/21 18:01:25 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/21 18:54:44 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	parsing(char **env_)
 {
 	char		*s;
-	int i = 1;
 	t_list		*lst;
 	t_env_lst	*env_lst;
 	t_cmd_lst	*cmd_lst;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/28 19:37:36 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/21 17:08:57 by zkarapet         ###   ########.fr       */
+/*   Created: 2023/01/21 20:07:49 by zkarapet          #+#    #+#             */
+/*   Updated: 2023/01/21 20:10:55 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,13 +168,13 @@ t_list	*lst_construct(void);
 char	*filling_without_c(char *s, char c, int len, int count);
 char	*filling_with_nulls(char *s);
 //heredoc.c
-void		heredoc(t_red *red_node, t_env_lst *env_lst, t_cmd *cmd, int yep);
+int			heredoc(t_red *red_node, t_env_lst *env_lst, t_cmd *cmd, int yep);
 void		red_lst_print(t_red_lst *list);
 t_red_lst	*red_lst_construct(void);
 t_red		*red_node_initialize(void);
 t_red		*red_node_initialize_pro(char *file, int type);
 void		red_lst_add_last(t_red_lst *list, char *file, int type);
-void		big_loop(t_cmd *cmd_node, t_env_lst *env_lst, int yep);
+int			big_loop(t_cmd *cmd_node, t_env_lst *env_lst, int yep);
 
 //expanding.c
 int		is_quote(char c);

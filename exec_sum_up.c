@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:03:48 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/21 18:04:13 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/21 21:50:17 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	last_input_work(t_red_lst *red_lst)
 			i = 0;
 		cur = cur->next;
 	}
+	printf("yeppppppp iissssssssssss == %d\n", i);
 	return (i);
 }
 
@@ -39,8 +40,16 @@ void	dup_in_or_not_ttq(t_cmd *cur, int pipe_fd_in)
 	}
 	else
 	{
-		if (dup2(cur->fd_in, STDIN_FILENO) < 0)
-			ft_print_error_and_exit("dup2 failed in fd_in\n", 1);
+//		if (cur->fd_out != 1)
+//		{
+//			if (dup2(cur->fd_in, cur->fd_out) < 0)
+//				ft_print_error_and_exit("dup2 failed in fd_in\n", 1);
+//		}
+//		else
+//		{	
+			if (dup2(cur->fd_in, STDIN_FILENO) < 0)
+				ft_print_error_and_exit("dup2 failed in fd_in\n", 1);
+//		}
 	}
 }
 
