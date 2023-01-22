@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/22 18:42:32 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/22 20:37:50 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	parsing(char **env_)
 		add_history(s);
 		lst = group_until_pipe(s);
 		cmd_lst = grouping_with_red(lst, env_lst);
-		cmd_lst_print(cmd_lst);
 		cmd_expanded(cmd_lst, exp_lst);
 		cmd_quote_clear(cmd_lst);
 		pipex_main(cmd_lst,  env_);
