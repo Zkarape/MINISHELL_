@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:07:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/21 20:10:55 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/22 18:10:44 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ int		ft_strlen(char *s);
 //trimming
 t_list	*lst_construct(void);
 //filling_with_nulls.c
+char	*clean_fst_last(char *s);
 char	*filling_without_c(char *s, char c, int len, int count);
 char	*filling_with_nulls(char *s);
 //heredoc.c

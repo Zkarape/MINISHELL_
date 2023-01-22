@@ -6,7 +6,7 @@
 /*   By: aivanyan <aivanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:32:53 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/21 21:29:25 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/22 18:14:05 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	heredoc(t_red *red_node, t_env_lst *env_lst, t_cmd *cmd, int yep)
 {
+	char	*tmp;
 	int		i;
 	int		tmp_fd = 0;
 	char	*s;
@@ -27,8 +28,11 @@ int	heredoc(t_red *red_node, t_env_lst *env_lst, t_cmd *cmd, int yep)
 	while (ft_strncmp(cleaned_file, s, ft_strlen(s)) != 0 || s[0] == '\0')
 	{
 		if (find_d_quotes(red_node->file, 0) == ft_strlen(red_node->file) - 1)
-			s = hdoc_expand(s, env_lst);
-		printf("yeep == %d\n", yep);
+		{
+			tmp = hdoc_expand(s, env_lst);
+			free(s);
+			s = tmp;
+		}
 		if (yep)
 			ft_putstr_fd(s, tmp_fd, 1);
 		s = readline("> ");

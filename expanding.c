@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:24:09 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/20 03:28:23 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/22 18:42:15 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	find_d_quotes(char *s, int i)
 	return (0);
 }
 
-char	*get_env(t_env_lst *env_lst, char *del)
+char	*get_exp(t_env_lst *env_lst, char *del)
 {
 	t_env	*env_node;
 	int		k;
@@ -51,6 +51,20 @@ char	*get_env(t_env_lst *env_lst, char *del)
 		k = until_equal_sign(&env_node->data[11]);
 		if (!ft_strncmp(&env_node->data[11], del, k) && k == ft_strlen(del))
 			return (&env_node->data[11 + ft_strlen(del) + 1]);
+		env_node = env_node->next;
+	}
+	return (NULL);
+}
+
+char	*get_env(t_env_lst *env_lst, char *del)
+{
+	t_env	*env_node;
+
+	env_node = env_lst->head->next;
+	while (env_node->next && del && *del)
+	{
+		if (!ft_strncmp(env_node->data, del, ft_strlen(del)))
+			return (env_node->data + ft_strlen(del) + 1);
 		env_node = env_node->next;
 	}
 	return (NULL);
@@ -78,6 +92,7 @@ int	find_dollar_del(char *s, char **str, int i, int q_idx, int *start, t_env_lst
 {
 	int		j;
 	int		exp_start;
+	char	*get;
 	char	*del;
 	int		end;
 
@@ -87,7 +102,7 @@ int	find_dollar_del(char *s, char **str, int i, int q_idx, int *start, t_env_lst
 	while (s[i] && i < q_idx)
 	{
 		if ((s[i] == '$' && s[i + 1] && i + 1 < q_idx)
-			|| (s[i] == '$' && i + 1 == q_idx && hdoc_flg))
+			|| (s[i] == '$' && i + 1 == q_idx && !hdoc_flg))
 		{
 			end = i;
 			i++;
@@ -99,15 +114,17 @@ int	find_dollar_del(char *s, char **str, int i, int q_idx, int *start, t_env_lst
 			*start = end + ft_strlen(del) + 1;
 			if (del && !(*del))//for one $
 				(*start)--;
-		//	printf("get_env == %s\n", get_env(env_lst, del));
-			*str = ft_strjoin(*str, get_env(env_lst, del),
-				ft_strlen(get_env(env_lst, del)), 0, ft_strlen(*str));
-		//	printf("str == %s\n", *str);
+			if (hdoc_flg)
+				get = get_env(env_lst, del);
+			else
+				get = get_exp(env_lst, del);
+			*str = ft_strjoin(*str, get,
+				ft_strlen(get), 0, ft_strlen(*str));
 		}
 		else
 			i++;
 	}
-	if (s[i] == '\'')// for $'$HOME'
+	if (s[i] == '\'' && !hdoc_flg)// for $'$HOME'
 		return (i - 1);
 	return (i);
 }
@@ -125,11 +142,11 @@ char	*expand(char *s, t_env_lst *env_lst)
 	{
 		if (s[i] == '"')
 			i = find_dollar_del(s, &str, i,
-				find_d_quote2(s, s[i], i), &start, env_lst, 1);
+				find_d_quote2(s, s[i], i), &start, env_lst, 0);
 		else if (s[i] == '\'')
 			i = find_d_quote2(s, s[i], i);
 		else
-			i = find_dollar_del(s, &str, i, find_d_quotes(s, i), &start, env_lst, 1);
+			i = find_dollar_del(s, &str, i, find_d_quotes(s, i), &start, env_lst, 0);
 	}
 	str = ft_strjoin(str, s, i, start, ft_strlen(str));
 	return (str);
@@ -145,7 +162,7 @@ char	*hdoc_expand(char *s, t_env_lst *env_lst)
 	str = NULL;
 	start = 0;
 	while (s[++i])
-		i = find_dollar_del(s, &str, i, find_d_quotes(s, i), &start, env_lst, 0);
+		i = find_dollar_del(s, &str, i, find_d_quotes(s, i), &start, env_lst, 1);
 	str = ft_strjoin(str, s, i, start, ft_strlen(str));
 	return (str);
 }

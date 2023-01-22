@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:03:48 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/21 21:50:17 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/22 17:16:12 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	last_input_work(t_red_lst *red_lst)
 			i = 0;
 		cur = cur->next;
 	}
-	printf("yeppppppp iissssssssssss == %d\n", i);
 	return (i);
 }
 

@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:27:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/17 15:52:27 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/22 18:16:57 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,21 @@ char	*filling_with_nulls(char *s)
 		}
 	}
 	return (filling_without_c(s, '\0', len, len - null_count));
+}
+
+char	*clean_fst_last(char *s)
+{
+	int		i;
+	int		j;
+	int		len;
+	char	*str;
+
+	i = 0;
+	j = 0;
+	len = ft_strlen(s);
+	str = malloc(sizeof(char) * (len - 1));
+	while (++i < len - 1)
+		str[j++] = s[i];
+	str[j] = '\0';
+	return (str);
 }
