@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/01/21 21:56:38 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/22 21:56:38 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ void	pipex_main(t_cmd_lst *cmd_lst, char **env)
 				i++;
 			cur = cur->next;
 		}
-		forking(pipefds[i][0], cur->fd_out, i + 1, cmd_lst->size - 1, env, cur, pipefds);
+		printf("i == %d\n", i);
+		forking(pipefds[i][0], cur->fd_out, i, cmd_lst->size - 1, env, cur, pipefds);
 		i = -1;
 		while (++i < cmd_lst->size - 1)
 		{
@@ -91,6 +92,8 @@ void	process(int pipefd_in, int pipefd_out, char **env, int i, int size, t_cmd *
 		close(pipefds[i][0]);
 		close(pipefds[i][1]);
 	}
+	close(cmd->fd_out);
+	close(cmd->fd_in);
 	execute(cmd, env);
 }
 
