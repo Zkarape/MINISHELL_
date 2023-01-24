@@ -18,7 +18,7 @@ void	parsing(char **env_)
 	t_list		*lst;
 	t_env_lst	*env_lst;
 	t_cmd_lst	*cmd_lst;
-	t_env_lst	*exp_lst;	
+	t_env_lst	*exp_lst;
 
 	s = NULL;
 	env_lst = getting_env(env_);
@@ -27,6 +27,7 @@ void	parsing(char **env_)
 	{
 		s = readline("minishell$ ");
 		add_history(s);
+		printf("%s\n", s);
 		lst = group_until_pipe(s);
 		cmd_lst = grouping_with_red(lst, env_lst);
 		cmd_expanded(cmd_lst, exp_lst);

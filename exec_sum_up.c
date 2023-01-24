@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:03:48 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/22 21:46:53 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/24 22:11:29 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,19 @@ void	dup_in_or_not_ttq(t_cmd *cur, int pipe_fd_in)
 {
 	if (cur->fd_in == 0)
 	{
+		if (cur->hdoc_fd > 0)
+		{
+			printf("hdoc_fd == %d\n", cur->hdoc_fd);
+			pipe_fd_in = cur->hdoc_fd;
+		}
+		printf("pipe fd == %d\n", pipe_fd_in);
 		if (dup2(pipe_fd_in, STDIN_FILENO) < 0)
 			ft_print_error_and_exit("dup2 failed in fd_in\n", 1);
 	}
 	else
 	{
-//		if (cur->fd_out != 1)
-//		{
-//			if (dup2(cur->fd_in, cur->fd_out) < 0)
-//				ft_print_error_and_exit("dup2 failed in fd_in\n", 1);
-//		}
-//		else
-//		{	
-			if (dup2(cur->fd_in, STDIN_FILENO) < 0)
-				ft_print_error_and_exit("dup2 failed in fd_in\n", 1);
-//		}
+		if (dup2(cur->fd_in, STDIN_FILENO) < 0)
+			ft_print_error_and_exit("dup2 failed in fd_in\n", 1);
 	}
 }
 

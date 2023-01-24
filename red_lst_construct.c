@@ -35,6 +35,7 @@ t_red_lst	*red_lst_construct(void)
 	new_list->head = NULL;
 	new_list->tail = NULL;
 	new_list->size = 0;
+	new_list->heredoc_k = 0;
 	return (new_list);
 }
 
@@ -65,6 +66,8 @@ void	red_lst_add_last(t_red_lst *list, char *file, int type)
 		list->tail->next = new_node;
 	list->tail = new_node;
 	if (type == 2)
+	{
 		list->heredoc_k++;
+	}
 	list->size++;
 }

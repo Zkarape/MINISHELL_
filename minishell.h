@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:07:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/22 18:10:44 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/24 21:54:27 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef	struct	s_cmd
 	int					status;
 	struct s_cmd		*next;
 	struct s_red_lst	*red_lst;
+	int					hdoc_fd;
 }	t_cmd;
 
 typedef struct	s_env
@@ -99,7 +100,7 @@ void	execute(t_cmd *cmd, char **env);
 void	process(int pipefd_in, int pipefd_out, char **env, int i, int size, t_cmd *cmd, int (*pipefds)[2]);
 void	forking(int pipefd_in, int pipefd_out, int i, int size, char **env, t_cmd *cur, int (*pipefds)[2]);
 void	pipex_main(t_cmd_lst *cmd_lst, char **env);
-
+void	pipe_error(int pip);
 //utils
 char		*get_environment(char *name, char **env);
 char		*ft_strjoin_m(char *s1, char *s2);
@@ -140,7 +141,7 @@ char	*less_red(char *s, int st, int end);
 int		is_red(char c);
 void	func_for_reds(t_cmd *cmd_node, t_red *red_node, int yep);
 void	red_big_loop(t_red_lst *red_lst, t_cmd *cmd, int yep);
-
+void	close_in_out(int fd);
 //error_cases
 void	ft_print_error_and_exit(char *error, int code);
 int		is_num(char c);
@@ -169,13 +170,13 @@ char	*clean_fst_last(char *s);
 char	*filling_without_c(char *s, char c, int len, int count);
 char	*filling_with_nulls(char *s);
 //heredoc.c
-int			heredoc(t_red *red_node, t_env_lst *env_lst, t_cmd *cmd, int yep);
+void		heredoc(t_red *red_node, t_env_lst *env_lst, t_cmd *cmd, int yep, int *fd, int hdoc_size);
 void		red_lst_print(t_red_lst *list);
 t_red_lst	*red_lst_construct(void);
 t_red		*red_node_initialize(void);
 t_red		*red_node_initialize_pro(char *file, int type);
 void		red_lst_add_last(t_red_lst *list, char *file, int type);
-int			big_loop(t_cmd *cmd_node, t_env_lst *env_lst, int yep);
+void		big_loop(t_cmd *cmd_node, t_env_lst *env_lst, int yep);
 
 //expanding.c
 int		is_quote(char c);

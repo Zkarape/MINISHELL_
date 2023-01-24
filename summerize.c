@@ -67,6 +67,8 @@ t_list	*group_until_pipe(char *s)
 	i = 0;
 	start = 0;
 	group = lst_construct();
+	if (!s)
+		printf("what is this\n");
 	if (s[0] == '|')
 		ft_print_error_and_exit("parse error near '|'\n", EXIT_FAILURE);
 	while (s[i])
@@ -82,5 +84,6 @@ t_list	*group_until_pipe(char *s)
 		i++;
 	}
 	lst_add_last(group, ft_substr_m(s, start, i));
+	// printf("%s %s\n", group->head->data, group->tail->data);
 	return (group);
 }

@@ -5,10 +5,10 @@ SRCS = $(wildcard *.c)
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
-CFLAGS = -g -ggdb3 -Wall -Wextra #-fsanitize=address 
+CFLAGS = -g -ggdb3 -Wall -Wextra -fsanitize=address 
 
 $(NAME) : $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS)  -lreadline -o $(NAME) -I ./
+	$(CC) $(CFLAGS) $(OBJS) -lreadline -o $(NAME) -I ./
 
 all: $(NAME)
 

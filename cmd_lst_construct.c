@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:46:18 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/20 12:37:41 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/24 19:03:05 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ t_cmd	*cmd_node_initialize(void)
 	node->args = NULL;
 	node->fd_out = 1;
 	node->fd_in = 0;
+	node->hdoc_fd = -1;
 	node->next = NULL;
 	node->red_lst = NULL;
 	node->no_cmd = NULL;

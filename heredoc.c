@@ -6,25 +6,22 @@
 /*   By: aivanyan <aivanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:32:53 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/22 18:14:05 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/24 21:58:26 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"	
 
-int	heredoc(t_red *red_node, t_env_lst *env_lst, t_cmd *cmd, int yep)
+void	heredoc(t_red *red_node, t_env_lst *env_lst, t_cmd *cmd, int yep, int *fd, int hdoc_size)
 {
 	char	*tmp;
 	int		i;
-	int		tmp_fd = 0;
 	char	*s;
 	char	*cleaned_file;
 
 	i = -1;
 	s = readline("> ");
 	cleaned_file = filling_with_nulls(red_node->file);
-	tmp_fd = open("/Users/zkarapet/Desktop/MINISHELL_/k5",
-		O_CREAT | O_RDWR | O_TRUNC, 0644);
 	while (ft_strncmp(cleaned_file, s, ft_strlen(s)) != 0 || s[0] == '\0')
 	{
 		if (find_d_quotes(red_node->file, 0) == ft_strlen(red_node->file) - 1)
@@ -33,30 +30,34 @@ int	heredoc(t_red *red_node, t_env_lst *env_lst, t_cmd *cmd, int yep)
 			free(s);
 			s = tmp;
 		}
-		if (yep)
-			ft_putstr_fd(s, tmp_fd, 1);
+		if (yep && hdoc_size == 0)
+		{
+		//	printf("mtaaaaaa, fd[1] == %d, fd[0] == %d\n", fd[1], fd[0]);
+			ft_putstr_fd(s, fd[1], 1);
+			cmd->hdoc_fd = fd[0];
+		}
 		s = readline("> ");
 	}
-	close(tmp_fd);
 	//signal for ^C
-	return (tmp_fd);
 }
 
-int	big_loop(t_cmd *cmd, t_env_lst *env_lst, int yep)
+void	big_loop(t_cmd *cmd, t_env_lst *env_lst, int yep)
 {
 	t_red	*cur;
-	int		tmp_fd;
+	int		fd[2];
 
-	tmp_fd = -1;
 	cur = cmd->red_lst->head;
 	while (cur)
 	{
+		pipe_error(pipe(fd));
 		if (cur->type == HEREDOC)
 		{
+			printf("%d\n", cmd->red_lst->heredoc_k);
 			cmd->red_lst->heredoc_k--;
-			tmp_fd = heredoc(cur, env_lst, cmd, yep);
+			printf("%d\n", cmd->red_lst->heredoc_k);
+			heredoc(cur, env_lst, cmd, yep, fd, cmd->red_lst->heredoc_k);
+			close(fd[1]);
 		}
 		cur = cur->next;
 	}
-	return (tmp_fd);
 }

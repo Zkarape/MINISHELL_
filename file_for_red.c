@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:00 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/22 21:57:45 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/24 22:07:24 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,39 +71,19 @@ void	func_for_reds(t_cmd *cmd_node, t_red *red_node, int yep)
 	else if (red_node->type == HEREDOC && yep)
 	{
 		close_in_out(cmd_node->fd_in);
-		cmd_node->fd_in = open("/Users/zkarapet/Desktop/MINISHELL_/k5", O_RDWR | O_APPEND, 0644);
 	}
 	else if (red_node->type == APPEND_REDIRECTION)
 	{
-		close_in_out(cmd_node->fd_in);
+		close_in_out(cmd_node->fd_out);
 		cmd_node->fd_out = open(red_node->file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	}
 	else if (red_node->type == OUTPUT_REDIRECTION)
 	{
 		close_in_out(cmd_node->fd_out);
 		cmd_node->fd_out = open(red_node->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-		printf("fd_out == %d\n", cmd_node->fd_out);
 	}
 	if (cmd_node->fd_in == -1 || cmd_node->fd_out == -1)
 		ft_print_error_and_exit("file not found\n", EXIT_FAILURE);
-//	if (cmd_node->fd_in && yep == 0)
-//	{
-//		printf("ALOOOOOY\n");
-//		//dup_error(dup2(fd_in, cmd_node->fd_in));
-//		//cmd_node->fd_in = fd_in;
-//		close(fd_in);
-//		if (fd_out != -3)
-//			close(fd_out);
-//	}
-//	if (cmd_node->fd_out)
-//	{
-//		printf("ALOOOY 222\n");
-// 	 //	dup2(fd_out, cmd_node->fd_out);
-//	 	//cmd_node->fd_out = fd_out;
-//		close(fd_out);
-//		if (fd_in != -4)
-//			close(fd_in);
-//	}
 }
 
 void	red_big_loop(t_red_lst *red_lst, t_cmd *cmd, int yep)

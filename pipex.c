@@ -6,19 +6,12 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/01/22 21:56:38 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/24 22:10:26 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//void	closing(int (*pipefds)[2], int size)
-//{
-//	int	i;
-//
-//	i = -1;
-//}
-//
 void	pipe_error(int pip)
 {
 	if (pip < 0)
@@ -37,7 +30,7 @@ void	pipex_main(t_cmd_lst *cmd_lst, char **env)
 	if (!cur)
 		ft_print_error_and_exit("nooooooooo\n", 1);
 	if (cmd_lst->size == 1)
-		forking(cur->fd_in, cur->fd_out, 12657, 1, env, cur, NULL);
+		forking(cur->fd_in, cur->fd_out, 12657, 765, env, cur, NULL);
 	else
 	{
 		pipefds = malloc(sizeof(*pipefds) * (cmd_lst->size - 1));
@@ -46,7 +39,7 @@ void	pipex_main(t_cmd_lst *cmd_lst, char **env)
 			pipe_error(pipe(pipefds[i]));
 		}
 		i = 0;
-		forking(cur->fd_in, pipefds[0][1], 0, cmd_lst->size - 1, env, cur, pipefds);
+		forking(cur->fd_in, pipefds[0][1], 765, cmd_lst->size - 1, env, cur, pipefds);
 		cur = cur->next;
 		while (cur->next)
 		{
@@ -56,7 +49,7 @@ void	pipex_main(t_cmd_lst *cmd_lst, char **env)
 			cur = cur->next;
 		}
 		printf("i == %d\n", i);
-		forking(pipefds[i][0], cur->fd_out, i, cmd_lst->size - 1, env, cur, pipefds);
+		forking(pipefds[i][0], cur->fd_out, 265, cmd_lst->size - 1, env, cur, pipefds);
 		i = -1;
 		while (++i < cmd_lst->size - 1)
 		{
@@ -83,17 +76,22 @@ void	forking(int pipefd_in, int pipefd_out, int i, int size, char **env, t_cmd *
 void	process(int pipefd_in, int pipefd_out, char **env, int i, int size, t_cmd *cmd, int (*pipefds)[2])
 {
 	if (i != 0)
+	{
 		dup_in_or_not_ttq(cmd, pipefd_in);
+	}
 	if (i != size)
+	{
 		dup_out_or_not_ttq(cmd, pipefd_out);
+	}
 	i = -1;
 	while (pipefds && ++i < size)
 	{
 		close(pipefds[i][0]);
 		close(pipefds[i][1]);
 	}
-	close(cmd->fd_out);
-	close(cmd->fd_in);
+	close_in_out(cmd->fd_out);
+	close_in_out(cmd->fd_in);
+	close_in_out(cmd->hdoc_fd);
 	execute(cmd, env);
 }
 
