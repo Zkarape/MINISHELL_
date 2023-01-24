@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:00 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/24 22:07:24 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/25 01:06:38 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ char	*filename_trim(char *s, int k, int type)
 		free(file);
 		file = filling_with_nulls(file_trimmed);
 	}
-	printf("file == %s\n", file);
 	return (file);
 }
 
@@ -54,11 +53,8 @@ void	dup_error(int du)
 
 void	close_in_out(int fd)
 {
-	printf("fd == %d\n", fd);
 	if ((fd != 1 && fd != 0) && fd > 0)
-	{
 		close(fd);
-	}
 }
 
 void	func_for_reds(t_cmd *cmd_node, t_red *red_node, int yep)

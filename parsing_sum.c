@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/22 20:37:50 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/24 22:43:06 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	parsing(char **env_)
 	{
 		s = readline("minishell$ ");
 		add_history(s);
-		printf("%s\n", s);
 		lst = group_until_pipe(s);
 		cmd_lst = grouping_with_red(lst, env_lst);
 		cmd_expanded(cmd_lst, exp_lst);
