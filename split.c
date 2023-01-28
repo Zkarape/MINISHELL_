@@ -6,24 +6,52 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:49:14 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/17 18:14:33 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/27 19:10:59 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ft_count(char *s, char c)
+//static int	ft_count(char const *s, char c)
+//{
+//	int	count;
+//
+//	count = 0;
+//	if (!s)
+//		return (0);
+//	while (*s)
+//	{
+//		if (*s != c && (*(s + 1) == c || *(s + 1) == '\0'))
+//			count++;
+//		s++;
+//	}
+//	return (count);
+//}
+
+static int	ft_count(char *str, char c)
 {
-	int	count;
+	int		i;
+	size_t	count;
 
 	count = 0;
-	if (!s)
+	i = 0;
+	if (!str)
 		return (0);
-	while (*s)
+	while (str[i])
 	{
-		if (*s != c && (*(s + 1) == c || *(s + 1) == '\0'))
+		if (str[i] != c)
+		{
+			while (str[i] && str[i] != c)
+			{
+				if (str[i] == '"' || str[i] == '\'')
+					i += find_last_quote(&str[i], str[i]);
+				i++;
+			}
 			count++;
-		s++;
+		}
+		if (!str[i])
+			break ;
+		i++;
 	}
 	return (count);
 }
@@ -41,12 +69,14 @@ static char	*ft_start(char *s, char c)
 
 static char	*ft_end(char *s, char c)
 {
-	while (*s)
+	while (*s != c)
 	{
-		if (*s != c && ((*(s + 1) == c) || (*(s + 1) == '\0')))
-			return (s);
+		if (*s == '"' || *s == '\'')
+			s += find_last_quote(s, *s);
 		s++;
 	}
+	if (*s == c)
+		return (s);
 	return (NULL);
 }
 

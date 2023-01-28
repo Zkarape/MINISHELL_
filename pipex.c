@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/01/25 01:11:42 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/27 17:42:00 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,10 @@ void	forking(int pipefd_in, int pipefd_out, int size, char **env, t_cmd *cur, in
 void	process(int pipefd_in, int pipefd_out, char **env, int size, t_cmd *cmd, int (*pipefds)[2])
 {
 	int	i;
+	int	b;;
 
 	i = -1;
+	b = 0;
 	dup_in_or_not_ttq(cmd, pipefd_in);
 	dup_out_or_not_ttq(cmd, pipefd_out);
 	while (pipefds && ++i < size)
@@ -87,7 +89,9 @@ void	process(int pipefd_in, int pipefd_out, char **env, int size, t_cmd *cmd, in
 	close_in_out(cmd->fd_out);
 	close_in_out(cmd->fd_in);
 	close_in_out(cmd->hdoc_fd);
-	execute(cmd, env);
+	b = builtins_routine(NULL, NULL, cmd);
+	if (!b)
+		execute(cmd, env);
 }
 
 void	execute(t_cmd *cmd, char **env)

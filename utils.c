@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 14:42:34 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/01/20 14:26:29 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/27 19:09:10 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,4 +123,36 @@ int	ft_strncmp(char *s1, char *s2, unsigned int n)
 		i++;
 	}
 	return (0);
+}
+
+char	*ft_strcpy(char *dest, char *src)
+{
+	char	*temp;
+
+	temp = dest;
+	while (*src)
+	{
+		*temp = *src;
+		src++;
+		temp++;
+	}
+	*temp = '\0';
+	return (dest);
+}
+
+char	**from_lst_to_dbl(t_env_lst *env_lst)
+{
+	int		i;
+	char	**arr;
+	t_env	*env;
+
+	i = 0;
+	env = env_lst->head;
+	arr = malloc(sizeof(char *) * env_lst->size);
+	while (env)
+	{
+		arr[i] = malloc(sizeof(char) * ft_strlen(env->data));
+		ft_strcpy(arr[i++], env->data);
+		env = env->next;
+	}
 }

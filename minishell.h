@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:07:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/24 22:28:42 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/27 19:10:52 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,10 @@ void	forking(int pipefd_in, int pipefd_out, int size, char **env, t_cmd *cur, in
 void	pipex_main(t_cmd_lst *cmd_lst, char **env);
 void	pipe_error(int pip);
 //utils
-char		*get_environment(char *name, char **env);
-char		*ft_strjoin_m(char *s1, char *s2);
-char		*ft_strjoin3(char *str1, char *str2, char *str3);
+char	*get_environment(char *name, char **env);
+char	*ft_strjoin_m(char *s1, char *s2);
+char	*ft_strjoin3(char *str1, char *str2, char *str3);
+char	**from_lst_to_dbl(t_env_lst *env_lst);
 
 //ft_split
 int		ft_is_space(char c);
@@ -235,4 +236,7 @@ t_env	*is_in_env_or_not(t_env_lst *env_lst, char *arg);
 t_env	*is_in_export_or_not(t_env_lst *exp_lst, char *arg);
 //error
 void	error_dup(int du);
+
+//builtin_main
+int	builtins_routine(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd);
 #endif

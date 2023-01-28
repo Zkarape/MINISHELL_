@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/24 22:43:06 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/27 19:32:14 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,36 @@ void	cmd_expanded(t_cmd_lst *cmd_lst, t_env_lst *exp_lst)
 	}
 }
 
+char	**no_cmd_clear(char **arr)
+{
+	int		i;
+	char	*str;
+
+	i = -1;
+	str = NULL;
+	while (arr[++i])
+	{
+		str = filling_with_nulls(arr[i]);
+		free(arr[i]);
+		arr[i] = str;
+	}
+	return (arr);
+}
+
 void	cmd_quote_clear(t_cmd_lst *cmd_lst)
 {
 	t_cmd	*cur;
+	char	**arr;
 	char	*str;
 
 	cur = cmd_lst->head;
 	str = NULL;
+	arr = NULL;
 	while (cur)
 	{
-		str = filling_with_nulls(cur->args);//null here
-		cur->no_cmd = split(str, ' ');
-	//	print(cur->no_cmd);
+		arr = split(cur->args, ' ');
+		cur->no_cmd = no_cmd_clear(arr);
+	//	printf("s == %s\n", cur->no_cmd[1]);
 		cur = cur->next;
 	}
 }
