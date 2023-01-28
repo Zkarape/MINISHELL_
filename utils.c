@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 14:42:34 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/01/28 15:49:12 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/28 20:41:48 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,4 +160,24 @@ char	**from_lst_to_dbl(t_env_lst *env_lst)
 	}
 	arr[i] = NULL;
 	return (arr);
+}
+
+int	ft_tolower(int c)
+{
+	if (c >= 'A' && c <= 'Z')
+		c += 32;
+	return (c);
+}
+
+char	*ft_str_tolower(char *s)
+{
+	int		i;
+	char	*str;
+
+	i = -1;
+	str = malloc(sizeof(ft_strlen(s) + 1));
+	while (s[++i])
+		str[i] = ft_tolower(s[i]);
+	str[i] = '\0';
+	return (str);
 }

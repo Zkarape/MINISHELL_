@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:07:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/27 19:10:52 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/28 19:31:00 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ typedef struct	s_env_lst
 
 //pipeX
 void	execute(t_cmd *cmd, char **env);
-void	process(int pipefd_in, int pipefd_out, char **env, int size, t_cmd *cmd, int (*pipefds)[2]);
-void	forking(int pipefd_in, int pipefd_out, int size, char **env, t_cmd *cur, int (*pipefds)[2]);
-void	pipex_main(t_cmd_lst *cmd_lst, char **env);
+void	process(int pipefd_in, int pipefd_out, char **env, int size, t_cmd *cmd, int (*pipefds)[2], t_env_lst *env_lst, t_env_lst *exp_lst);
+void	forking(int pipefd_in, int pipefd_out, int size, char **env, t_cmd *cur, int (*pipefds)[2],  t_env_lst *env_lst, t_env_lst *exp_lst);
+void	pipex_main(t_cmd_lst *cmd_lst, char **env, t_env_lst *env_lst, t_env_lst *exp_lst);
 void	pipe_error(int pip);
 //utils
 char	*get_environment(char *name, char **env);
@@ -163,6 +163,7 @@ char	*ft_strjoin(char *s1, char *s2, int start, int end, int len);
 int		ft_strncmp(char *s1, char *s2, unsigned int n);
 void	ft_putstr_fd(char *s, int fd, int fl);
 int		ft_strlen(char *s);
+char	*ft_str_tolower(char *s);
 //trimming
 t_list	*lst_construct(void);
 //filling_with_nulls.c

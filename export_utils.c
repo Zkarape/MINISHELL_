@@ -6,12 +6,12 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:37:14 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/17 18:04:55 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/28 21:07:03 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+#include <string.h>
 void swap(t_env *a, t_env *b)
 {
     char *temp;
@@ -28,7 +28,11 @@ void sort(t_env_lst	*exp_lst)
 	t_env	*ptr1;
 	t_env	*lptr = NULL;
 
+//	printf("start one\n");
+//	env_lst_print(exp_lst);
+//	printf("//////////////////////////////////////////////////////\n");
 	head = exp_lst->head->next;
+//	printf("head == %s\n", head->data);
 	swapped = 1;
 	if (head == NULL)
 		return ;
@@ -36,17 +40,21 @@ void sort(t_env_lst	*exp_lst)
 	{
 		swapped = 0;
 		ptr1 = head;
-		while (ptr1->next != lptr)
-	   	{
-			if (ft_strncmp(ptr1->data, ptr1->next->data, ft_strlen(ptr1->data)) > 0)
+//		while (ptr1->next != lptr)
+//	   	{
+			printf("ptr1->data == %s\n", ptr1->data);
+			printf("ptr1->next->data == %s\n", ptr1->next->data);
+			if (strcmp(ptr1->data, ptr1->next->data) > 0)
 			{
 				swap(ptr1, ptr1->next);
 				swapped = 1;
 			}
 			ptr1 = ptr1->next;
-		}
+//		}
+		//env_lst_print(exp_lst);
 		lptr = ptr1;
 	}
+//	printf("final one\n");
 }
 
 char	*equality_out_of_quotes(char *s)

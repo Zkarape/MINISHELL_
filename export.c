@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 21:39:09 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/18 14:04:00 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/28 21:03:17 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	ft_export(t_cmd *cmd, t_env_lst *env_lst, t_env_lst *exp_lst)
 
 	i = 0;
 	val = NULL;
+	printf("export\n");
 	while (cmd->no_cmd[++i])
 	{
 		val = equality_out_of_quotes(cmd->no_cmd[i]);
@@ -35,7 +36,8 @@ void	ft_export(t_cmd *cmd, t_env_lst *env_lst, t_env_lst *exp_lst)
 		}
 	}
 	sort(exp_lst);
-//	env(exp_lst);
+//	if (!cmd->no_cmd[1])
+		env(exp_lst);
 }
 
 void	export_pars(char *s, t_env_lst *exp_lst)
