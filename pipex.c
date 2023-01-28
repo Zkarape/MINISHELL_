@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/01/28 13:57:26 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/28 17:03:17 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,14 @@ void	pipex_main(t_cmd_lst *cmd_lst, char **env)
 			close(pipefds[i][0]);
 			close(pipefds[i][1]);
 		}
+	}
+	cur = cmd_lst->head;
+	while (cur)
+	{
+		close_in_out(cur->fd_out);
+		close_in_out(cur->fd_in);
+		close_in_out(cur->hdoc_fd);
+		cur = cur->next;
 	}
 	i = -1;
 	while (++i < cmd_lst->size)

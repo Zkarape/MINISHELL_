@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:00 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/27 13:16:11 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/28 16:49:29 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	func_for_reds(t_cmd *cmd_node, t_red *red_node, int yep)
 		close_in_out(cmd_node->fd_out);
 		cmd_node->fd_out = open(red_node->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	}
+	printf("out == %d; in ==%d\n", cmd_node->fd_out, cmd_node->fd_in);
 	if (cmd_node->fd_in == -1 || cmd_node->fd_out == -1)
 		ft_print_error_and_exit("file not found\n", EXIT_FAILURE);
 }

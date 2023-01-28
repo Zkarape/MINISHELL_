@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:49:14 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/28 13:27:33 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/28 16:01:44 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,28 @@ static char	*ft_start(char *s, char c)
 
 static char	*ft_end(char *s, char c)
 {
-	while (s && *s && *s != c)
-	{
+	while (*s)
+	{	
 		if (*s == '"' || *s == '\'')
-			s += find_last_quote(s, *s);
+	 		s += find_last_quote(s, *s);    
+		if (*s != c && ((*(s + 1) == c) || (*(s + 1) == '\0')))
+			return (s);
 		s++;
 	}
-	if (!*s || *s == c)
-		return (s);
 	return (NULL);
 }
+//static char	*ft_end(char *s, char c)
+//{
+//	while (s && *s && *s != c)
+//	{
+//		if (*s == '"' || *s == '\'')
+//			s += find_last_quote(s, *s);
+//		s++;
+//	}
+//	if (!*s || *s == c)
+//		return (s);
+//	return (NULL);
+//}
 
 char	**split(char *s, char c)
 {

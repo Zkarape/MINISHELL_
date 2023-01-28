@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/28 13:57:49 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/28 16:06:13 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,17 @@ char	**no_cmd_clear(char **arr)
 	return (arr);
 }
 
+void	printer(char **arr)
+{
+	int	i;
+
+	i = -1;
+	while (arr[++i])
+	{
+		printf("arr[i] == %s\n", arr[i]);
+	}
+}
+
 void	cmd_quote_clear(t_cmd_lst *cmd_lst)
 {
 	t_cmd	*cur;
@@ -85,6 +96,8 @@ void	cmd_quote_clear(t_cmd_lst *cmd_lst)
 	while (cur)
 	{
 		arr = split(cur->args, ' ');
+		printf("arr == %s\n", arr[1]);
+		printer(arr);
 		cur->no_cmd = no_cmd_clear(arr);
 	//	printf("s1 == %s, s2 === %s\n", cur->no_cmd[0], cur->no_cmd[2]);
 		cur = cur->next;

@@ -6,7 +6,7 @@
 /*   By: aivanyan <aivanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:32:53 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/27 15:56:08 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/28 16:43:31 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	heredoc(t_red *red_node, t_env_lst *env_lst, t_cmd *cmd, int yep, int *fd, 
 	}
 	if (cmd->hdoc_fd == -1 && yep && hdoc_size == 0)
 	{
-			ft_putstr_fd("\0", fd[1], 0);
+		//	ft_putstr_fd("\0", fd[1], 0);
 			cmd->hdoc_fd = fd[0];
 	}
 	//signal for ^C

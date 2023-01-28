@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 14:42:34 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/01/28 13:40:18 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/28 15:49:12 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,15 +130,18 @@ char	*ft_strcpy(char *dest, char *src)
 	char	*temp;
 
 	temp = dest;
-	while (*src)
+	printf("stcss  == %s\n", src);
+	while (src && *src)
 	{
 		*temp = *src;
 		src++;
 		temp++;
 	}
 	*temp = '\0';
+	printf("temp == %s\n", temp);
 	return (dest);
 }
+#include <string.h>
 
 char	**from_lst_to_dbl(t_env_lst *env_lst)
 {
@@ -147,12 +150,12 @@ char	**from_lst_to_dbl(t_env_lst *env_lst)
 	t_env	*env;
 
 	i = 0;
-	env = env_lst->head;
+	env = env_lst->head->next;
 	arr = malloc(sizeof(char *) * (env_lst->size + 1));
-	while (env)
+	while (env->next)
 	{
 		arr[i] = malloc(sizeof(char) * (ft_strlen(env->data) + 1));
-		ft_strcpy(arr[i++], env->data);
+		strcpy(arr[i++], env->data);
 		env = env->next;
 	}
 	arr[i] = NULL;
