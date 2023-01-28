@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/01/27 17:42:00 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/28 13:57:26 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,10 @@ void	execute(t_cmd *cmd, char **env)
 
 	i = 0;
 	absolue_path = NULL;
+	//printf("here s == %s\n", cmd->no_cmd[0]);
 	execve(cmd->no_cmd[0], cmd->no_cmd, env);
 	paths = get_environment("PATH=", env);
+	//printf("pathh == %s\n", paths);
 	path = split(paths, ':');
 	if (path)
 	{
@@ -115,5 +117,6 @@ void	execute(t_cmd *cmd, char **env)
 			free(absolue_path);
 		}
 	}
-	ft_print_error_and_exit("execute() error\n", 1);
+	else
+		ft_print_error_and_exit("execute() error\n", 1);
 }

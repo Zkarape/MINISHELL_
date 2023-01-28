@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/27 19:32:14 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/28 13:57:49 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	parsing(char **env_)
 		cmd_lst = grouping_with_red(lst, env_lst);
 		cmd_expanded(cmd_lst, exp_lst);
 		cmd_quote_clear(cmd_lst);
-		pipex_main(cmd_lst,  env_);
+		pipex_main(cmd_lst, from_lst_to_dbl(env_lst));
 		//		cmd_lst_print(cmd_lst);
 		//		unset(env_lst, cmd_lst->head);
 		//		ft_export(cmd_lst->head, env_lst, exp_lst);
@@ -86,7 +86,7 @@ void	cmd_quote_clear(t_cmd_lst *cmd_lst)
 	{
 		arr = split(cur->args, ' ');
 		cur->no_cmd = no_cmd_clear(arr);
-	//	printf("s == %s\n", cur->no_cmd[1]);
+	//	printf("s1 == %s, s2 === %s\n", cur->no_cmd[0], cur->no_cmd[2]);
 		cur = cur->next;
 	}
 }
