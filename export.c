@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 21:39:09 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/28 21:03:17 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/29 20:06:17 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,20 @@
 void	ft_export(t_cmd *cmd, t_env_lst *env_lst, t_env_lst *exp_lst)
 {
 	int		i;
+	int		f;
 	char	*val;
 	t_env	*exp_cur;
 	t_env	*env_cur;
 
 	i = 0;
+	f = 0;
 	val = NULL;
-	printf("export\n");
 	while (cmd->no_cmd[++i])
 	{
 		val = equality_out_of_quotes(cmd->no_cmd[i]);
-		exp_cur = is_in_export_or_not(exp_lst, cmd->no_cmd[i]);
-		remove_from_between(exp_cur, exp_lst);
-		export_pars(cmd->no_cmd[i], exp_lst);
+		f = is_in_export_or_not(exp_lst, cmd->no_cmd[i], val);
+		if (f == 2 || f == 1)
+			export_pars(cmd->no_cmd[i], exp_lst);
 		if (val)
 		{
 			env_cur = is_in_env_or_not(env_lst, cmd->no_cmd[i]);
@@ -36,8 +37,8 @@ void	ft_export(t_cmd *cmd, t_env_lst *env_lst, t_env_lst *exp_lst)
 		}
 	}
 	sort(exp_lst);
-//	if (!cmd->no_cmd[1])
-		env(exp_lst);
+	if (!cmd->no_cmd[1])
+		env_lst_print(exp_lst);
 }
 
 void	export_pars(char *s, t_env_lst *exp_lst)

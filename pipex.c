@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/01/28 20:44:58 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/29 15:36:27 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	process(int pipefd_in, int pipefd_out, char **env, int size, t_cmd *cmd, in
 	close_in_out(cmd->fd_out);
 	close_in_out(cmd->fd_in);
 	close_in_out(cmd->hdoc_fd);
-	b = builtins_routine(env_lst, exp_lst, cmd);
+	b = builtins_routine(env_lst, exp_lst, cmd, env);
 	if (!b)
 		execute(cmd, env);
 }

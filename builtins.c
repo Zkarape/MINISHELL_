@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 19:06:24 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/18 13:16:08 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/29 19:08:28 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	echo(t_cmd *cmd_node)
 	
 	i = 1;
 	k = 1;
-	if (ft_strncmp(cmd_node->no_cmd[1], "-n", 3) == 0)
+	if (cmd_node->no_cmd[1] && ft_strcmp(cmd_node->no_cmd[1], "-n") == 0)
 	{
 		i++;
 		k = 0;

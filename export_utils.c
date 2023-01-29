@@ -6,12 +6,12 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:37:14 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/28 21:07:03 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/29 20:28:10 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <string.h>
+
 void swap(t_env *a, t_env *b)
 {
     char *temp;
@@ -21,40 +21,26 @@ void swap(t_env *a, t_env *b)
 	b->data = temp;
 }
 
-void sort(t_env_lst	*exp_lst)
+void	sort(t_env_lst *exp_lst)
 {
-	int		swapped;
-	t_env	*head;
-	t_env	*ptr1;
-	t_env	*lptr = NULL;
-
-//	printf("start one\n");
-//	env_lst_print(exp_lst);
-//	printf("//////////////////////////////////////////////////////\n");
-	head = exp_lst->head->next;
-//	printf("head == %s\n", head->data);
-	swapped = 1;
-	if (head == NULL)
+	t_env	*cur;
+	t_env	*ind;
+	
+	cur  = exp_lst->head->next;
+	ind  = NULL;
+	if (!exp_lst->head->next)
 		return ;
-	while (swapped)
+	while (cur->next)
 	{
-		swapped = 0;
-		ptr1 = head;
-//		while (ptr1->next != lptr)
-//	   	{
-			printf("ptr1->data == %s\n", ptr1->data);
-			printf("ptr1->next->data == %s\n", ptr1->next->data);
-			if (strcmp(ptr1->data, ptr1->next->data) > 0)
-			{
-				swap(ptr1, ptr1->next);
-				swapped = 1;
-			}
-			ptr1 = ptr1->next;
-//		}
-		//env_lst_print(exp_lst);
-		lptr = ptr1;
+		ind = cur->next;
+		while (ind->next)
+		{
+			if (ft_strcmp(cur->data, ind->data) > 0)
+				swap(cur, ind);
+			ind = ind->next;
+		}
+		cur = cur->next;
 	}
-//	printf("final one\n");
 }
 
 char	*equality_out_of_quotes(char *s)
@@ -107,28 +93,41 @@ t_env	*is_in_env_or_not(t_env_lst *env_lst, char *arg)
 	while (cur->next)
 	{
 		k = until_equal_sign(cur->data);
-		if (!ft_strncmp(cur->data, arg, k) && k == ft_strlen(cur->data))
+		if (!ft_strncmp(cur->data, arg, k + 1))
 			return (cur);
 		cur = cur->next;
 	}
 	return (NULL);
 }
 
-t_env	*is_in_export_or_not(t_env_lst *exp_lst, char *arg)
+int	is_in_export_or_not(t_env_lst *exp_lst, char *arg, char *val)
 {
 	t_env	*cur;
 	int		k;
+	int		k1;
+	int		q;
 
 	cur = exp_lst->head->next;
+	q = 0;
 	while (cur->next)
 	{
-		k = until_equal_sign("suidjxc =");
-		if (!ft_strncmp(&cur->data[11], arg, k) && k == ft_strlen(&cur->data[11]))
+		k = until_equal_sign(&cur->data[11]);
+		k1 = until_equal_sign(arg);
+		if (k1 > k)
+			k = k1;
+		if (!(*(cur->data + 11 + k) == '=' && !val && !ft_strncmp(&cur->data[11], arg, k)))
 		{
-			printf("arg == %s\n", &cur->data[11]);
-			return (cur);
+			if (!ft_strncmp(&cur->data[11], arg, k))
+			{
+				remove_from_between(cur, exp_lst);
+				return (1);
+			}
+			else
+				q++;
 		}
 		cur = cur->next;
 	}
-	return (NULL);
+	if (q == exp_lst->size)
+		return (2);
+	return (0);
 }

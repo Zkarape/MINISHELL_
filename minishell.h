@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:07:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/28 19:31:00 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/29 20:06:47 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ char	*get_environment(char *name, char **env);
 char	*ft_strjoin_m(char *s1, char *s2);
 char	*ft_strjoin3(char *str1, char *str2, char *str3);
 char	**from_lst_to_dbl(t_env_lst *env_lst);
+int		ft_strcmp(char *s1, char *s2);
 
 //ft_split
 int		ft_is_space(char c);
@@ -144,6 +145,7 @@ void	red_big_loop(t_red_lst *red_lst, t_cmd *cmd, int yep);
 void	close_in_out(int fd);
 //error_cases
 void	ft_print_error_and_exit(char *error, int code);
+void	ft_print_error_with_arg(char *cmd, char *arg, int code);
 int		is_num(char c);
 int		is_alpha(char c);
 void	ft_putstr(char *str);
@@ -206,10 +208,10 @@ void	cmd_expanded(t_cmd_lst *cmd_lst, t_env_lst *env_lst);
 void	cmd_quote_clear(t_cmd_lst *cmd_lst);
 
 //builtins.c
-void	cd(char *path);
+void	cd(char *path, char **env);
 void	ft_exit(t_cmd *cmd_head);
 void	echo(t_cmd *cmd_node);
-void	env(t_env_lst *env_lst);
+void	env(t_env_lst *env_lst, char *arg, char **envv);
 void	pwd();
 char    *ft_strcpy(char *s1, char *s2);
 char	*adding_quotes(char *s);
@@ -234,10 +236,10 @@ char	*adding_quotes(char *s);
 char	*equality_out_of_quotes(char *s);
 void	sort(t_env_lst	*exp_lst);
 t_env	*is_in_env_or_not(t_env_lst *env_lst, char *arg);
-t_env	*is_in_export_or_not(t_env_lst *exp_lst, char *arg);
+int		is_in_export_or_not(t_env_lst *exp_lst, char *arg, char *val);
 //error
 void	error_dup(int du);
 
 //builtin_main
-int	builtins_routine(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd);
+int	builtins_routine(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd, char **env);
 #endif
