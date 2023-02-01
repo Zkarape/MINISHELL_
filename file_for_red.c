@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:00 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/28 16:49:29 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/31 20:52:02 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@ int	is_red(char c)
 	return (c == '<' || c == '>');
 }
 
-char	*filename_trim(char *s, int k, int type)
+char	*file_trim(char *s, int k, int type)
 {
 	int		i;
 	char	*file;
-	char	*file_trimmed = NULL;
+	char	*file_trimmed;
 
 	i = 0;
+	file_trimmed = NULL;
 	if (k < 0)
 		return (NULL);
 	file = malloc(sizeof(char) * (k + 1));
@@ -35,20 +36,14 @@ char	*filename_trim(char *s, int k, int type)
 		i++;
 	}
 	file[i] = '\0';
-	return (file);
 	file_trimmed = file;
 	if (type != 2)
 	{
 		free(file);
 		file = filling_with_nulls(file_trimmed);
 	}
+	printf("file == %s\n", file);
 	return (file);
-}
-
-void	dup_error(int du)
-{
-	if (du < 0)
-		ft_print_error_and_exit("dup2 is < 0", 1);
 }
 
 void	close_in_out(int fd)
@@ -71,14 +66,15 @@ void	func_for_reds(t_cmd *cmd_node, t_red *red_node, int yep)
 	else if (red_node->type == APPEND_REDIRECTION)
 	{
 		close_in_out(cmd_node->fd_out);
-		cmd_node->fd_out = open(red_node->file, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		cmd_node->fd_out = open(red_node->file, O_WRONLY
+				| O_APPEND | O_CREAT, 0644);
 	}
 	else if (red_node->type == OUTPUT_REDIRECTION)
 	{
 		close_in_out(cmd_node->fd_out);
-		cmd_node->fd_out = open(red_node->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		cmd_node->fd_out = open(red_node->file, O_WRONLY
+				| O_TRUNC | O_CREAT, 0644);
 	}
-	printf("out == %d; in ==%d\n", cmd_node->fd_out, cmd_node->fd_in);
 	if (cmd_node->fd_in == -1 || cmd_node->fd_out == -1)
 		ft_print_error_and_exit("file not found\n", EXIT_FAILURE);
 }

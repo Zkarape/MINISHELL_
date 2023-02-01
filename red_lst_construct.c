@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 21:56:51 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/18 13:59:12 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/30 20:49:56 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_red	*red_node_initialize_pro(char *file, int type)
 	return (node);
 }
 
-void	red_lst_add_last(t_red_lst *list, char *file, int type)
+void	red_add(t_red_lst *list, char *file, int type)
 {
 	t_red	*new_node;
 

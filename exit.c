@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 19:51:16 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/29 14:47:12 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/31 18:51:50 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,16 @@ long long	ft_atoi(const char *str)
 
 void	ft_exit(t_cmd *cmd_head)
 {
-	long long 	x;
+	long long	x;
 	int			i;
 
 	i = -1;
-	if (!nothing_but_int(cmd_head->no_cmd[1]))	
+	if (!nothing_but_int(cmd_head->no_cmd[1]))
 		ft_print_error_and_exit("exit: numeric argument required\n", 1);
 	while (cmd_head->no_cmd[++i])
 		;
 	if (i > 2)
 		ft_print_error_and_exit("exit: too many arguments\n", 1);
 	x = ft_atoi(cmd_head->no_cmd[1]);
-	exit(x);
+	exit(x % 256);
 }

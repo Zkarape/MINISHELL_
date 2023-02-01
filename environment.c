@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 22:06:21 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/14 18:59:11 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/01 15:27:49 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,19 @@ t_env_lst	*getting_env(char **env)
 	i = -1;
 	while (env[++i])
 		env_lst_add_last(env_lst, env[i]);
-//	env_lst_print(env_lst);
 	return (env_lst);
+}
+
+char	*get_environment(char *name, char **g_envp)
+{
+	int	i;
+
+	i = 0;
+	while (g_envp[i])
+	{
+		if (!ft_strncmp(g_envp[i], name, ft_strlen(name)))
+			return (g_envp[i] + ft_strlen(name));
+		i++;
+	}
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 21:13:41 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/25 01:12:14 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/01 13:34:23 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 char	*ft_substr_m(char *s, int start, int end)
 {
-	char *dst;
-	int	i;
+	char	*dst;
+	int		i;
 
 	if (!s)
-		return 0;
+		return (0);
 	i = 0;
 	dst = malloc(sizeof(char) * (end - start + 1));
 	while (start < end)
@@ -68,7 +68,7 @@ t_list	*group_until_pipe(char *s)
 	start = 0;
 	group = lst_construct();
 	if (!s)
-		printf("what is this\n");
+		return (NULL);
 	if (s[0] == '|')
 		ft_print_error_and_exit("parse error near '|'\n", EXIT_FAILURE);
 	while (s[i])
@@ -84,6 +84,5 @@ t_list	*group_until_pipe(char *s)
 		i++;
 	}
 	lst_add_last(group, ft_substr_m(s, start, i));
-	// printf("%s %s\n", group->head->data, group->tail->data);
 	return (group);
 }

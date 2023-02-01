@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:46:18 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/24 19:03:05 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/01/30 21:24:56 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	more_reds(char *s, char c)
 	i = 0;
 	if (*s)
 	{
-		if (*(s) == c )
+		if (*(s) == c)
 			ft_print_error_and_exit("parse error near '<'\n", EXIT_FAILURE);
 		while (*s && *s == ' ')
 			s++;

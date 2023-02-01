@@ -6,13 +6,13 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 17:42:59 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/07 21:34:16 by vpetrosy         ###   ########.fr       */
+/*   Updated: 2023/02/01 13:31:58 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int find_unquoted(char *s)
+int	find_unquoted(char *s)
 {
 	int	i;
 
@@ -24,7 +24,7 @@ int find_unquoted(char *s)
 			i++;
 			while (s[i] && s[i] != '"')
 				i++;
-			if(s[i] != '"')
+			if (s[i] != '"')
 				return (0);
 		}
 		else if (s[i] == '\'')
@@ -32,7 +32,7 @@ int find_unquoted(char *s)
 			i++;
 			while (s[i] && s[i] != '\'')
 				i++;
-			if(s[i] != '\'')
+			if (s[i] != '\'')
 				return (0);
 		}
 		i++;
@@ -64,4 +64,3 @@ char	*strcpy_noquotes(char *str, char c)
 	cpy[j] = '\0';
 	return (cpy);
 }
-

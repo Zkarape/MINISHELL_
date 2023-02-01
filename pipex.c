@@ -6,19 +6,42 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/01/29 15:36:27 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/01 15:57:36 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pipe_error(int pip)
+void	forking_separately(t_args *a, t_cmd *cur, int size)
 {
-	if (pip < 0)
-		perror("pipe() returns -1\n");
+	int	i;
+
+	i = 0;
+	a->size = size - 1;
+	if (size == 1)
+		forking(cur->fd_in, cur->fd_out, cur, a);
+	else
+	{
+		forking(cur->fd_in, a->pipefds[0][1], cur, a);
+		cur = cur->next;
+		while (cur->next)
+		{
+			forking(a->pipefds[i][0], a->pipefds[i + 1][1], cur, a);
+			if (i < size - 2)
+				i++;
+			cur = cur->next;
+		}
+		forking(a->pipefds[i][0], cur->fd_out, cur, a);
+		i = -1;
+		while (++i < size - 1)
+		{
+			close(a->pipefds[i][0]);
+			close(a->pipefds[i][1]);
+		}
+	}
 }
 
-void	pipex_main(t_cmd_lst *cmd_lst, char **env, t_env_lst *env_lst, t_env_lst *exp_lst)
+void	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 {
 	int		i;
 	int		(*pipefds)[2];
@@ -29,47 +52,22 @@ void	pipex_main(t_cmd_lst *cmd_lst, char **env, t_env_lst *env_lst, t_env_lst *e
 	cur = cmd_lst->head;
 	if (!cur)
 		ft_print_error_and_exit("nooooooooo\n", 1);
+	pipefds = malloc(sizeof(*pipefds) * (cmd_lst->size - 1));
+	while (++i < cmd_lst->size - 1)
+		pipe_error(pipe(pipefds[i]));
 	if (cmd_lst->size == 1)
-		forking(cur->fd_in, cur->fd_out, cmd_lst->size - 1, env, cur, NULL, env_lst,exp_lst);
+		a->pipefds = NULL;
 	else
-	{
-		pipefds = malloc(sizeof(*pipefds) * (cmd_lst->size - 1));
-		while (++i < cmd_lst->size - 1)
-		{
-			pipe_error(pipe(pipefds[i]));
-		}
-		i = 0;
-		forking(cur->fd_in, pipefds[0][1], cmd_lst->size - 1, env, cur, pipefds, env_lst, exp_lst);
-		cur = cur->next;
-		while (cur->next)
-		{
-			forking(pipefds[i][0], pipefds[i + 1][1], cmd_lst->size - 1, env, cur, pipefds, env_lst, exp_lst);
-			if (i < cmd_lst->size - 2)
-				i++;
-			cur = cur->next;
-		}
-		forking(pipefds[i][0], cur->fd_out, cmd_lst->size - 1, env, cur, pipefds, env_lst, exp_lst);
-		i = -1;
-		while (++i < cmd_lst->size - 1)
-		{
-			close(pipefds[i][0]);
-			close(pipefds[i][1]);
-		}
-	}
+		a->pipefds = pipefds;
+	forking_separately(a, cur, cmd_lst->size);
 	cur = cmd_lst->head;
-	while (cur)
-	{
-		close_in_out(cur->fd_out);
-		close_in_out(cur->fd_in);
-		close_in_out(cur->hdoc_fd);
-		cur = cur->next;
-	}
+	closing(cur);
 	i = -1;
 	while (++i < cmd_lst->size)
 		waitpid(-1, &status, 0);
 }
 
-void	forking(int pipefd_in, int pipefd_out, int size, char **env, t_cmd *cur, int (*pipefds)[2], t_env_lst *env_lst, t_env_lst *exp_lst)
+void	forking(int pipefd_in, int pipefd_out, t_cmd *cur, t_args *a)
 {
 	pid_t	child;
 
@@ -77,29 +75,31 @@ void	forking(int pipefd_in, int pipefd_out, int size, char **env, t_cmd *cur, in
 	if (child < 0)
 		ft_print_error_and_exit("fork failed\n", 1);
 	if (child == 0)
-		process(pipefd_in, pipefd_out, env, size, cur, pipefds, env_lst, exp_lst);
+	{
+		process(pipefd_in, pipefd_out, cur, a);
+	}
 }
 
-void	process(int pipefd_in, int pipefd_out, char **env, int size, t_cmd *cmd, int (*pipefds)[2], t_env_lst *env_lst, t_env_lst *exp_lst)
+void	process(int pipefd_in, int pipefd_out, t_cmd *cmd, t_args *a)
 {
 	int	i;
-	int	b;;
+	int	b;
 
 	i = -1;
 	b = 0;
 	dup_in_or_not_ttq(cmd, pipefd_in);
 	dup_out_or_not_ttq(cmd, pipefd_out);
-	while (pipefds && ++i < size)
+	while (a->pipefds && ++i < a->size)
 	{
-		close(pipefds[i][0]);
-		close(pipefds[i][1]);
+		close(a->pipefds[i][0]);
+		close(a->pipefds[i][1]);
 	}
 	close_in_out(cmd->fd_out);
 	close_in_out(cmd->fd_in);
 	close_in_out(cmd->hdoc_fd);
-	b = builtins_routine(env_lst, exp_lst, cmd, env);
+	b = build(cmd, a);
 	if (!b)
-		execute(cmd, env);
+		execute(cmd, a->env);
 }
 
 void	execute(t_cmd *cmd, char **env)
@@ -111,10 +111,8 @@ void	execute(t_cmd *cmd, char **env)
 
 	i = 0;
 	absolue_path = NULL;
-	//printf("here s == %s\n", cmd->no_cmd[0]);
 	execve(cmd->no_cmd[0], cmd->no_cmd, env);
 	paths = get_environment("PATH=", env);
-	//printf("pathh == %s\n", paths);
 	path = split(paths, ':');
 	if (path)
 	{

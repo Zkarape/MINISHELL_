@@ -6,46 +6,40 @@
 /*   By: aivanyan <aivanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:32:53 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/28 16:43:31 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/01 16:44:00 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"	
 
-void	heredoc(t_red *red_node, t_env_lst *env_lst, t_cmd *cmd, int yep, int *fd, int hdoc_size)
+void	heredoc(t_cmd *cmd, int yep, t_args *a)
 {
 	char	*tmp;
-	int		i;
 	char	*s;
 	char	*cleaned_file;
 
-	i = -1;
 	s = readline("> ");
-	cleaned_file = filling_with_nulls(red_node->file);
+	cleaned_file = filling_with_nulls(a->file);
 	while (ft_strncmp(cleaned_file, s, ft_strlen(s)) != 0 || s[0] == '\0')
 	{
-		if (find_d_quotes(red_node->file, 0) == ft_strlen(red_node->file) - 1)
+		if (find_d_quotes(a->file, 0) == ft_strlen(a->file) - 1)
 		{
-			tmp = hdoc_expand(s, env_lst);
+			tmp = hdoc_expand(s, a);
 			free(s);
 			s = tmp;
 		}
-		if (yep && hdoc_size == 0)
+		if (yep && a->hdoc_size == 0)
 		{
-			ft_putstr_fd(s, fd[1], 1);
-			cmd->hdoc_fd = fd[0];
+			ft_putstr_fd(s, a->fd[1], 1);
+			cmd->hdoc_fd = a->fd[0];
 		}
 		s = readline("> ");
 	}
-	if (cmd->hdoc_fd == -1 && yep && hdoc_size == 0)
-	{
-		//	ft_putstr_fd("\0", fd[1], 0);
-			cmd->hdoc_fd = fd[0];
-	}
-	//signal for ^C
+	if (cmd->hdoc_fd == -1 && yep && a->hdoc_size == 0)
+		cmd->hdoc_fd = a->fd[0];
 }
 
-void	big_loop(t_cmd *cmd, t_env_lst *env_lst, int yep)
+void	big_loop(t_cmd *cmd, int yep, t_args *a)
 {
 	t_red	*cur;
 	int		fd[2];
@@ -57,7 +51,10 @@ void	big_loop(t_cmd *cmd, t_env_lst *env_lst, int yep)
 		{
 			pipe_error(pipe(fd));
 			cmd->red_lst->heredoc_k--;
-			heredoc(cur, env_lst, cmd, yep, fd, cmd->red_lst->heredoc_k);
+			a->hdoc_size = cmd->red_lst->heredoc_k;
+			a->fd = fd;
+			a->file = cur->file;
+			heredoc(cmd, yep, a);
 			close(fd[1]);
 			if (cmd->hdoc_fd == -1 && cmd->red_lst->heredoc_k == 0)
 				close(fd[0]);

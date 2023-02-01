@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 20:05:06 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/29 15:38:57 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/01/30 21:26:09 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ void	env(t_env_lst *env_lst, char *arg, char **envv)
 	env_lst_print(env_lst);
 }
 
-void	pwd()
+void	pwd(void)
 {
 	char	cwd[PATH_MAX];
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
-			printf("%s\n", cwd);
+		printf("%s\n", cwd);
 	else
 		perror("pwd error\n");
 }
