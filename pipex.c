@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/02 15:51:14 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/02 21:47:51 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	forking(int pipefd_in, int pipefd_out, t_cmd *cur, t_args *a)
 		ft_print_error_and_exit("fork failed\n", 1);
 	if (child == 0)
 	{
+		sig_handle(2);
 		process(pipefd_in, pipefd_out, cur, a);
 	}
 }

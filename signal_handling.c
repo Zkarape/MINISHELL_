@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/31 18:03:34 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/02 19:40:55 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/02 21:58:49 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,31 @@ void	sigint_handler(int sig)
 	tcsetattr(0, 0, &term);
 	if (sig == SIGINT)
 	{
-//		ft_putstr_fd(1, "\n", 0);
+		ft_putstr_fd("\n", 1, 0);
 		rl_on_new_line();
-		rl_replace_line("\n", 0);
-//		rl_redisplay();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
+}
+void	print(int sig)
+{
+	printf("signal interrupted\n");
+}
+
+void	sig_handler_for_hdoc(int sig)
+{
+	struct termios	old_term;
+	struct termios	new_term;
+
+	tcgetattr(0, &new_term);
+	old_term = new_term;
+	new_term.c_lflag &= ~ICANON;
+	//to deny canonical mode, especially not to read line by line and end prompt with enter
+//	sigint_handler(sig);
+	tcsetattr(0, 0, &new_term);
+	print(sig);
+//	sigint_handler(sig);
+	tcsetattr(0, 0, &old_term);
 }
 
 void	sig_handle(int a)
@@ -44,7 +64,8 @@ void	sig_handle(int a)
 	}
 	else if (a == 3)//heredoc
 	{
-		signal(SIGINT, sigint_handler);
+	//	signal(SIGINT, SIG_DFL);
+		signal(SIGINT, sig_handler_for_hdoc);
 		signal(SIGQUIT, SIG_IGN);
 	}
 }
