@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:07:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/01 15:33:55 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/02 14:57:25 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@
 # include <stdio.h>
 # include <limits.h>
 # include <signal.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include <termios.h>
+# include <sys/types.h>
+# include "readline/readline.h"
+# include "readline/history.h"
 
 # define HEREDOC 2
 # define INPUT_REDIRECTION 1

@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/01 16:38:34 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/02 19:40:32 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	parsing(char **env_, t_args *args)
 	t_cmd_lst	*cmd_lst;
 
 	s = NULL;
+	sig_handle(1);
 	args->env_lst = getting_env(env_);
 	args->exp_lst = env_lst_construct();
 	args->exp_lst = exp_cpy_env(args);
@@ -26,8 +27,10 @@ void	parsing(char **env_, t_args *args)
 	{
 		//function that takes 4 int arguments
 		s = readline("minishell$ ");
+		printf("mi ban\n");
+		if (!s)
+			//^D
 		add_history(s);
-//		sig_handle();
 		lst = group_until_pipe(s);
 		cmd_lst = grouping_with_red(lst, args);
 		cmd_expanded(cmd_lst, args);
