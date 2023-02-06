@@ -12,15 +12,95 @@
 
 #include "minishell.h"
 
-void	sigint_handler(int sig)
+void	ft_putchar_fd(char c, int fd)
 {
-	struct termios term;
+	write(fd, &c, 1);
+}
 
-	tcgetattr(0, &term);
-	term.c_lflag &= ~ECHO;
-	term.c_lflag &= ~ECHOCTL;
-	term.c_lflag |= ECHO;
-	tcsetattr(0, 0, &term);
+//void	sigint_handler(int sig)
+//{
+//	struct termios term;
+//
+//	tcgetattr(0, &term);
+//	term.c_lflag &= ~ECHO;
+//	term.c_lflag &= ~ECHOCTL;
+//	term.c_lflag |= ECHO;
+//	term.c_lflag &= ~ICANON;
+//	tcsetattr(0, 0, &term);
+//	if (sig == SIGINT)
+//	{
+//		ft_putstr_fd("\n", 1, 0);
+//		rl_on_new_line();
+//		rl_replace_line("", 0);
+//		rl_redisplay();
+//	}
+//}
+//void	print(int sig)
+//{
+//	printf("signal interrupted\n");
+//}
+//
+//void	sig_handler_for_hdoc(int sig)
+//{
+//	struct termios	old_term;
+//	struct termios	new_term;
+//
+//	tcgetattr(0, &new_term);
+//	new_term.c_lflag &= ~ECHO;
+//	new_term.c_lflag &= ~ECHOCTL;
+//	new_term.c_lflag |= ECHO;
+//	tcgetattr(0, &old_term);
+//	//old_term = new_term;
+//	new_term.c_lflag &= ~ICANON;
+//	//to deny canonical mode, especially not to read line by line and end prompt with enter
+////	sigint_handler(sig);
+//	tcsetattr(0, 0, &new_term);
+//	if (sig == SIGINT)
+//	{
+//		ft_putstr_fd("\n", 1, 0);
+//		rl_on_new_line();
+//		rl_replace_line("", 0);
+//		rl_redisplay();
+//	}
+////	print(sig);
+////	sigint_handler(sig);
+//	tcsetattr(0, 0, &old_term);
+//}
+//The “mask” is a sigset_t, which is a set of signal numbers. The mask for signal sig expresses which signals the process can receive while it is handling signal number sig
+
+void	ft_putendl_fd(char *s, int fd)
+{
+	write(fd, s, ft_strlen(s));
+	ft_putchar_fd('\n', fd);
+}
+
+void	here_doc_sig_handler(int sig, siginfo_t *info, void *context)
+{
+	int	fd;
+
+	(void)info;
+	(void)context;
+	if (sig == SIGINT)
+	{
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		ft_putstr_fd("\n", 1, 0);
+		rl_redisplay();
+//		fd = open(TMP_FILE, O_WRONLY | O_APPEND, 0644);
+//		if (fd < 0)
+//		{
+//			ret_null("minishell:", strerror(errno));
+//			return ;
+//		}
+		ft_putstr_fd("\n", fd, 0);
+		close(fd);
+	}
+}
+
+void	sig_handler(int sig, siginfo_t *info, void *context)
+{
+	(void)info;
+	(void)context;
 	if (sig == SIGINT)
 	{
 		ft_putstr_fd("\n", 1, 0);
@@ -28,44 +108,14 @@ void	sigint_handler(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-}
-void	print(int sig)
-{
-	printf("signal interrupted\n");
+	else if (sig == SIGQUIT)
+		ft_putendl_fd("minishell: quit", 2);
 }
 
-void	sig_handler_for_hdoc(int sig)
+void	sig_int_nl(int sig, siginfo_t *info, void *context)
 {
-	struct termios	old_term;
-	struct termios	new_term;
-
-	tcgetattr(0, &new_term);
-	old_term = new_term;
-	new_term.c_lflag &= ~ICANON;
-	//to deny canonical mode, especially not to read line by line and end prompt with enter
-//	sigint_handler(sig);
-	tcsetattr(0, 0, &new_term);
-	print(sig);
-//	sigint_handler(sig);
-	tcsetattr(0, 0, &old_term);
-}
-
-void	sig_handle(int a)
-{
-	if (a == 1)//main
-	{
-		signal(SIGINT, sigint_handler);
-		signal(SIGQUIT, SIG_IGN);
-	}
-	else if (a == 2)//child
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-	}
-	else if (a == 3)//heredoc
-	{
-	//	signal(SIGINT, SIG_DFL);
-		signal(SIGINT, sig_handler_for_hdoc);
-		signal(SIGQUIT, SIG_IGN);
-	}
+	(void)sig;
+	(void)info;
+	(void)context;
+	ft_putendl_fd("", 1);
 }

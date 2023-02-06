@@ -23,7 +23,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
-	sig_handle(1);
+	sig_choser(0);
 //	set_get_attr();
 	parsing(env, &args);
 }

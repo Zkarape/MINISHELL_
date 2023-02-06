@@ -25,7 +25,7 @@ void	parsing(char **env_, t_args *args)
 	while (1)
 	{
 		//function that takes 4 int arguments
-		sig_handle(1);
+		sig_choser(0);
 		s = readline("minishell$ ");
 		if (!s)
 			//^D

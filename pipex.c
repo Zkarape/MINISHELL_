@@ -76,9 +76,10 @@ void	forking(int pipefd_in, int pipefd_out, t_cmd *cur, t_args *a)
 		ft_print_error_and_exit("fork failed\n", 1);
 	if (child == 0)
 	{
-		sig_handle(2);
+		sig_choser(1);
 		process(pipefd_in, pipefd_out, cur, a);
 	}
+	sig_choser(0);
 }
 
 void	process(int pipefd_in, int pipefd_out, t_cmd *cmd, t_args *a)

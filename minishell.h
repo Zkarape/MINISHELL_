@@ -112,6 +112,7 @@ typedef struct s_args
 	char		**env;
 	int			size;
 	int			(*pipefds)[2];
+	struct termios		term;
 }	t_args;
 
 //group_until_reds.c
@@ -270,5 +271,11 @@ void		error_dup(int du);
 //builtin_main.c
 int			build(t_cmd *cmd, t_args *a);
 //signal_handling.c
+void	ft_putendl_fd(char *s, int fd);
 void		sig_handle(int a);
+void	sig_choser(int n);
+void	sig_handler(int sig, siginfo_t *info, void *context);
+void	here_doc_sig_handler(int sig, siginfo_t *info, void *context);
+void	sig_wait(int sig, void (*hdlr)(int, siginfo_t *, void *));
+void	sig_ignore(int sig);
 #endif

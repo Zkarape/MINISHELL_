@@ -18,10 +18,16 @@ void	heredoc(t_cmd *cmd, int yep, t_args *a)
 	char	*s;
 	char	*cleaned_file;
 
-	s = readline("> ");
+	//	sig_handle(3);
+	//	s = readline("> ");
 	cleaned_file = filling_with_nulls(a->file);
-	while (ft_strncmp(cleaned_file, s, ft_strlen(s)) != 0 || s[0] == '\0')
+	sig_choser(3);
+	while (1)
 	{
+		s = readline("> ");
+		if (!(ft_strncmp(cleaned_file, s, ft_strlen(s))
+				!= 0 || s[0] == '\0'))
+			break ;
 		if (find_d_quotes(a->file, 0) == ft_strlen(a->file) - 1)
 		{
 			tmp = hdoc_expand(s, a);
@@ -33,8 +39,6 @@ void	heredoc(t_cmd *cmd, int yep, t_args *a)
 			ft_putstr_fd(s, a->fd[1], 1);
 			cmd->hdoc_fd = a->fd[0];
 		}
-		sig_handle(3);
-		s = readline("> ");
 	}
 	if (cmd->hdoc_fd == -1 && yep && a->hdoc_size == 0)
 		cmd->hdoc_fd = a->fd[0];

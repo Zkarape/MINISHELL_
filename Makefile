@@ -6,7 +6,7 @@ PREFIX = "${shell find ${HOME} -name readline-zkarapet 2>/dev/null}"
 SRCS = $(wildcard *.c)
 OBJS = $(SRCS:.c=.o)
 
-READLINE = -lreadline
+READLINE = -lreadline 
 
 ifneq ($(UNAME), Linux)
 	READLINE += -L readline-zkarapet/lib 
