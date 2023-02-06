@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/02 21:42:36 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/06 15:52:03 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	parsing(char **env_, t_args *args)
 	args->env_lst = getting_env(env_);
 	args->exp_lst = env_lst_construct();
 	args->exp_lst = exp_cpy_env(args);
+	sig_choser(0);
 	while (1)
 	{
 		//function that takes 4 int arguments
-		sig_choser(0);
 		s = readline("minishell$ ");
 		if (!s)
 			//^D

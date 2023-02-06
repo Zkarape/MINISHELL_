@@ -11,12 +11,19 @@ void	sig_choser(int n)
 	else if (n == 1)
 	{
 		signal(SIGINT, SIG_DFL);
-		sig_wait(SIGQUIT, sig_handler);
+	//	sig_wait(SIGQUIT, sig_handler);
 	}
 	else if (n == 2)
 	{
+		sig_ignore(SIGINT);
+		sig_ignore(SIGQUIT);
+		return ;
+	}
+	else if (n == 3)
+	{
 		sig_wait(SIGINT, here_doc_sig_handler);
 		sig_ignore(SIGQUIT);
+		return ;
 	}
 //	init_mode(n);
 }

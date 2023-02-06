@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:07:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/02 21:43:32 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/06 15:25:05 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,4 +278,6 @@ void	sig_handler(int sig, siginfo_t *info, void *context);
 void	here_doc_sig_handler(int sig, siginfo_t *info, void *context);
 void	sig_wait(int sig, void (*hdlr)(int, siginfo_t *, void *));
 void	sig_ignore(int sig);
+void	reset_term();
+void	init_term();
 #endif

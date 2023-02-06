@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/02 21:47:51 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/06 15:48:12 by aivanyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	forking(int pipefd_in, int pipefd_out, t_cmd *cur, t_args *a)
 		sig_choser(1);
 		process(pipefd_in, pipefd_out, cur, a);
 	}
-	sig_choser(0);
 }
 
 void	process(int pipefd_in, int pipefd_out, t_cmd *cmd, t_args *a)
