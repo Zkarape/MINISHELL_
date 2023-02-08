@@ -60,6 +60,8 @@ void	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 	else
 		a->pipefds = pipefds;
 	forking_separately(a, cur, cmd_lst->size);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	cur = cmd_lst->head;
 	closing(cur);
 	i = -1;
@@ -74,8 +76,6 @@ void	forking(int pipefd_in, int pipefd_out, t_cmd *cur, t_args *a)
 	child = fork();
 	if (child < 0)
 		ft_print_error_and_exit("fork failed\n", 1);
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
 	if (child == 0)
 	{
 		sig_control(0);

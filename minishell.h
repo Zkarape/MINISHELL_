@@ -274,6 +274,7 @@ int			build(t_cmd *cmd, t_args *a);
 //signal_handling.c
 void	ft_putendl_fd(char *s, int fd);
 void	sig_control(int a);
-void	sig_handler(int sig);
+void	sigint_handler(int sig);
 void	sig_handler_hdoc(int sig);
+void	sigquit_handler(int sig);
 #endif

@@ -22,9 +22,9 @@ void	parsing(char **env_, t_args *args)
 	args->env_lst = getting_env(env_);
 	args->exp_lst = env_lst_construct();
 	args->exp_lst = exp_cpy_env(args);
+	sig_control(1);
 	while (1)
 	{
-		sig_control(1);
 		s = readline("minishell$ ");
 		if (!s)
 			//^D
@@ -35,6 +35,7 @@ void	parsing(char **env_, t_args *args)
 		cmd_quote_clear(cmd_lst);
 		args->env = from_lst_to_dbl(args->env_lst);
 		pipex_main(cmd_lst, args);
+		sig_control(1);
 	}
 }
 
