@@ -22,10 +22,9 @@ void	parsing(char **env_, t_args *args)
 	args->env_lst = getting_env(env_);
 	args->exp_lst = env_lst_construct();
 	args->exp_lst = exp_cpy_env(args);
-	sig_choser(0);
 	while (1)
 	{
-		//function that takes 4 int arguments
+		sig_control(1);
 		s = readline("minishell$ ");
 		if (!s)
 			//^D

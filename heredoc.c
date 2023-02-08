@@ -12,7 +12,7 @@
 
 #include "minishell.h"	
 
-int	g_status;
+int g_status = -2;
 
 void	heredoc(t_cmd *cmd, int yep, t_args *a)
 {
@@ -21,10 +21,16 @@ void	heredoc(t_cmd *cmd, int yep, t_args *a)
 	char	*cleaned_file;
 
 	cleaned_file = filling_with_nulls(a->file);
-	sig_choser(3);
 	while (1)
 	{
+		sig_control(2);
 		s = readline(">");
+		printf("status %d\n", g_status);
+		if (g_status == -8)
+		{
+			g_status = 130;
+			break;
+		}
 		if (!(ft_strncmp(cleaned_file, s, ft_strlen(s))
 				!= 0 || s[0] == '\0'))
 			break ;
@@ -38,7 +44,6 @@ void	heredoc(t_cmd *cmd, int yep, t_args *a)
 		{
 			ft_putstr_fd(s, a->fd[1], 1);
 			cmd->hdoc_fd = a->fd[0];
-			g_status = cmd->hdoc_fd;
 		}
 	}
 	if (cmd->hdoc_fd == -1 && yep && a->hdoc_size == 0)

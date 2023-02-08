@@ -24,6 +24,7 @@
 # include <signal.h>
 # include <termios.h>
 # include <sys/types.h>
+# include <sys/ioctl.h>
 # include "readline/readline.h"
 # include "readline/history.h"
 
@@ -272,12 +273,7 @@ void		error_dup(int du);
 int			build(t_cmd *cmd, t_args *a);
 //signal_handling.c
 void	ft_putendl_fd(char *s, int fd);
-void		sig_handle(int a);
-void	sig_choser(int n);
-void	sig_handler(int sig, siginfo_t *info, void *context);
-void	here_doc_sig_handler(int sig, siginfo_t *info, void *context);
-void	sig_wait(int sig, void (*hdlr)(int, siginfo_t *, void *));
-void	sig_ignore(int sig);
-void	reset_term();
-void	init_term();
+void	sig_control(int a);
+void	sig_handler(int sig);
+void	sig_handler_hdoc(int sig);
 #endif
