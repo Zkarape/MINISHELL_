@@ -22,7 +22,7 @@ int	until_equal_sign(char *s)
 	return (i);
 }
 
-void	echo(t_cmd *cmd_node)
+int	echo(t_cmd *cmd_node)
 {
 	int	i;
 	int	k;
@@ -30,7 +30,7 @@ void	echo(t_cmd *cmd_node)
 	i = 1;
 	k = 1;
 	if (!cmd_node->no_cmd[1])
-		return ;
+		return (0);
 	if (ft_strcmp(cmd_node->no_cmd[1], "-n") == 0)
 	{
 		i++;
@@ -45,6 +45,7 @@ void	echo(t_cmd *cmd_node)
 	}
 	if (k)
 		ft_putstr_fd("\n", cmd_node->fd_out, 0);
+	return (0);
 }
 
 void	remove_cur_env_node(t_env_lst *env_lst, char *s)
@@ -60,7 +61,7 @@ void	remove_cur_env_node(t_env_lst *env_lst, char *s)
 	}
 }
 
-void	unset(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd_node)
+int	unset(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd_node)
 {
 	int		i;
 	int		j;

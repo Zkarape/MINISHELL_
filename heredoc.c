@@ -25,10 +25,10 @@ void	heredoc(t_cmd *cmd, int yep, t_args *a)
 	{
 		sig_control(2);
 		s = readline(">");
-		printf("status %d\n", g_status);
-		if (g_status == -8)
+		if (!s)
+			break ;
+		if (g_status == -42)
 		{
-			g_status = 130;
 			break;
 		}
 		if (!(ft_strncmp(cleaned_file, s, ft_strlen(s))
@@ -71,5 +71,7 @@ void	big_loop(t_cmd *cmd, int yep, t_args *a)
 				close(fd[0]);
 		}
 		cur = cur->next;
+		if (g_status == 199)
+			break ;
 	}
 }

@@ -11,7 +11,7 @@ void	init_term()
 	tcsetattr(0, 0, &term);
 }
 
-void	resest_term()
+void	resest_term1()
 {
 	struct termios term;
 
@@ -35,14 +35,14 @@ void	sig_control(int a)
 {
 	if (a == 0)
 	{
-	//	reset_term();
+		reset_term();
 		signal(SIGINT, SIG_DFL);
-		if (signal(SIGQUIT, sigquit_handler) == SIG_ERR)
+		if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
 			perror("quited");
 	}
 	else if (a == 1)
 	{
-	//	init_term();
+		init_term();
 		signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
 	}
@@ -57,7 +57,7 @@ void	sigint_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		g_status = 130;
+		g_status = 199;
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
@@ -68,7 +68,7 @@ void	sig_handler_hdoc(int sig)
 {
 	if (sig == SIGINT)
 	{
-		g_status = -8;
+		g_status = -42;
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();

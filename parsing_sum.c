@@ -26,8 +26,11 @@ void	parsing(char **env_, t_args *args)
 	while (1)
 	{
 		s = readline("minishell$ ");
-		if (!s)
-			//^D
+	//	if (!s)
+	//	{
+	//		write(1, "exit\n", 5);
+	//		exit(g_status);
+	//	}
 		add_history(s);
 		lst = group_until_pipe(s);
 		cmd_lst = grouping_with_red(lst, args);
