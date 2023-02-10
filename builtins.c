@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 19:06:24 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/01 16:42:29 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/10 20:07:31 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,9 @@ int	unset(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd_node)
 	exp_node = exp_lst->head->next;
 	while (cmd_node->no_cmd[++i])
 	{
-		error_checks_for_var(cmd_node->no_cmd[i],
-			ft_strlen(cmd_node->no_cmd[i]));
+		if (error_checks_for_var(cmd_node->no_cmd[i],
+			ft_strlen(cmd_node->no_cmd[i]), 1))
+			return (1);
 		while (exp_node->next)
 		{
 			k = until_equal_sign(&exp_node->data[11]);
@@ -87,4 +88,5 @@ int	unset(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd_node)
 			exp_node = exp_node->next;
 		}
 	}
+	return (0);
 }

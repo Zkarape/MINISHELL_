@@ -6,7 +6,7 @@
 /*   By: aivanyan <aivanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:32:53 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/06 15:20:07 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/10 16:49:10 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,13 @@ void	heredoc(t_cmd *cmd, int yep, t_args *a)
 		sig_control(2);
 		s = readline(">");
 		if (!s)
+		{	
+			g_status = -5; 
 			break ;
+		}
 		if (g_status == -42)
 		{
+			g_status = 1;
 			break;
 		}
 		if (!(ft_strncmp(cleaned_file, s, ft_strlen(s))
@@ -50,7 +54,7 @@ void	heredoc(t_cmd *cmd, int yep, t_args *a)
 		cmd->hdoc_fd = a->fd[0];
 }
 
-void	big_loop(t_cmd *cmd, int yep, t_args *a)
+int	big_loop(t_cmd *cmd, int yep, t_args *a)
 {
 	t_red	*cur;
 	int		fd[2];
@@ -60,7 +64,8 @@ void	big_loop(t_cmd *cmd, int yep, t_args *a)
 	{
 		if (cur->type == HEREDOC)
 		{
-			pipe_error(pipe(fd));
+			if (pipe_error(pipe(fd)))
+				return (1);
 			cmd->red_lst->heredoc_k--;
 			a->hdoc_size = cmd->red_lst->heredoc_k;
 			a->fd = fd;
@@ -71,7 +76,8 @@ void	big_loop(t_cmd *cmd, int yep, t_args *a)
 				close(fd[0]);
 		}
 		cur = cur->next;
-		if (g_status == 199)
-			break ;
+		if (g_status == 1)
+			return (1);
 	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/03 21:13:41 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/02 16:46:22 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/10 16:38:40 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,27 @@ int	find_last_quote(char *s, char quote)
 	return (0);
 }
 
-void	more_pipes(char *s)
+int	more_pipes(char *s)
 {
 	int	i;
 
 	i = 0;
 	if (*s)
 	{
-		if (*(s) == '|')
-			ft_print_error_and_exit("parse error near '|'\n", EXIT_FAILURE);
+		if (*(s) == '|' || *s == '\0')
+		{
+			ft_putstr("parse error near '|'\n");
+			return (1);
+		}
 		while (*s && *s == ' ')
 			s++;
-		if (*s == '|')
-			ft_print_error_and_exit("parse error near '|'\n", EXIT_FAILURE);
+		if (*s == '|' || *s == '\0')
+		{
+			ft_putstr("parse error near '|'\n");
+			return (1);
+		}
 	}
+	return (0);
 }
 
 t_list	*group_until_pipe(char *s)
@@ -70,14 +77,18 @@ t_list	*group_until_pipe(char *s)
 	if (!s)
 		return (NULL);
 	if (s[0] == '|')
-		ft_print_error_and_exit("parse error near '|'\n", EXIT_FAILURE);
+	{
+		ft_putstr("parse error near '|'\n");
+		return (NULL);
+	}
 	while (s[i])
 	{
 		if (s[i] == '"' || s[i] == '\'')
 			i += find_last_quote(&s[i], s[i]);
 		else if (s[i] == '|')
 		{
-			more_pipes(&s[i + 1]);
+			if (more_pipes(&s[i + 1]))
+				return (NULL);
 			lst_add_last(group, ft_substr_m(s, start, i));
 			start = i + 1;
 		}

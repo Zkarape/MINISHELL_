@@ -6,13 +6,13 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 21:39:09 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/01 15:06:07 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/10 22:15:05 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_export(t_cmd *cmd, t_args *a)
+int	ft_export(t_cmd *cmd, t_args *a)
 {
 	int		i;
 	int		f;
@@ -20,13 +20,13 @@ void	ft_export(t_cmd *cmd, t_args *a)
 	t_env	*env_cur;
 
 	i = 0;
-	f = 0;
-	val = NULL;
 	while (cmd->no_cmd[++i])
 	{
 		val = equality_out_of_quotes(cmd->no_cmd[i]);
 		f = is_in_export_or_not(a->exp_lst, cmd->no_cmd[i], val);
-		if (f == 2 || f == 1)
+		if (f == 1)
+			return (1);
+		if (f == 2)
 			export_pars(cmd->no_cmd[i], a);
 		if (val)
 		{
@@ -38,6 +38,7 @@ void	ft_export(t_cmd *cmd, t_args *a)
 	sort(a->exp_lst);
 	if (!cmd->no_cmd[1])
 		env_lst_print(a->exp_lst);
+	return (0);
 }
 
 void	export_pars(char *s, t_args *a)
@@ -96,6 +97,9 @@ int	is_in_export_or_not(t_env_lst *exp_lst, char *arg, char *val)
 	while (cur->next)
 	{
 		k = until_equal_sign(&cur->data[11]);
+		printf("export ==%s\n", &cur->data[11]);
+//		if (error_checks_for_var(&cur->data[11], k, 0))
+//			return (1);
 		k1 = until_equal_sign(arg);
 		if (k1 > k)
 			k = k1;

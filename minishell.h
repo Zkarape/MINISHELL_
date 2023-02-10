@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:07:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/06 15:25:05 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/10 19:55:06 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ typedef struct s_args
 	char		*file;
 	char		**env;
 	int			size;
+	int			cmd_lst_size;
 	int			(*pipefds)[2];
 	pid_t			*pids;
 	struct termios		term;
@@ -122,18 +123,18 @@ t_cmd_lst	*cmd_lst_construct(void);
 void		cmd_lst_print(t_cmd_lst *list);
 void		cmd_lst_add_last(t_cmd_lst *list);
 t_cmd_lst	*grouping_with_red(t_list *pipe_group, t_args *a);
-void		one_cmd_init(t_node *node, t_cmd_lst *cmd_lst, t_args *a);
-void		find_start_end(char *s, t_cmd *cmd, t_red_lst *red_lst);
+int			one_cmd_init(t_node *node, t_cmd_lst *cmd_lst, t_args *a);
+int			find_start_end(char *s, t_cmd *cmd, t_red_lst *red_lst);
 t_cmd		*cmd_node_initialize(void);
 char		*str_return_trimmed(char *s, int start, int end, char *val);
 int			return_type(char c, char c_next);
 
 //pipeX
 void		execute(t_cmd *cmd, char **env);
-void		forking(int pipefd_in, int pipefd_out, t_cmd *cur, t_args *a);
+pid_t		forking(int pipefd_in, int pipefd_out, t_cmd *cur, t_args *a);
 void		process(int pipefd_in, int pipefd_out, t_cmd *cur, t_args *a);
 void		pipex_main(t_cmd_lst *cmd_lst, t_args *a);
-void		pipe_error(int pip);
+int			pipe_error(int pip);
 //utils
 int			ft_tolower(int c);
 char		*get_environment(char *name, char **env);
@@ -162,7 +163,8 @@ char		*strcpy_noquotes(char *str, char c);
 
 //summerize.c
 t_list		*group_until_pipe(char *s);
-void		more_pipes(char *s);
+int			more_reds(char *s, char c);
+int			more_pipes(char *s);
 char		*ft_substr_m(char *s, int start, int end);
 int			find_last_quote(char *s, char quote);
 void		lst_print(t_list *list);
@@ -175,8 +177,8 @@ int			find_last_quote_with_full_index(char *s, char quote, int i);
 char		*file_trim(char *s, int k, int type);
 char		*less_red(char *s, int st, int end);
 int			is_red(char c);
-void		func_for_reds(t_cmd *cmd_node, t_red *red_node, int yep);
-void		red_big_loop(t_red_lst *red_lst, t_cmd *cmd, int yep);
+int			func_for_reds(t_cmd *cmd_node, t_red *red_node, int yep);
+int			red_big_loop(t_red_lst *red_lst, t_cmd *cmd, int yep);
 void		close_in_out(int fd);
 //error_cases
 void		ft_print_error_and_exit(char *error, int code);
@@ -206,7 +208,7 @@ t_red_lst	*red_lst_construct(void);
 t_red		*red_node_initialize(void);
 t_red		*red_node_initialize_pro(char *file, int type);
 void		red_add(t_red_lst *list, char *file, int type);
-void		big_loop(t_cmd *cmd, int yep, t_args *a);
+int			big_loop(t_cmd *cmd, int yep, t_args *a);
 
 //expanding.c
 int			find_first_quote(char *s, int i);
@@ -238,16 +240,16 @@ void		cmd_expanded(t_cmd_lst *cmd_lst, t_args *args);
 void		cmd_quote_clear(t_cmd_lst *cmd_lst);
 
 //builtins.c
-void		cd(char *path, char **env);
+int			cd(char *path, char **env);
 void		ft_exit(t_cmd *cmd_head);
-int		echo(t_cmd *cmd_node);
-void		env(t_env_lst *env_lst, char *arg, char **envv);
-void		pwd(void);
+int			echo(t_cmd *cmd_node);
+int			env(t_env_lst *env_lst, char *arg, char **envv);
+int			pwd(void);
 char		*ft_strcpy(char *s1, char *s2);
 char		*adding_quotes(char *s);
 char		*equality_out_of_quotes(char *s);
-int		unset(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd_node);
-int			error_checks_for_var(char *s, int until);
+int			unset(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd_node);
+int			error_checks_for_var(char *s, int until, int k);
 int			until_equal_sign(char *s);
 
 //exec_sum_up.c
@@ -258,11 +260,11 @@ int			last_input_work(t_red_lst *red_lst);
 
 //export.c
 t_env_lst	*exp_cpy_env(t_args *a);
-void		ft_export(t_cmd *cmd, t_args *a);
+int			ft_export(t_cmd *cmd, t_args *a);
 void		export_pars(char *s, t_args *a);
 
 //export_utils.c
-int		find_unquoted(char *s);
+int			find_unquoted(char *s);
 char		*adding_quotes(char *s);
 char		*equality_out_of_quotes(char *s);
 void		sort(t_env_lst	*exp_lst);

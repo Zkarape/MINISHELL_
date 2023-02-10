@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:37:14 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/31 20:38:02 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/10 19:31:12 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*equality_out_of_quotes(char *s)
 			i += find_last_quote(&s[i], s[i]);
 		else if (s[i] == '=')
 		{
-			if (!error_checks_for_var(s, i))
+			if (error_checks_for_var(s, i, 1))
 				return (NULL);
 			return (&s[i + 1]);
 		}

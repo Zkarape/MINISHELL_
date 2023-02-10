@@ -6,11 +6,13 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:56:46 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/01 16:38:53 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/10 19:55:18 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_status;
 
 int	build(t_cmd *cmd, t_args *a)
 {
@@ -20,7 +22,7 @@ int	build(t_cmd *cmd, t_args *a)
 	if (i)
 	{
 		if (!ft_strncmp(cmd->no_cmd[0], "exit", 5))
-			g_status = ft_exit(cmd);
+			ft_exit(cmd);
 		else if (!ft_strncmp(ft_str_tolower(cmd->no_cmd[0]), "env", 4))
 			g_status = env(a->env_lst, cmd->no_cmd[1], a->env);
 		else if (!ft_strncmp(ft_str_tolower(cmd->no_cmd[0]), "pwd", 4))

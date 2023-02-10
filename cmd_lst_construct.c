@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:46:18 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/30 21:24:56 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/10 18:01:02 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,26 @@ t_cmd	*cmd_node_initialize(void)
 	return (node);
 }
 
-void	more_reds(char *s, char c)
+int	more_reds(char *s, char c)
 {
-	int	i;
-
-	i = 0;
-	if (*s)
+	if (s)
 	{
-		if (*(s) == c)
-			ft_print_error_and_exit("parse error near '<'\n", EXIT_FAILURE);
+		if (*s == c || *s == '\0')
+		{
+			ft_putstr("parse error near ");
+			write(1, &c, 1);
+			write(1, "\n", 1);
+			return (1);
+		}
 		while (*s && *s == ' ')
 			s++;
-		if (*s == c)
-			ft_print_error_and_exit("parse error near '<'\n", EXIT_FAILURE);
+		if (*s == c || *s == '\0')
+		{
+			ft_putstr("parse error near ");
+			write(1, &c, 1);
+			write(1, "\n", 1);
+			return (1);
+		}
 	}
+	return (0);
 }

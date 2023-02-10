@@ -1,7 +1,7 @@
 UNAME = $(shell uname -s)
 NAME = minishell
 CC = cc
-CFLAGS = -c -Wall -Wextra -g -ggdb3 -I ./readline-zkarapet/include 
+CFLAGS = -g -ggdb3 -I ./readline-zkarapet/include #-Wall -Wextra 
 PREFIX = "${shell find ${HOME} -name readline-zkarapet 2>/dev/null}"
 SRCS = $(wildcard *.c)
 OBJS = $(SRCS:.c=.o)
@@ -14,8 +14,11 @@ endif
 
 all: $(NAME)
 
+%.o : %.c
+	$(CC) $(CFLAGS) -o $@ -c $< 
+
 $(NAME): $(OBJS)
-	$(CC) $(OBJS) $(READLINE) -o $(NAME)
+	$(CC) $(READLINE) $(OBJS) -o $(NAME)
 
 lib:
 	cd libft && make 

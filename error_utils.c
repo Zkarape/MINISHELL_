@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 14:30:41 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/01 15:28:32 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/10 16:00:11 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,14 @@ void	ft_putstr(char *str)
 	write(1, str, len);
 }
 
-void	pipe_error(int pip)
+int	pipe_error(int pip)
 {
 	if (pip < 0)
+	{
 		perror("pipe() returns -1\n");
+		return (1);
+	}
+	return (0);
 }
 
 void	ft_print_error_and_exit(char *error, int code)
@@ -47,7 +51,7 @@ void	ft_print_error_with_arg(char *cmd, char *arg, int code)
 	s1 = ft_strjoin_m(cmd, ": ");
 	s2 = ft_strjoin_m(arg, ": ");
 	msg = ft_strjoin3(s1, s2, "No such file or directory\n");
-	ft_print_error_and_exit(msg, code);
+	ft_putstr(msg);
 }
 
 int	parsing_error_checks(char *s, int x)

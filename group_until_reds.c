@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:11 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/01 15:18:54 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/10 15:59:56 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,35 +29,35 @@ int	return_type(char c, char c_next)
 		else
 			return (4);
 	}
-	return (8);
+	return (42);
 }
 
-void	ankap_checks(int *i, char *s, int type, int *start)
+int	ankap_checks(int *i, char *s, int type, int *start)
 {
 	if (type == 2 || type == 3)
 		(*i)++;
-	more_reds(&s[*i], '<');
-	more_reds(&s[*i], '>');
+	if (more_reds(&s[*i + 1], '<') || more_reds(&s[*i + 1], '>'))
+		return (1);
 	while (ft_is_space(s[*i + 1]))
 		(*i)++;
 	*start = *i;
 	while (s[*i + 1] && !ft_is_space(s[*i + 1]) && !is_red(s[*i + 1]))
 		(*i)++;
+	return (0);
 }
 
-void	find_start_end(char *s, t_cmd *cmd_node, t_red_lst *red_lst)
+int	find_start_end(char *s, t_cmd *cmd_node, t_red_lst *red_lst)
 {
 	int		i;
 	int		start;
 	int		end;
-	char		*str;
+	char	*str;
 	int		type;
 
 	i = -1;
 	start = 0;
 	end = -1;
 	str = NULL;
-	type = 0;
 	while (s[++i])
 	{
 		if (s[i] == '\'' || s[i] == '"')
@@ -66,15 +66,17 @@ void	find_start_end(char *s, t_cmd *cmd_node, t_red_lst *red_lst)
 		{
 			str = ft_strjoin2(str, s, i, end + 1);
 			type = return_type(s[i], s[i + 1]);
-			ankap_checks(&i, s, type, &start);
+			if (ankap_checks(&i, s, type, &start))
+				return (1);
 			end = i;
 			red_add(red_lst, file_trim(&s[start + 1], end - start, type), type);
 		}
 	}
 	cmd_node->args = ft_strjoin2(str, s, i, end + 1);
+	return (0);
 }
 
-void	one_cmd_init(t_node *node, t_cmd_lst *cmd_lst, t_args *a)
+int	one_cmd_init(t_node *node, t_cmd_lst *cmd_lst, t_args *a)
 {
 	char		*s;
 	int			yep;
@@ -84,11 +86,15 @@ void	one_cmd_init(t_node *node, t_cmd_lst *cmd_lst, t_args *a)
 	s = node->data;
 	cmd_lst_add_last(cmd_lst);
 	red_lst = red_lst_construct();
-	find_start_end(s, cmd_lst->tail, red_lst);
+	if (find_start_end(s, cmd_lst->tail, red_lst))
+		return (1);
 	cmd_lst->tail->red_lst = red_lst;
 	yep = last_input_work(red_lst);
-	big_loop(cmd_lst->tail, yep, a);
-	red_big_loop(red_lst, cmd_lst->tail, yep);
+	if (big_loop(cmd_lst->tail, yep, a))
+		return (1);
+	if (red_big_loop(red_lst, cmd_lst->tail, yep))
+		return (1);
+	return (0);
 }
 
 t_cmd_lst	*grouping_with_red(t_list *pipe_group, t_args *a)
@@ -102,7 +108,8 @@ t_cmd_lst	*grouping_with_red(t_list *pipe_group, t_args *a)
 	cur = pipe_group->head;
 	while (cur)
 	{
-		one_cmd_init(cur, cmd_lst, a);
+		if (one_cmd_init(cur, cmd_lst, a))
+			return (NULL);
 		cur = cur->next;
 	}
 	return (cmd_lst);

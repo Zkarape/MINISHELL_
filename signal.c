@@ -42,8 +42,9 @@ void	sig_control(int a)
 	}
 	else if (a == 1)
 	{
-		init_term();
+//		init_term();
 		signal(SIGINT, sigint_handler);
+		printf("dgchhhvcsh\n");
 		signal(SIGQUIT, SIG_IGN);
 	}
 	else if (a == 2)
@@ -57,8 +58,9 @@ void	sigint_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		g_status = 199;
+		g_status = 130;
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		//if (g_status == -5)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 	}

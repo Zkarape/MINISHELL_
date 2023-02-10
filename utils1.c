@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 13:35:56 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/01 15:22:21 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/10 16:20:12 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,13 @@ char	**from_lst_to_dbl(t_env_lst *env_lst)
 	i = 0;
 	env = env_lst->head->next;
 	arr = malloc(sizeof(char *) * (env_lst->size + 1));
+	if (!arr)
+		exit(1);
 	while (env->next)
 	{
 		arr[i] = malloc(sizeof(char) * (ft_strlen(env->data) + 1));
+		if (ft_check_alloc(arr, arr[i], i))
+			exit(1);
 		ft_strcpy(arr[i++], env->data);
 		env = env->next;
 	}

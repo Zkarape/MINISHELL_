@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/06 15:52:03 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/10 21:57:40 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,33 @@ void	parsing(char **env_, t_args *args)
 	args->env_lst = getting_env(env_);
 	args->exp_lst = env_lst_construct();
 	args->exp_lst = exp_cpy_env(args);
+	env_lst_add_last(args->exp_lst, "?");
 	sig_control(1);
 	while (1)
 	{
 		s = readline("minishell$ ");
-	//	if (!s)
-	//	{
-	//		write(1, "exit\n", 5);
-	//		exit(g_status);
-	//	}
-		add_history(s);
+		if (g_status == 130)
+		{
+			g_status = -2;
+			continue ;
+		}
+		if (!s)
+		{
+			write(1, "exit\n", 5);
+			exit(g_status);
+		}
+		if (*s)
+			add_history(s);
 		lst = group_until_pipe(s);
+		if (!lst)
+			continue ;
 		cmd_lst = grouping_with_red(lst, args);
+		if (!cmd_lst)
+			continue ;
 		cmd_expanded(cmd_lst, args);
 		cmd_quote_clear(cmd_lst);
 		args->env = from_lst_to_dbl(args->env_lst);
 		pipex_main(cmd_lst, args);
-		sig_control(1);
 	}
 }
 
@@ -97,6 +107,8 @@ void	cmd_quote_clear(t_cmd_lst *cmd_lst)
 	while (cur)
 	{
 		arr = split(cur->args, ' ');
+		if (!arr)
+			exit(1);
 		cur->no_cmd = no_cmd_clear(arr);
 		cur = cur->next;
 	}

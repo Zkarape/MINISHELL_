@@ -6,13 +6,28 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/06 15:48:12 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/10 21:08:11 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	forking_separately(t_args *a, t_cmd *cur, pid_t *pids, int size)
+void	checking_fork(t_args *a, pid_t forking)
+{
+	static int	i;
+	int			j;
+
+	i = 0;
+	j = -1;
+	a->pids[i] = forking;
+	if (forking < 0)
+	{
+		while (a->pids[++j] != a->pids[i])
+			kill(a->pids[j], 0);
+	}
+}
+
+void	forking_separately(t_args *a, t_cmd *cur, int size)
 {
 	int	i;
 	int	j;
@@ -20,27 +35,27 @@ void	forking_separately(t_args *a, t_cmd *cur, pid_t *pids, int size)
 
 	i = 0;
 	j = 0;
+	b = 0;
 	a->size = size - 1;
-	a->pids = malloc(sizeof(*a->pids) * (cmd_lst->size));
+	a->pids = malloc(sizeof(*a->pids) * (size));
 	if (size == 1)
 	{
 		b = build(cur, a);
 		if (!b)
-			forking(cur->fd_in, cur->fd_out, cmd_lst->size - 1,
-				env, cur, NULL, env_lst,exp_lst);
+			checking_fork(a, forking(cur->fd_in, cur->fd_out, cur, a));
 	}
 	else
 	{
-		pids[j++] = forking(cur->fd_in, a->pipefds[0][1], cur, a);
+		checking_fork(a, forking(cur->fd_in, a->pipefds[0][1], cur, a));
 		cur = cur->next;
 		while (cur->next)
 		{
-			pids[j++] = forking(a->pipefds[i][0], a->pipefds[i + 1][1], cur, a);
+			checking_fork(a, forking(a->pipefds[i][0], a->pipefds[i + 1][1], cur, a));
 			if (i < size - 2)
 				i++;
 			cur = cur->next;
 		}
-		pids[j] = forking(a->pipefds[i][0], cur->fd_out, cur, a);
+		checking_fork(a, forking(a->pipefds[i][0], cur->fd_out, cur, a));
 		i = -1;
 		while (++i < size - 1)
 		{
@@ -59,6 +74,7 @@ void	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 
 	i = -1;
 	cur = cmd_lst->head;
+	a->cmd_lst_size = cmd_lst->size;
 	if (!cur)
 		ft_print_error_and_exit("nooooooooo\n", 1);
 	pipefds = malloc(sizeof(*pipefds) * (cmd_lst->size - 1));
@@ -68,7 +84,7 @@ void	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 		a->pipefds = NULL;
 	else
 		a->pipefds = pipefds;
-	forking_separately(a, cur, pids, cmd_lst->size);
+	forking_separately(a, cur, cmd_lst->size);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	cur = cmd_lst->head;
@@ -82,10 +98,10 @@ void	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 pid_t	forking(int pipefd_in, int pipefd_out, t_cmd *cur, t_args *a)
 {
 	pid_t	pid;
+	int		i;
 
+	i = -1;
 	pid = fork();
-	if (pid < 0)
-		ft_print_error_and_exit("fork failed\n", 1);
 	if (pid == 0)
 	{
 		sig_control(0);
@@ -125,6 +141,7 @@ void	execute(t_cmd *cmd, char **env)
 
 	i = 0;
 	absolue_path = NULL;
+	printf("helllooooooooooooooy\n");
 	execve(cmd->no_cmd[0], cmd->no_cmd, env);
 	paths = get_environment("PATH=", env);
 	path = split(paths, ':');
