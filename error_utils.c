@@ -49,3 +49,18 @@ void	ft_print_error_with_arg(char *cmd, char *arg, int code)
 	msg = ft_strjoin3(s1, s2, "No such file or directory\n");
 	ft_print_error_and_exit(msg, code);
 }
+
+int	parsing_error_checks(char *s, int x)
+{
+	if (!find_unquoted(s))
+	{
+		ft_print_error_and_exit("Missing quote\n", 1);
+		return (1);
+	}
+	else if (!last_pipe_check(s))
+	{
+		ft_print_error_and_exit("Parsing error near '|'\n", 1);
+		return (1);
+	}
+	return (0);
+}

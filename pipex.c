@@ -12,26 +12,35 @@
 
 #include "minishell.h"
 
-void	forking_separately(t_args *a, t_cmd *cur, int size)
+void	forking_separately(t_args *a, t_cmd *cur, pid_t *pids, int size)
 {
 	int	i;
+	int	j;
+	int	b;
 
 	i = 0;
+	j = 0;
 	a->size = size - 1;
+	a->pids = malloc(sizeof(*a->pids) * (cmd_lst->size));
 	if (size == 1)
-		forking(cur->fd_in, cur->fd_out, cur, a);
+	{
+		b = build(cur, a);
+		if (!b)
+			forking(cur->fd_in, cur->fd_out, cmd_lst->size - 1,
+				env, cur, NULL, env_lst,exp_lst);
+	}
 	else
 	{
-		forking(cur->fd_in, a->pipefds[0][1], cur, a);
+		pids[j++] = forking(cur->fd_in, a->pipefds[0][1], cur, a);
 		cur = cur->next;
 		while (cur->next)
 		{
-			forking(a->pipefds[i][0], a->pipefds[i + 1][1], cur, a);
+			pids[j++] = forking(a->pipefds[i][0], a->pipefds[i + 1][1], cur, a);
 			if (i < size - 2)
 				i++;
 			cur = cur->next;
 		}
-		forking(a->pipefds[i][0], cur->fd_out, cur, a);
+		pids[j] = forking(a->pipefds[i][0], cur->fd_out, cur, a);
 		i = -1;
 		while (++i < size - 1)
 		{
@@ -59,7 +68,7 @@ void	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 		a->pipefds = NULL;
 	else
 		a->pipefds = pipefds;
-	forking_separately(a, cur, cmd_lst->size);
+	forking_separately(a, cur, pids, cmd_lst->size);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	cur = cmd_lst->head;
@@ -67,20 +76,22 @@ void	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 	i = -1;
 	while (++i < cmd_lst->size)
 		waitpid(-1, &status, 0);
+	g_status = status;
 }
 
-void	forking(int pipefd_in, int pipefd_out, t_cmd *cur, t_args *a)
+pid_t	forking(int pipefd_in, int pipefd_out, t_cmd *cur, t_args *a)
 {
-	pid_t	child;
+	pid_t	pid;
 
-	child = fork();
-	if (child < 0)
+	pid = fork();
+	if (pid < 0)
 		ft_print_error_and_exit("fork failed\n", 1);
-	if (child == 0)
+	if (pid == 0)
 	{
 		sig_control(0);
 		process(pipefd_in, pipefd_out, cur, a);
 	}
+	return (pid);
 }
 
 void	process(int pipefd_in, int pipefd_out, t_cmd *cmd, t_args *a)

@@ -36,6 +36,8 @@ void	ankap_checks(int *i, char *s, int type, int *start)
 {
 	if (type == 2 || type == 3)
 		(*i)++;
+	more_reds(&s[*i], '<');
+	more_reds(&s[*i], '>');
 	while (ft_is_space(s[*i + 1]))
 		(*i)++;
 	*start = *i;
@@ -48,7 +50,7 @@ void	find_start_end(char *s, t_cmd *cmd_node, t_red_lst *red_lst)
 	int		i;
 	int		start;
 	int		end;
-	char	*str;
+	char		*str;
 	int		type;
 
 	i = -1;

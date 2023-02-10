@@ -20,19 +20,19 @@ int	build(t_cmd *cmd, t_args *a)
 	if (i)
 	{
 		if (!ft_strncmp(cmd->no_cmd[0], "exit", 5))
-			ft_exit(cmd);
+			g_status = ft_exit(cmd);
 		else if (!ft_strncmp(ft_str_tolower(cmd->no_cmd[0]), "env", 4))
-			env(a->env_lst, cmd->no_cmd[1], a->env);
+			g_status = env(a->env_lst, cmd->no_cmd[1], a->env);
 		else if (!ft_strncmp(ft_str_tolower(cmd->no_cmd[0]), "pwd", 4))
-			pwd();
+			g_status = pwd();
 		else if (!ft_strncmp(cmd->no_cmd[0], "cd", 3))
-			cd(cmd->no_cmd[1], a->env);
+			g_status = cd(cmd->no_cmd[1], a->env);
 		else if (!ft_strncmp(ft_str_tolower(cmd->no_cmd[0]), "echo", 5))
-			echo(cmd);
+			g_status = echo(cmd);
 		else if (!ft_strncmp(cmd->no_cmd[0], "unset", 6))
-			unset(a->env_lst, a->exp_lst, cmd);
+			g_status = unset(a->env_lst, a->exp_lst, cmd);
 		else if (!ft_strncmp(cmd->no_cmd[0], "export", 7))
-			ft_export(cmd, a);
+			g_status = ft_export(cmd, a);
 		else
 			i = 0;
 	}

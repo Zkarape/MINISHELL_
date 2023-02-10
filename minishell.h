@@ -113,6 +113,7 @@ typedef struct s_args
 	char		**env;
 	int			size;
 	int			(*pipefds)[2];
+	pid_t			*pids;
 	struct termios		term;
 }	t_args;
 
@@ -239,13 +240,13 @@ void		cmd_quote_clear(t_cmd_lst *cmd_lst);
 //builtins.c
 void		cd(char *path, char **env);
 void		ft_exit(t_cmd *cmd_head);
-void		echo(t_cmd *cmd_node);
+int		echo(t_cmd *cmd_node);
 void		env(t_env_lst *env_lst, char *arg, char **envv);
 void		pwd(void);
 char		*ft_strcpy(char *s1, char *s2);
 char		*adding_quotes(char *s);
 char		*equality_out_of_quotes(char *s);
-void		unset(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd_node);
+int		unset(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd_node);
 int			error_checks_for_var(char *s, int until);
 int			until_equal_sign(char *s);
 
@@ -261,6 +262,7 @@ void		ft_export(t_cmd *cmd, t_args *a);
 void		export_pars(char *s, t_args *a);
 
 //export_utils.c
+int		find_unquoted(char *s);
 char		*adding_quotes(char *s);
 char		*equality_out_of_quotes(char *s);
 void		sort(t_env_lst	*exp_lst);
@@ -277,4 +279,7 @@ void	sig_control(int a);
 void	sigint_handler(int sig);
 void	sig_handler_hdoc(int sig);
 void	sigquit_handler(int sig);
+
+//utils2.c
+int	last_pipe_check(char *s);
 #endif
