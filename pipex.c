@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/10 21:08:11 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/13 21:30:15 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,27 @@ void	checking_fork(t_args *a, pid_t forking)
 	{
 		while (a->pids[++j] != a->pids[i])
 			kill(a->pids[j], 0);
+	}
+}
+//A process terminates normally when its program signals it is done by calling exit. Returning from main is equivalent to calling exit, and the value that main returns is used as the argument to exit. WIFEXITED(status) checks if child terminated normally, WEXITSTATUS(status) generates exit status of child, WTERMSIG(status) macro returns the numeric value of the signal that was raised by the child process
+
+void	processing_status(t_args *a, int size)
+{
+	pid_t	pid;
+	int		i;
+	int 	status;
+
+	i = -1;
+	while (++i < size)
+	{
+		pid = waitpid(-1, &status, 0);
+		if (pid == a->pids[size - 1])
+		{
+			if (!WTERMSIG(status))//child completed successfully
+				g_status = WEXITSTATUS(status);
+			else//terminated with failure
+				g_status = WTERMSIG(status) + 128;
+		}
 	}
 }
 
@@ -76,7 +97,7 @@ void	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 	cur = cmd_lst->head;
 	a->cmd_lst_size = cmd_lst->size;
 	if (!cur)
-		ft_print_error_and_exit("nooooooooo\n", 1);
+		return ;
 	pipefds = malloc(sizeof(*pipefds) * (cmd_lst->size - 1));
 	while (++i < cmd_lst->size - 1)
 		pipe_error(pipe(pipefds[i]));
@@ -85,14 +106,9 @@ void	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 	else
 		a->pipefds = pipefds;
 	forking_separately(a, cur, cmd_lst->size);
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
 	cur = cmd_lst->head;
 	closing(cur);
-	i = -1;
-	while (++i < cmd_lst->size)
-		waitpid(-1, &status, 0);
-	g_status = status;
+	processing_status(a, cmd_lst->size);
 }
 
 pid_t	forking(int pipefd_in, int pipefd_out, t_cmd *cur, t_args *a)
@@ -107,6 +123,8 @@ pid_t	forking(int pipefd_in, int pipefd_out, t_cmd *cur, t_args *a)
 		sig_control(0);
 		process(pipefd_in, pipefd_out, cur, a);
 	}
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	return (pid);
 }
 
@@ -141,7 +159,6 @@ void	execute(t_cmd *cmd, char **env)
 
 	i = 0;
 	absolue_path = NULL;
-	printf("helllooooooooooooooy\n");
 	execve(cmd->no_cmd[0], cmd->no_cmd, env);
 	paths = get_environment("PATH=", env);
 	path = split(paths, ':');
@@ -155,5 +172,5 @@ void	execute(t_cmd *cmd, char **env)
 		}
 	}
 	else
-		ft_print_error_and_exit("execute() error\n", 1);
+		ft_print_error_and_exit("execute() error\n", 127);
 }

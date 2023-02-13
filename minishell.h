@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:07:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/10 19:55:06 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/13 21:16:00 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <termios.h>
 # include <sys/types.h>
 # include <sys/ioctl.h>
+# include <sys/wait.h>
+# include <sys/signal.h>
 # include "readline/readline.h"
 # include "readline/history.h"
 
@@ -158,6 +160,7 @@ int			ft_check_alloc(char **split, char *str, int index);
 char		**split(char *s, char c);
 
 //quote_checks
+char		*removing_fst_lst_dbl_quotes(char *s);
 int			find_d_unquote(char *s);
 char		*strcpy_noquotes(char *str, char c);
 
@@ -277,7 +280,7 @@ void		error_dup(int du);
 int			build(t_cmd *cmd, t_args *a);
 //signal_handling.c
 void	ft_putendl_fd(char *s, int fd);
-void	sig_control(int a);
+int		sig_control(int a);
 void	sigint_handler(int sig);
 void	sig_handler_hdoc(int sig);
 void	sigquit_handler(int sig);

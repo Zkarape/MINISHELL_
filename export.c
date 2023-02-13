@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 21:39:09 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/10 22:15:05 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/13 21:53:05 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	ft_export(t_cmd *cmd, t_args *a)
 			env_lst_add_last(a->env_lst, cmd->no_cmd[i]);
 		}
 	}
-	sort(a->exp_lst);
 	if (!cmd->no_cmd[1])
 		env_lst_print(a->exp_lst);
 	return (0);
@@ -97,7 +96,6 @@ int	is_in_export_or_not(t_env_lst *exp_lst, char *arg, char *val)
 	while (cur->next)
 	{
 		k = until_equal_sign(&cur->data[11]);
-		printf("export ==%s\n", &cur->data[11]);
 //		if (error_checks_for_var(&cur->data[11], k, 0))
 //			return (1);
 		k1 = until_equal_sign(arg);

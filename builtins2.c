@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 20:05:06 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/10 22:12:33 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/13 20:58:00 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	error_checks_for_var(char *s, int until, int flag)
 		if (!is_num(s[i]) && s[i] != '_' && !is_alpha(s[i]))
 		{
 			ft_putstr(s);
-			ft_putstr(": not a valid identiwevvhfjbdiebdjcfier\n");
+			ft_putstr(": not a valid identifier\n");
 			return (1);
 		}
 		i++;
