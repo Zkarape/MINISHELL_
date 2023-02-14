@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:07:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/13 21:16:00 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/14 22:13:54 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ int			func_for_reds(t_cmd *cmd_node, t_red *red_node, int yep);
 int			red_big_loop(t_red_lst *red_lst, t_cmd *cmd, int yep);
 void		close_in_out(int fd);
 //error_cases
+int			parsing_error_checks(char *s);
 void		ft_print_error_and_exit(char *error, int code);
 void		ft_print_error_with_arg(char *cmd, char *arg, int code);
 int			is_num(char c);
@@ -279,12 +280,15 @@ void		error_dup(int du);
 //builtin_main.c
 int			build(t_cmd *cmd, t_args *a);
 //signal_handling.c
-void	ft_putendl_fd(char *s, int fd);
-int		sig_control(int a);
-void	sigint_handler(int sig);
-void	sig_handler_hdoc(int sig);
-void	sigquit_handler(int sig);
+void		sig_handler_child(int sig);
+void		ft_putendl_fd(char *s, int fd);
+int			sig_control(int a);
+void		sigint_handler(int sig);
+void		sig_handler_hdoc(int sig);
+void		sigquit_handler(int sig);
 
 //utils2.c
-int	last_pipe_check(char *s);
+int			last_pipe_check(char *s);
+char		*ft_itoa(int n);
+void		update_status(t_args *args);
 #endif

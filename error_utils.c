@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 14:30:41 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/10 16:00:11 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/14 19:38:55 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	pipe_error(int pip)
 void	ft_print_error_and_exit(char *error, int code)
 {
 	ft_putstr(error);
+//	g_status = code;
 	exit(code);
 }
 
@@ -54,16 +55,16 @@ void	ft_print_error_with_arg(char *cmd, char *arg, int code)
 	ft_putstr(msg);
 }
 
-int	parsing_error_checks(char *s, int x)
+int	parsing_error_checks(char *s)
 {
 	if (!find_unquoted(s))
 	{
-		ft_print_error_and_exit("Missing quote\n", 1);
+		ft_putstr_fd("Missing quote\n", 1, 0);
 		return (1);
 	}
 	else if (!last_pipe_check(s))
 	{
-		ft_print_error_and_exit("Parsing error near '|'\n", 1);
+		ft_putstr_fd("Parsing error near '|'\n", 1, 0);
 		return (1);
 	}
 	return (0);

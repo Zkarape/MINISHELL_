@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/13 21:30:15 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/14 22:21:05 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,13 @@ void	processing_status(t_args *a, int size)
 			if (!WTERMSIG(status))//child completed successfully
 				g_status = WEXITSTATUS(status);
 			else//terminated with failure
+			{
 				g_status = WTERMSIG(status) + 128;
+				if (g_status == 130)
+					write(1, "\n", 1);
+				else if (g_status == 131)
+					ft_putstr_fd("Quit 3", 1, 1);
+			}
 		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:27:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/13 22:25:24 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/14 17:56:40 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ char	*filling_with_nulls(char *s)
 	null_count = 0;
 	while (s[++i])
 	{
-		if ((s[i] == '\'' || s[i] == '"') &&
-			//	find_last_quote(&s[i], s[i]) != ft_strlen(&s[i]))
+		if ((s[i] == '\'' || s[i] == '"') && find_last_quote(&s[i], s[i]))
 		{
 			quote = s[i];
 			s[i] = '\0';

@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/13 21:35:32 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/14 21:46:37 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ void	parsing(char **env_, t_args *args)
 	args->env_lst = getting_env(env_);
 	args->exp_lst = env_lst_construct();
 	args->exp_lst = exp_cpy_env(args);
-	sort(args->exp_lst);
-//	export_pars("?=0", args);
+	env_lst_add_last(args->exp_lst, "declare -x ?=\"0\"");
 //	env_lst_print(args->exp_lst);
 	while (1)
 	{
@@ -39,6 +38,7 @@ void	parsing(char **env_, t_args *args)
 			write(1, "exit\n", 5);
 			exit(g_status);
 		}
+		parsing_error_checks(s);
 		if (*s)
 			add_history(s);
 		lst = group_until_pipe(s);
@@ -51,6 +51,7 @@ void	parsing(char **env_, t_args *args)
 		cmd_quote_clear(cmd_lst);
 		args->env = from_lst_to_dbl(args->env_lst);
 		pipex_main(cmd_lst, args);
+		update_status(args);
 	}
 }
 
@@ -84,6 +85,21 @@ char	**no_cmd_clear(char **arr)
 		arr[i] = str;
 	}
 	return (arr);
+}
+
+void	update_status(t_args *a)
+{
+	t_env	*cur;
+
+	cur = a->exp_lst->head->next;
+	while (cur->next)
+	{
+		if (cur->data[11] == '?')
+			remove_from_between(cur, a->exp_lst);
+		cur = cur->next;
+	}
+	env_lst_add_last(a->exp_lst, ft_strjoin3("declare -x ?=\"",
+		ft_itoa(g_status), "\""));
 }
 
 void	printer(char **arr)
