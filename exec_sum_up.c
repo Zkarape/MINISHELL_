@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:03:48 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/28 17:03:07 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/15 19:53:09 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	dup_in_or_not_ttq(t_cmd *cur, int pipe_fd_in)
 	{
 		if (cur->hdoc_fd > 0)
 			pipe_fd_in = cur->hdoc_fd;
+		printf("dup2      %d\n", pipe_fd_in);
 		if (dup2(pipe_fd_in, STDIN_FILENO) < 0)
 			ft_print_error_and_exit("dup2 failed in fd_in\n", 1);
 	}

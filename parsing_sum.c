@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/14 21:46:37 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/15 20:02:49 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	parsing(char **env_, t_args *args)
 		cmd_expanded(cmd_lst, args);
 		cmd_quote_clear(cmd_lst);
 		args->env = from_lst_to_dbl(args->env_lst);
+		// printf("%s\n", cmd_lst->head->no_cmd);
 		pipex_main(cmd_lst, args);
 		update_status(args);
 	}

@@ -76,6 +76,6 @@ char	*removing_fst_lst_dbl_quotes(char *s)
 	dst = malloc(sizeof(char) * len - 1);
 	while (++i < len - 1)
 		dst[i - 1] = s[i];
-	dst[i] = '\0';
+	dst[i - 1] = '\0';
 	return (dst);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/15 22:56:51 by zkarapet          #+#    #+#             */
+/*   Updated: 2023/02/15 22:57:17 by zkarapet         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	change_pwd(char *var_name, char *cwd, t_args *a)
@@ -10,8 +22,8 @@ void	change_pwd(char *var_name, char *cwd, t_args *a)
 	cur = is_in_env_or_not(a->env_lst, str);
 	if (cur)
 	{
-		remove_cur_env_node(cur, a->env_lst);
-		remove_cur_env_node(cur, a->exp_lst);
+		remove_from_between(cur, a->env_lst);
+		remove_from_between(cur, a->exp_lst);
 		export_pars(str, a);
 		env_lst_add_last(a->env_lst, str);
 	}

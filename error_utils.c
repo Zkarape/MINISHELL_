@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 14:30:41 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/14 19:38:55 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/15 20:04:02 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	pipe_error(int pip)
 void	ft_print_error_and_exit(char *error, int code)
 {
 	ft_putstr(error);
-//	g_status = code;
+	g_status = code;
 	exit(code);
 }
 

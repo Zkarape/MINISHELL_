@@ -78,6 +78,7 @@ char	*expand(char *s, t_args *args)
 	str = NULL;
 	args->start = 0;
 	args->hdoc_flg = 0;
+	printf("%s\n", s);
 	while (s[++args->i])
 	{
 		if (s[args->i] == '"')

@@ -80,7 +80,7 @@ char	*ft_str_tolower(char *s)
 	char	*str;
 
 	i = -1;
-	str = malloc(sizeof(ft_strlen(s) + 1));
+	str = malloc(ft_strlen(s) + 1);
 	while (s[++i])
 		str[i] = ft_tolower(s[i]);
 	str[i] = '\0';
