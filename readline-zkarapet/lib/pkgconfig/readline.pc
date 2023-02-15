@@ -1,4 +1,4 @@
-prefix=/Users/zkarapet/Desktop/MINISHELL_/readline-zkarapet
+prefix=/home/zkarapet/Desktop/MINISHELL_/readline-zkarapet
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include

@@ -67,18 +67,3 @@ int	pwd(void)
 	}
 	return (0);
 }
-
-int	cd(char *path, char **env)
-{
-	if (!path)
-	{
-		if (chdir(get_environment("HOME=", env)))
-			ft_print_error_with_arg("cd", path, 1);
-	}
-	else
-	{
-		if (chdir(path))
-			ft_print_error_with_arg("cd", path, 1);
-	}
-	return (0);
-}

@@ -12,7 +12,7 @@
 
 #include "minishell.h"	
 
-int g_status = -2;
+//int g_status = -2;
 
 void	heredoc(t_cmd *cmd, int yep, t_args *a)
 {

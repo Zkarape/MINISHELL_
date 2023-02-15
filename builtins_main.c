@@ -28,7 +28,7 @@ int	build(t_cmd *cmd, t_args *a)
 		else if (!ft_strncmp(ft_str_tolower(cmd->no_cmd[0]), "pwd", 4))
 			g_status = pwd();
 		else if (!ft_strncmp(cmd->no_cmd[0], "cd", 3))
-			g_status = cd(cmd->no_cmd[1], a->env);
+			g_status = cd(cmd->no_cmd[1], a->env, a);
 		else if (!ft_strncmp(ft_str_tolower(cmd->no_cmd[0]), "echo", 5))
 			g_status = echo(cmd);
 		else if (!ft_strncmp(cmd->no_cmd[0], "unset", 6))
