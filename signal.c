@@ -34,7 +34,10 @@ void	sig_control(int a)
 	else if (a == 1)
 	{
 		init_term();
-		signal(SIGINT, sigint_handler);
+		if (g_status == -5)
+			signal(SIGINT, SIG_IGN);
+		else	
+			signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
 	//	return (1);
 	}
@@ -66,16 +69,4 @@ void	sig_handler_hdoc(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 	}
-}
-
-void	sig_handler_child(int sig)
-{
-	if (sig == SIGINT)
-		write(1, "\n", 1);
-}
-
-void	sigquit_handler(int sig)
-{
-	if (sig == SIGQUIT)
-		write(1, "Quit 3\n", 7);
 }

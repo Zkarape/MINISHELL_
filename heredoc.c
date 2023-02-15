@@ -6,7 +6,7 @@
 /*   By: aivanyan <aivanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:32:53 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/10 16:49:10 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/16 01:24:05 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	heredoc(t_cmd *cmd, int yep, t_args *a)
 		if (!s)
 		{	
 			g_status = -5; 
+			rl_replace_line("hsdbv", 0);
+			printf("s == %s\n", s);
 			break ;
 		}
 		if (g_status == -42)
