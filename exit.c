@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 19:51:16 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/10 19:10:11 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/15 23:22:08 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	check_long_long(char *s)
 void	ft_exit(t_cmd *cmd_head)
 {
 	long long	x;
-	int			ret_val;
 	int			i;
 
 	i = -1;

@@ -20,7 +20,7 @@ void	reset_term()
 	tcsetattr(0, 0, &term);
 }
 
-int	sig_control(int a)
+void	sig_control(int a)
 {
 	if (a == 0)
 	{

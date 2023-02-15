@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:07:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/15 19:57:12 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/16 00:48:59 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ void		close_in_out(int fd);
 //error_cases
 int			parsing_error_checks(char *s);
 void		ft_print_error_and_exit(char *error, int code);
-void		ft_print_error_with_arg(char *cmd, char *arg, int code);
+void		ft_print_error_with_arg(char *cmd, char *arg);
 int			is_num(char c);
 int			is_alpha(char c);
 void		ft_putstr(char *str);
@@ -273,6 +273,7 @@ char		*adding_quotes(char *s);
 char		*equality_out_of_quotes(char *s);
 void		sort(t_env_lst	*exp_lst);
 t_env		*is_in_env_or_not(t_env_lst *env_lst, char *arg);
+t_env		*is_in_exp_or_not(t_env_lst *exp_lst, char *arg);
 int			is_in_export_or_not(t_env_lst *exp_lst, char *arg, char *val);
 //error
 void		error_dup(int du);
@@ -282,7 +283,7 @@ int			build(t_cmd *cmd, t_args *a);
 //signal_handling.c
 void		sig_handler_child(int sig);
 void		ft_putendl_fd(char *s, int fd);
-int			sig_control(int a);
+void		sig_control(int a);
 void		sigint_handler(int sig);
 void		sig_handler_hdoc(int sig);
 void		sigquit_handler(int sig);

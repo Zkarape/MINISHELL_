@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/15 20:23:15 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/15 23:32:28 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	checking_fork(t_args *a, pid_t forking, int i)
 	int			j;
 
 	j = -1;
-	printf("i = %d\n", i);
 	a->pids[i + 1] = forking;
 	if (forking < 0)
 	{
@@ -38,12 +37,8 @@ void	processing_status(t_args *a, int size)
 	while (++i < size)
 	{
 		pid = waitpid(-1, &status, 0);
-		// printf("pid = %d\n", pid);
-		// printf("a->pids[size - 1] = %d\n", a->pids[size - 1]);
-		// printf("a->pids[size - 2] = %d\n", a->pids[size - 2]);
 		if (pid == a->pids[size - 1])
 		{
-			printf("stex\n");
 			if (!WTERMSIG(status))//child completed successfully
 				g_status = WEXITSTATUS(status);
 			else//terminated with failure
@@ -72,25 +67,20 @@ void	forking_separately(t_args *a, t_cmd *cur, int size)
 	if (size == 1)
 	{
 		b = build(cur, a);
-		printf("b == %d\n", b);
 		if (!b)
 			checking_fork(a, forking(cur->fd_in, cur->fd_out, cur, a), i - 1);
-			// forking(cur->fd_in, cur->fd_out, cur, a);
 	}
 	else
 	{
-		// forking(cur->fd_in, a->pipefds[0][1], cur, a);
 		checking_fork(a, forking(cur->fd_in, a->pipefds[0][1], cur, a), i - 1);
 		cur = cur->next;
 		while (cur->next)
 		{
-		   	// forking(a->pipefds[i][0], a->pipefds[i + 1][1], cur, a);
 			checking_fork(a, forking(a->pipefds[i][0], a->pipefds[i + 1][1], cur, a), i);
 			if (i < size - 2)
 				i++;
 			cur = cur->next;
 		}
-						// forking(a->pipefds[i][0], cur->fd_out, cur, a);s
 		checking_fork(a, forking(a->pipefds[i][0], cur->fd_out, cur, a), i);
 		i = -1;
 		while (++i < size - 1)
@@ -106,7 +96,6 @@ void	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 	int		i;
 	int		(*pipefds)[2];
 	t_cmd	*cur;
-	int		status;
 
 	i = -1;
 	cur = cmd_lst->head;
@@ -161,12 +150,8 @@ void	process(int pipefd_in, int pipefd_out, t_cmd *cmd, t_args *a)
 	close_in_out(cmd->fd_in);
 	close_in_out(cmd->hdoc_fd);
 	b = build(cmd, a);
-	printf("b == %d\n", b);
 	if (!b)
-	{
-//		printf("mtaaaaaaa\n");
 		execute(cmd, a->env);
-	}
 	else
 		exit(g_status);
 }

@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 14:30:41 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/15 20:04:02 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/15 23:21:52 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	dup_error(int du)
 		ft_print_error_and_exit("dup2 is < 0", 1);
 }
 
-void	ft_print_error_with_arg(char *cmd, char *arg, int code)
+void	ft_print_error_with_arg(char *cmd, char *arg)
 {
 	char	*msg;
 	char	*s1;

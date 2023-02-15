@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 20:05:06 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/14 22:03:28 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/16 00:25:51 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	env(t_env_lst *env_lst, char *arg, char **envv)
 	}
 	if (arg)
 	{
-		ft_print_error_with_arg("env", arg, 1);
+		ft_print_error_with_arg("env", arg);
 		return (1);
 	}
 	env_lst_print(env_lst);

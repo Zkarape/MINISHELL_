@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 19:06:24 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/13 22:13:43 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/16 00:16:20 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ void	remove_cur_env_node(t_env_lst *env_lst, char *s)
 	while (cur->next)
 	{
 		if (!ft_strncmp(cur->data, s, until_equal_sign(cur->data) + 1))
+		{
 			remove_from_between(cur, env_lst);
+			break ;
+		}
 		cur = cur->next;
 	}
 }
@@ -84,6 +87,7 @@ int	unset(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd_node)
 			{
 				remove_cur_env_node(env_lst, &exp_node->data[11]);
 				remove_from_between(exp_node, exp_lst);
+				break ;
 			}
 			exp_node = exp_node->next;
 		}

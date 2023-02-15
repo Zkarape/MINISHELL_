@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:37:14 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/14 21:10:57 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/16 00:51:36 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,22 @@ t_env	*is_in_env_or_not(t_env_lst *env_lst, char *arg)
 	{
 		k = until_equal_sign(cur->data);
 		if (!ft_strncmp(cur->data, arg, k + 1))
+			return (cur);
+		cur = cur->next;
+	}
+	return (NULL);
+}
+
+t_env	*is_in_exp_or_not(t_env_lst *exp_lst, char *arg)
+{
+	t_env	*cur;
+	int		k;
+
+	cur = exp_lst->head->next;
+	while (cur->next)
+	{
+		k = until_equal_sign(&cur->data[11]);
+		if (!ft_strncmp(&cur->data[11], arg, k + 1))
 			return (cur);
 		cur = cur->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 21:39:09 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/14 22:03:02 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/16 00:28:22 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,12 @@ int	is_in_export_or_not(t_env_lst *exp_lst, char *arg, char *val)
 			k = k1;
 		if (!(*(cur->data + 11 + k) == '='
 				&& !val && !ft_strncmp(&cur->data[11], arg, k)))
-			if (!cmp_remove(k, cur, exp_lst, arg))
+		{
+			if (cmp_remove(k, cur, exp_lst, arg))
+				break ;
+			else
 				q++;
+		}
 		cur = cur->next;
 	}
 	if (q == exp_lst->size)
