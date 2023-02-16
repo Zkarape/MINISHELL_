@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/15 23:32:28 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/16 20:15:50 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,10 @@ void	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 		return ;
 	pipefds = malloc(sizeof(int *) * (cmd_lst->size - 1));
 	while (++i < cmd_lst->size - 1)
-		pipe_error(pipe(pipefds[i]));
+	{
+		if (pipe_error(pipe(pipefds[i])))
+			return ;
+	}
 	if (cmd_lst->size == 1)
 		a->pipefds = NULL;
 	else

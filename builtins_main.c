@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:56:46 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/15 23:20:38 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/16 20:58:24 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	build(t_cmd *cmd, t_args *a)
 	int	i;
 
 	i = 1;
+	printf("s == %p\n", cmd->no_cmd[0]);
 	if (i)
 	{
 		if (!ft_strncmp(cmd->no_cmd[0], "exit", 5))

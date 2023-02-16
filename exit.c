@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 19:51:16 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/15 23:22:08 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/16 19:43:40 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,10 @@ void	ft_exit(t_cmd *cmd_head)
 		exit(255);
 	}
 	x = ft_atoi(cmd_head->no_cmd[1]);
-	g_status = x % 256;
-	exit(x % 256);
+	if (cmd_head->no_cmd[1])
+	{
+		g_status = x % 256;
+		exit(x % 256);
+	}
+	exit(g_status);
 }

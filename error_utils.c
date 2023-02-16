@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 14:30:41 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/15 23:21:52 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/16 19:50:48 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	ft_print_error_with_arg(char *cmd, char *arg)
 
 int	parsing_error_checks(char *s)
 {
+	if (s[0] == '\n')
+		return (1);
 	if (!find_unquoted(s))
 	{
 		ft_putstr_fd("Missing quote\n", 1, 0);

@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:24:09 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/15 23:33:31 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/16 20:48:24 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*expand(char *s, t_args *args)
 	str = NULL;
 	args->start = 0;
 	args->hdoc_flg = 0;
-	while (s[++args->i])
+	while (s && s[++args->i])
 	{
 		if (s[args->i] == '"')
 		{

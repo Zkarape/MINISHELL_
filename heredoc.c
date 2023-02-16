@@ -6,7 +6,7 @@
 /*   By: aivanyan <aivanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:32:53 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/16 01:24:05 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/16 20:22:31 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ void	heredoc(t_cmd *cmd, int yep, t_args *a)
 	while (1)
 	{
 		sig_control(2);
-		s = readline(">");
+		s = readline("> ");
 		if (!s)
-		{	
-			g_status = -5; 
-			rl_replace_line("hsdbv", 0);
-			printf("s == %s\n", s);
+		{
+			write(1, "\033[A", 4);
+			g_status = -5;
 			break ;
 		}
 		if (g_status == -42)
@@ -37,6 +36,7 @@ void	heredoc(t_cmd *cmd, int yep, t_args *a)
 			g_status = 1;
 			break;
 		}
+
 		if (!(ft_strncmp(cleaned_file, s, ft_strlen(s))
 				!= 0 || s[0] == '\0'))
 			break ;

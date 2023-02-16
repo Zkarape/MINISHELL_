@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/16 20:09:36 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/16 18:49:51 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,19 @@ void	parsing(char **env_, t_args *args)
 		s = readline("minishell$ ");
 		if (g_status == 1)
 		{
+	//		write(1, "\033[A", 3);
+			printf("status2 %d\n", g_status);
 			g_status = -2;
 			continue ;
 		}
 		if (!s)
 		{
+		//	write(1, "\033[A", 3);
 			write(1, "exit\n", 5);
 			exit(g_status);
-		}
-		if (parsing_error_checks(s))
-			continue ;
+		}	
+//		if (parsing_error_checks(s))
+//			continue ;
 		if (*s)
 			add_history(s);
 		lst = group_until_pipe(s);
