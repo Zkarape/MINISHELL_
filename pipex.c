@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/17 16:53:57 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/17 21:20:25 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,7 @@ void	forking_separately(t_args *a, t_cmd *cur, int size)
 	a->pids = malloc(sizeof(pid_t) * (size));
 	if (size == 1)
 	{
-		b = build(cur, a);
-		if (!b)
-			checking_fork(a, forking(cur->fd_in, cur->fd_out, cur, a), i - 1);
+		checking_fork(a, forking(cur->fd_in, cur->fd_out, cur, a), i - 1);
 	}
 	else
 	{
@@ -82,12 +80,7 @@ void	forking_separately(t_args *a, t_cmd *cur, int size)
 			cur = cur->next;
 		}
 		checking_fork(a, forking(a->pipefds[i][0], cur->fd_out, cur, a), i);
-		i = -1;
-		while (++i < size - 1)
-		{
-			close(a->pipefds[i][0]);
-			close(a->pipefds[i][1]);
-		}
+		close_pipefds(a->pipefds, size - 1, NULL, 0);
 	}
 }
 
@@ -106,7 +99,7 @@ int	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 	while (++i < cmd_lst->size - 1)
 		if (pipe_error(pipe(pipefds[i])))
 		{
-			close_pipefds(pipefds, i, cur);
+			close_pipefds(pipefds, i, cur, 1);
 			return (1);
 		}
 	if (cmd_lst->size == 1)
@@ -142,8 +135,14 @@ void	process(int pipefd_in, int pipefd_out, t_cmd *cmd, t_args *a)
 	int	i;
 	int	b;
 
+//	printf("smth happens\n");
 	i = -1;
 	b = 0;
+	if (red_big_loop(cmd))
+	{
+		printf("exited\n");
+		exit(127);
+	}
 	dup_in_or_not_ttq(cmd, pipefd_in);
 	dup_out_or_not_ttq(cmd, pipefd_out);
 	while (a->pipefds && ++i < a->size)

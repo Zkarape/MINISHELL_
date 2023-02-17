@@ -6,7 +6,7 @@
 /*   By: aivanyan <aivanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:32:53 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/17 17:02:50 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/17 21:48:43 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //int g_status = -2;
 
-void	heredoc(t_cmd *cmd, int yep, t_args *a)
+void	heredoc(t_cmd *cmd, t_args *a)
 {
 	char	*tmp;
 	char	*s;
@@ -45,17 +45,17 @@ void	heredoc(t_cmd *cmd, int yep, t_args *a)
 			free(s);
 			s = tmp;
 		}
-		if (yep && a->hdoc_size == 0)
+		if (cmd->yep && a->hdoc_size == 0)
 		{
 			ft_putstr_fd(s, a->fd[1], 1);
 			cmd->hdoc_fd = a->fd[0];
 		}
 	}
-	if (cmd->hdoc_fd == -1 && yep && a->hdoc_size == 0)
+	if (cmd->hdoc_fd == -1 && cmd->yep && a->hdoc_size == 0)
 		cmd->hdoc_fd = a->fd[0];
 }
 
-int	big_loop(t_cmd *cmd, int yep, t_args *a)
+int	big_loop(t_cmd *cmd, t_args *a)
 {
 	t_red	*cur;
 	int		fd[2];
@@ -66,12 +66,16 @@ int	big_loop(t_cmd *cmd, int yep, t_args *a)
 		if (cur->type == HEREDOC)
 		{
 			if (pipe_error(pipe(fd)))
+			{
+				close(fd[0]);
+				close(fd[1]);
 				return (1);
+			}
 			cmd->red_lst->heredoc_k--;
 			a->hdoc_size = cmd->red_lst->heredoc_k;
 			a->fd = fd;
 			a->file = cur->file;
-			heredoc(cmd, yep, a);
+			heredoc(cmd, a);
 			close(fd[1]);
 			if (cmd->hdoc_fd == -1 && cmd->red_lst->heredoc_k == 0)
 				close(fd[0]);

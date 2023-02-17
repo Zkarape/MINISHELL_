@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:00 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/17 17:18:36 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/17 22:00:02 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,18 @@ void	close_in_out(int fd)
 		close(fd);
 }
 
-int	func_for_reds(t_cmd *cmd_node, t_red *red_node, int yep)
+int	func_for_reds(t_cmd *cmd_node, t_red *red_node)
 {
 	if (red_node->type == INPUT_REDIRECTION)
 	{
 		close_in_out(cmd_node->fd_in);
 		cmd_node->fd_in = open(red_node->file, O_RDONLY);
+		printf("cmd_fd_in == %d\n", cmd_node->fd_in);
 	}
-	else if (red_node->type == HEREDOC && yep)
+	else if (red_node->type == HEREDOC && cmd_node->yep)
+	{
 		close_in_out(cmd_node->fd_in);
+	}
 	else if (red_node->type == APPEND_REDIRECTION)
 	{
 		close_in_out(cmd_node->fd_out);
@@ -81,14 +84,15 @@ int	func_for_reds(t_cmd *cmd_node, t_red *red_node, int yep)
 	return (0);
 }
 
-int	red_big_loop(t_red_lst *red_lst, t_cmd *cmd, int yep)
+int	red_big_loop(t_cmd *cmd)
 {
 	t_red	*cur;
 
-	cur = red_lst->head;
+	printf("helllllllllo");
+	cur = cmd->red_lst->head;
 	while (cur)
 	{
-		if (func_for_reds(cmd, cur, yep))
+		if (func_for_reds(cmd, cur))
 			return (1);
 		cur = cur->next;
 	}

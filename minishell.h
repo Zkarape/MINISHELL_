@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:07:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/17 17:01:55 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/17 19:33:03 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_cmd
 	char				**no_cmd;
 	int					fd_out;
 	int					fd_in;
+	int					yep;
 	struct s_cmd		*next;
 	struct s_red_lst	*red_lst;
 	int					hdoc_fd;
@@ -124,8 +125,8 @@ typedef struct s_args
 t_cmd_lst	*cmd_lst_construct(void);
 void		cmd_lst_print(t_cmd_lst *list);
 void		cmd_lst_add_last(t_cmd_lst *list);
-t_cmd_lst	*heredoc_cycle(t_list *pipe_group, t_args *a);
-//t_cmd_lst	*grouping_with_red(t_list *pipe_group, t_args *a);
+int			heredoc_cycle(t_cmd_lst *cmd_lst, t_args *a);
+t_cmd_lst	*grouping_with_red(t_list *pipe_group, t_args *a);
 int			one_cmd_init(t_node *node, t_cmd_lst *cmd_lst, t_args *a);
 int			find_start_end(char *s, t_cmd *cmd, t_red_lst *red_lst);
 t_cmd		*cmd_node_initialize(void);
@@ -181,8 +182,8 @@ int			find_last_quote_with_full_index(char *s, char quote, int i);
 char		*file_trim(char *s, int k, int type);
 char		*less_red(char *s, int st, int end);
 int			is_red(char c);
-int			func_for_reds(t_cmd *cmd_node, t_red *red_node, int yep);
-int			red_big_loop(t_red_lst *red_lst, t_cmd *cmd, int yep);
+int			func_for_reds(t_cmd *cmd_node, t_red *red_node);
+int			red_big_loop(t_cmd *cmd);
 void		close_in_out(int fd);
 //error_cases
 int			parsing_error_checks(char *s);
@@ -194,7 +195,7 @@ void		ft_putstr(char *str);
 void		dup_error(int du);
 
 //utils.c
-void		close_pipefds(int (*pipefds)[2], int i, t_cmd *cur);
+void		close_pipefds(int (*pipefds)[2], int i, t_cmd *cur, int	cl_cur);
 char		*ft_strjoin(char *s1, char *s2, t_args *a);
 int			ft_strncmp(char *s1, char *s2, unsigned int n);
 void		ft_putstr_fd(char *s, int fd, int fl);
@@ -208,13 +209,13 @@ char		*clean_fst_last(char *s);
 char		*filling_without_c(char *s, char c, int len, int count);
 char		*filling_with_nulls(char *s);
 //heredoc.c
-void		heredoc(t_cmd *cmd, int yep, t_args *a);
+void		heredoc(t_cmd *cmd, t_args *a);
 void		red_lst_print(t_red_lst *list);
 t_red_lst	*red_lst_construct(void);
 t_red		*red_node_initialize(void);
 t_red		*red_node_initialize_pro(char *file, int type);
 void		red_add(t_red_lst *list, char *file, int type);
-int			big_loop(t_cmd *cmd, int yep, t_args *a);
+int			big_loop(t_cmd *cmd, t_args *a);
 
 //expanding.c
 int			find_first_quote(char *s, int i);

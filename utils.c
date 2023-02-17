@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 14:42:34 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/17 16:49:56 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/17 18:14:51 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	closing(t_cmd *cur)
 	}
 }
 
-void	close_pipefds(int (*pipefds)[2], int i, t_cmd *cur)
+void	close_pipefds(int (*pipefds)[2], int i, t_cmd *cur, int	cl_cur)
 {
 	int	j;
 
@@ -65,5 +65,6 @@ void	close_pipefds(int (*pipefds)[2], int i, t_cmd *cur)
 		close(pipefds[j][0]);
 		close(pipefds[j][1]);
 	}
-	closing(cur);
+	if (cl_cur)
+		closing(cur);
 }

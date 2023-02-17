@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 19:06:24 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/16 21:44:29 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/17 21:46:03 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ int	echo(t_cmd *cmd_node)
 	}
 	while (cmd_node->no_cmd[i])
 	{
-		ft_putstr_fd(cmd_node->no_cmd[i], cmd_node->fd_out, 0);
+		ft_putstr_fd(cmd_node->no_cmd[i], 1, 0);
 		i++;
 		if (cmd_node->no_cmd[i])
-			ft_putstr_fd(" ", cmd_node->fd_out, 0);
+			ft_putstr_fd(" ", 1, 0);
 	}
 	if (k)
-		ft_putstr_fd("\n", cmd_node->fd_out, 0);
+		ft_putstr_fd("\n", 1, 0);
 	return (0);
 }
 
@@ -55,7 +55,6 @@ void	remove_cur_env_node(t_env_lst *env_lst, char *s)
 	cur = env_lst->head->next;
 	while (cur->next)
 	{
-		printf("data == %s\n", cur->data);
 		if (!ft_strncmp(cur->data, s, until_equal_sign(cur->data) + 1))
 		{
 			remove_from_between(cur, env_lst);

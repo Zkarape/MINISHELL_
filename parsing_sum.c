@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/17 17:19:17 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/17 19:36:04 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	parsing(char **env_, t_args *args)
 		lst = group_until_pipe(s);
 		if (!lst)
 			continue ;
-		cmd_lst = heredoc_cycle(lst, args);
+		cmd_lst = grouping_with_red(lst, args);
 		if (!cmd_lst)
 			continue ;
 		cmd_expanded(cmd_lst, args);
