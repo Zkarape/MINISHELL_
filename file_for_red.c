@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:00 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/10 16:31:49 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/17 17:18:36 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ char	*file_trim(char *s, int k, int type)
 	file_trimmed = file;
 	if (type != 2)
 	{
+		file_trimmed = filling_with_nulls(file);
 		free(file);
-		file = filling_with_nulls(file_trimmed);
+		file = file_trimmed;
 	}
 	return (file);
 }

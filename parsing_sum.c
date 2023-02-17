@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/16 20:09:36 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/17 17:19:17 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,19 @@ void	parsing(char **env_, t_args *args)
 			write(1, "exit\n", 5);
 			exit(g_status);
 		}
-		if (parsing_error_checks(s))
+		if (parsing_error_checks(s) || *s == '\0')
 			continue ;
-		if (*s)
-			add_history(s);
+		add_history(s);
 		lst = group_until_pipe(s);
 		if (!lst)
 			continue ;
-		cmd_lst = grouping_with_red(lst, args);
+		cmd_lst = heredoc_cycle(lst, args);
 		if (!cmd_lst)
 			continue ;
 		cmd_expanded(cmd_lst, args);
 		cmd_quote_clear(cmd_lst);
+		if (!cmd_lst->head->no_cmd[0] && cmd_lst->size == 1)
+			continue ;
 		args->env = from_lst_to_dbl(args->env_lst);
 		pipex_main(cmd_lst, args);
 		update_status(args);

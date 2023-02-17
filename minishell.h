@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:07:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/16 00:48:59 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/17 17:01:55 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,8 @@ typedef struct s_args
 t_cmd_lst	*cmd_lst_construct(void);
 void		cmd_lst_print(t_cmd_lst *list);
 void		cmd_lst_add_last(t_cmd_lst *list);
-t_cmd_lst	*grouping_with_red(t_list *pipe_group, t_args *a);
+t_cmd_lst	*heredoc_cycle(t_list *pipe_group, t_args *a);
+//t_cmd_lst	*grouping_with_red(t_list *pipe_group, t_args *a);
 int			one_cmd_init(t_node *node, t_cmd_lst *cmd_lst, t_args *a);
 int			find_start_end(char *s, t_cmd *cmd, t_red_lst *red_lst);
 t_cmd		*cmd_node_initialize(void);
@@ -135,7 +136,7 @@ int			return_type(char c, char c_next);
 void		execute(t_cmd *cmd, char **env);
 pid_t		forking(int pipefd_in, int pipefd_out, t_cmd *cur, t_args *a);
 void		process(int pipefd_in, int pipefd_out, t_cmd *cur, t_args *a);
-void		pipex_main(t_cmd_lst *cmd_lst, t_args *a);
+int			pipex_main(t_cmd_lst *cmd_lst, t_args *a);
 int			pipe_error(int pip);
 //utils
 int			ft_tolower(int c);
@@ -193,6 +194,7 @@ void		ft_putstr(char *str);
 void		dup_error(int du);
 
 //utils.c
+void		close_pipefds(int (*pipefds)[2], int i, t_cmd *cur);
 char		*ft_strjoin(char *s1, char *s2, t_args *a);
 int			ft_strncmp(char *s1, char *s2, unsigned int n);
 void		ft_putstr_fd(char *s, int fd, int fl);

@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:11 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/17 10:54:41 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/17 17:18:51 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ int	find_start_end(char *s, t_cmd *cmd_node, t_red_lst *red_lst)
 		}
 	}
 	cmd_node->args = ft_strjoin2(str, s, i, end + 1);
-	if (cmd_node->args == NULL)
-		return (1);
 	return (0);
 }
 
@@ -89,29 +87,45 @@ int	one_cmd_init(t_node *node, t_cmd_lst *cmd_lst, t_args *a)
 	cmd_lst_add_last(cmd_lst);
 	red_lst = red_lst_construct();
 	if (find_start_end(s, cmd_lst->tail, red_lst))
-		return (1);
+		exit(1);
 	cmd_lst->tail->red_lst = red_lst;
 	yep = last_input_work(red_lst);
-	if (big_loop(cmd_lst->tail, yep, a))
-		return (1);
 	if (red_big_loop(red_lst, cmd_lst->tail, yep))
-		return (1);
+		exit(1);
 	return (0);
 }
 
-t_cmd_lst	*grouping_with_red(t_list *pipe_group, t_args *a)
+t_cmd_lst	*cmd_lst_cycle(t_list *pipe_group)
+{
+	t_node		*cur;
+	t_cmd_lst	*cmd_lst;
+
+	cmd_lst = cmd_lst_construct();
+	cur = pipe_group->head;
+	while (cur)
+	{
+		cmd_lst_add_last(cmd_lst);
+		cur = cur->next;
+	}
+	return (cmd_lst);
+}
+
+t_cmd_lst	*heredoc_cycle(t_list *pipe_group, t_args *a)
 {
 	int			i;
 	t_node		*cur;
 	t_cmd_lst	*cmd_lst;
 
 	i = -1;
-	cmd_lst = cmd_lst_construct();
+	cmd_lst = cmd_lst_cycle(pipe_group);
+	cmd_lst_print(cmd_lst);
 	cur = pipe_group->head;
 	while (cur)
 	{
-		if (one_cmd_init(cur, cmd_lst, a))
-			return (NULL);
+//		if (big_loop(cmd_lst->tail, yep, a))
+//			return (NULL);
+	//	if (one_cmd_init(cur, cmd_lst, a))
+	//		return (NULL);
 		cur = cur->next;
 	}
 	return (cmd_lst);

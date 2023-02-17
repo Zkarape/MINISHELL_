@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/16 20:15:50 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/17 16:53:57 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	forking_separately(t_args *a, t_cmd *cur, int size)
 	}
 }
 
-void	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
+int	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 {
 	int		i;
 	int		(*pipefds)[2];
@@ -101,13 +101,14 @@ void	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 	cur = cmd_lst->head;
 	a->cmd_lst_size = cmd_lst->size;
 	if (!cur)
-		return ;
+		return (1);
 	pipefds = malloc(sizeof(int *) * (cmd_lst->size - 1));
 	while (++i < cmd_lst->size - 1)
-	{
 		if (pipe_error(pipe(pipefds[i])))
-			return ;
-	}
+		{
+			close_pipefds(pipefds, i, cur);
+			return (1);
+		}
 	if (cmd_lst->size == 1)
 		a->pipefds = NULL;
 	else
@@ -116,6 +117,7 @@ void	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 	cur = cmd_lst->head;
 	closing(cur);
 	processing_status(a, cmd_lst->size);
+	return (0);
 }
 
 pid_t	forking(int pipefd_in, int pipefd_out, t_cmd *cur, t_args *a)
@@ -152,6 +154,8 @@ void	process(int pipefd_in, int pipefd_out, t_cmd *cmd, t_args *a)
 	close_in_out(cmd->fd_out);
 	close_in_out(cmd->fd_in);
 	close_in_out(cmd->hdoc_fd);
+	if (!cmd->no_cmd[0])
+		exit(8);
 	b = build(cmd, a);
 	if (!b)
 		execute(cmd, a->env);

@@ -6,7 +6,7 @@
 /*   By: aivanyan <aivanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:32:53 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/16 20:22:31 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/17 17:02:50 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	heredoc(t_cmd *cmd, int yep, t_args *a)
 			g_status = 1;
 			break;
 		}
-
 		if (!(ft_strncmp(cleaned_file, s, ft_strlen(s))
 				!= 0 || s[0] == '\0'))
 			break ;
