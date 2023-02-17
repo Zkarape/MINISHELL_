@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:11 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/16 20:56:28 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/17 10:54:41 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int	find_start_end(char *s, t_cmd *cmd_node, t_red_lst *red_lst)
 		}
 	}
 	cmd_node->args = ft_strjoin2(str, s, i, end + 1);
+	if (cmd_node->args == NULL)
+		return (1);
 	return (0);
 }
 
@@ -108,8 +110,6 @@ t_cmd_lst	*grouping_with_red(t_list *pipe_group, t_args *a)
 	cur = pipe_group->head;
 	while (cur)
 	{
-		if (cur->data == NULL)
-			return (NULL);
 		if (one_cmd_init(cur, cmd_lst, a))
 			return (NULL);
 		cur = cur->next;
