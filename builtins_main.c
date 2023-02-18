@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:56:46 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/17 21:07:44 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/18 16:29:21 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	build(t_cmd *cmd, t_args *a)
 	if (i)
 	{
 		if (!ft_strncmp(cmd->no_cmd[0], "exit", 5))
-			ft_exit(cmd);
+			g_status = ft_exit(cmd);
 		else if (!ft_strncmp(ft_str_tolower(cmd->no_cmd[0]), "env", 4))
 			g_status = env(a->env_lst, cmd->no_cmd[1], a->env);
 		else if (!ft_strncmp(ft_str_tolower(cmd->no_cmd[0]), "pwd", 4))

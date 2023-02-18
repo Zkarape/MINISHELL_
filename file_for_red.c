@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:00 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/17 22:00:02 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/18 14:32:08 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	func_for_reds(t_cmd *cmd_node, t_red *red_node)
 	{
 		close_in_out(cmd_node->fd_in);
 		cmd_node->fd_in = open(red_node->file, O_RDONLY);
-		printf("cmd_fd_in == %d\n", cmd_node->fd_in);
 	}
 	else if (red_node->type == HEREDOC && cmd_node->yep)
 	{
@@ -88,7 +87,6 @@ int	red_big_loop(t_cmd *cmd)
 {
 	t_red	*cur;
 
-	printf("helllllllllo");
 	cur = cmd->red_lst->head;
 	while (cur)
 	{

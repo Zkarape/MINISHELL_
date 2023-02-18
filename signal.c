@@ -34,16 +34,13 @@ void	sig_control(int a)
 	else if (a == 1)
 	{
 		init_term();
-		if (g_status == -5)
-			signal(SIGINT, SIG_IGN);
-		else	
-			signal(SIGINT, sigint_handler);
+		signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
 	//	return (1);
 	}
 	else if (a == 2)
 	{
-		signal(SIGINT, SIG_DFL);	
+		signal(SIGINT, sig_handler_hdoc);	
 		signal(SIGQUIT, SIG_IGN);
 	//	return (2);
 	}

@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/17 21:20:25 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/18 19:04:20 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,7 @@ void	forking_separately(t_args *a, t_cmd *cur, int size)
 	a->size = size - 1;
 	a->pids = malloc(sizeof(pid_t) * (size));
 	if (size == 1)
-	{
 		checking_fork(a, forking(cur->fd_in, cur->fd_out, cur, a), i - 1);
-	}
 	else
 	{
 		checking_fork(a, forking(cur->fd_in, a->pipefds[0][1], cur, a), i - 1);
@@ -97,11 +95,13 @@ int	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 		return (1);
 	pipefds = malloc(sizeof(int *) * (cmd_lst->size - 1));
 	while (++i < cmd_lst->size - 1)
+	{
 		if (pipe_error(pipe(pipefds[i])))
 		{
 			close_pipefds(pipefds, i, cur, 1);
 			return (1);
 		}
+	}
 	if (cmd_lst->size == 1)
 		a->pipefds = NULL;
 	else
@@ -135,14 +135,10 @@ void	process(int pipefd_in, int pipefd_out, t_cmd *cmd, t_args *a)
 	int	i;
 	int	b;
 
-//	printf("smth happens\n");
 	i = -1;
 	b = 0;
 	if (red_big_loop(cmd))
-	{
-		printf("exited\n");
-		exit(127);
-	}
+		ft_print_error_and_exit("file not found\n", 127);
 	dup_in_or_not_ttq(cmd, pipefd_in);
 	dup_out_or_not_ttq(cmd, pipefd_out);
 	while (a->pipefds && ++i < a->size)
@@ -154,12 +150,17 @@ void	process(int pipefd_in, int pipefd_out, t_cmd *cmd, t_args *a)
 	close_in_out(cmd->fd_in);
 	close_in_out(cmd->hdoc_fd);
 	if (!cmd->no_cmd[0])
-		exit(8);
+		exit(1);
 	b = build(cmd, a);
 	if (!b)
+	{
 		execute(cmd, a->env);
+	}
 	else
+	{
+		printf("exited\n");
 		exit(g_status);
+	}
 }
 
 void	execute(t_cmd *cmd, char **env)
@@ -171,7 +172,11 @@ void	execute(t_cmd *cmd, char **env)
 
 	i = 0;
 	absolue_path = NULL;
-	execve(cmd->no_cmd[0], cmd->no_cmd, env);
+	printer(cmd->no_cmd);
+	printf("000000000 ========== %s\n", cmd->no_cmd[0]);
+	printf("111111111 ========== %s\n", cmd->no_cmd[1]);
+//	if (execve(cmd->no_cmd[0], cmd->no_cmd, env) == -1)
+//		perror(cmd->no_cmd[0]);
 	paths = get_environment("PATH=", env);
 	path = split(paths, ':');
 	if (path)
@@ -179,7 +184,10 @@ void	execute(t_cmd *cmd, char **env)
 		while (path[i])
 		{
 			absolue_path = ft_strjoin3(path[i++], "/", cmd->no_cmd[0]);
+		//	printf("absolute path before%s\n", absolue_path);
 			execve(absolue_path, cmd->no_cmd, env);
+		//		perror(cmd->no_cmd[0]);
+		//	printf("absolute path after%s\n", absolue_path);
 			free(absolue_path);
 		}
 	}

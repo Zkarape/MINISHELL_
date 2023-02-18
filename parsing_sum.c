@@ -6,11 +6,13 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/17 19:36:04 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/18 19:07:45 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_status = 0;
 
 void	parsing(char **env_, t_args *args)
 {
@@ -26,33 +28,37 @@ void	parsing(char **env_, t_args *args)
 	while (1)
 	{
 		sig_control(1);
+		update_status(args);
 		s = readline("minishell$ ");
-		if (g_status == 1)
-		{
-			g_status = -2;
-			continue ;
-		}
 		if (!s)
 		{
 			write(1, "exit\n", 5);
 			exit(g_status);
 		}
-		if (parsing_error_checks(s) || *s == '\0')
+		if (parsing_error_checks(s))
 			continue ;
 		add_history(s);
 		lst = group_until_pipe(s);
 		if (!lst)
+		{
+			g_status = 1;
 			continue ;
+		}
 		cmd_lst = grouping_with_red(lst, args);
 		if (!cmd_lst)
+		{
+			g_status = 1;
 			continue ;
+		}
 		cmd_expanded(cmd_lst, args);
 		cmd_quote_clear(cmd_lst);
 		if (!cmd_lst->head->no_cmd[0] && cmd_lst->size == 1)
+		{
+			g_status = 1;
 			continue ;
+		}
 		args->env = from_lst_to_dbl(args->env_lst);
 		pipex_main(cmd_lst, args);
-		update_status(args);
 	}
 }
 
@@ -79,12 +85,17 @@ char	**no_cmd_clear(char **arr)
 
 	i = -1;
 	str = NULL;
+//	printer(arr);
 	while (arr[++i])
 	{
 		str = filling_with_nulls(arr[i]);
+//		printf("iiiiii before == %s\n", arr[i]);
 		free(arr[i]);
 		arr[i] = str;
+//		printf("iiiiii after == %s\n", arr[i]);
 	}
+	printf("iiii == %d\n", i);
+	arr[i] = NULL;
 	return (arr);
 }
 
@@ -128,7 +139,9 @@ void	cmd_quote_clear(t_cmd_lst *cmd_lst)
 	arr = NULL;
 	while (cur)
 	{
+		printf("args == %s\n", cur->args);
 		arr = split(cur->args, ' ');
+//		printer(arr);
 		if (!arr)
 			exit(1);
 		cur->no_cmd = no_cmd_clear(arr);

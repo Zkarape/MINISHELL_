@@ -6,7 +6,7 @@
 /*   By: aivanyan <aivanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:32:53 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/17 21:48:43 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/18 15:34:00 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	heredoc(t_cmd *cmd, t_args *a)
 		}
 		if (g_status == -42)
 		{
+			//printf("g_sATUS_HEREDOC == %d", g_status);
 			g_status = 1;
 			break;
 		}

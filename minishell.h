@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:07:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/17 19:33:03 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/18 18:20:56 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,7 @@ void		cmd_quote_clear(t_cmd_lst *cmd_lst);
 
 //builtins.c
 int			cd(char *path, char **env, t_args *a);
-void		ft_exit(t_cmd *cmd_head);
+int			ft_exit(t_cmd *cmd_head);
 int			echo(t_cmd *cmd_node);
 int			env(t_env_lst *env_lst, char *arg, char **envv);
 int			pwd(void);
@@ -296,4 +296,5 @@ int			last_pipe_check(char *s);
 char		*ft_itoa(int n);
 void		update_status(t_args *args);
 void		remove_cur_env_node(t_env_lst *env_lst, char *s);
+void		printer(char **arr);
 #endif

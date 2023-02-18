@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:11 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/17 22:07:32 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/18 15:27:52 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,7 @@ int	find_start_end(char *s, t_cmd *cmd_node, t_red_lst *red_lst)
 			str = ft_strjoin2(str, s, i, end + 1);
 			type = return_type(s[i], s[i + 1]);
 			if (ankap_checks(&i, s, type, &start))
-			{
-				printf("gtaaaaaarrrrrrr\n");
 				return (1);
-			}
 			end = i;
 			red_add(red_lst, file_trim(&s[start + 1], end - start, type), type);
 		}

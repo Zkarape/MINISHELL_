@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:49:14 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/10 16:12:10 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/18 19:02:24 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static char	*ft_end(char *s, char c)
 	}
 	return (NULL);
 }
+
 //static char	*ft_end(char *s, char c)
 //{
 //	while (s && *s && *s != c)
@@ -107,12 +108,16 @@ char	**split(char *s, char c)
 	while (i < count)
 	{
 		s = ft_start(s, c);
+		printf("sssssss == %s\n", s);
 		end = ft_end(s, c) - s + 1;
+		printf("end == %d\n", end);
 		split[i] = malloc((end + 1) * sizeof(char));
+		printf("split[i] == %s, end == %d\n", split[i], end);
 		if (ft_check_alloc(split, split[i], i))
 			return (NULL);
 		ft_strlcpy(split[i++], s, end + 1);
 		s += end;
 	}
+//	printer(split);
 	return (split);
 }
