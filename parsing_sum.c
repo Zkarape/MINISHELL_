@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/18 19:07:45 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/18 19:35:56 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,9 @@ char	**no_cmd_clear(char **arr)
 void	update_status(t_args *a)
 {
 	t_env	*cur;
+	char	*itoa;
 
+	itoa = NULL;
 	cur = a->exp_lst->head->next;
 	while (cur->next)
 	{
@@ -113,8 +115,10 @@ void	update_status(t_args *a)
 		}
 		cur = cur->next;
 	}
+	itoa = ft_itoa(g_status);
 	env_lst_add_last(a->exp_lst, ft_strjoin3("declare -x ?=\"",
-		ft_itoa(g_status), "\""));
+		itoa, "\""));
+	free(itoa);
 }
 
 void	printer(char **arr)
