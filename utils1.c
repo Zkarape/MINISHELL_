@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 13:35:56 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/16 20:57:56 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/18 19:44:28 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,14 @@ char	**from_lst_to_dbl(t_env_lst *env_lst)
 	return (arr);
 }
 
-char	*ft_str_tolower(char *s)
+char	*ft_str_tolower(char **s)
 {
 	int		i;
-	char	*str;
 
 	i = -1;
-	str = malloc(ft_strlen(s) + 1);
-	while (s[++i])
-		str[i] = ft_tolower(s[i]);
-	str[i] = '\0';
-	return (str);
+	while ((*s)[++i])
+	{
+		if (!ft_tolower((*s)[i]))
+			ft_tolower((*s)[i]);
+	return (*s);
 }
