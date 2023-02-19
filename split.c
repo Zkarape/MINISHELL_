@@ -12,22 +12,6 @@
 
 #include "minishell.h"
 
-//static int	ft_count(char const *s, char c)
-//{
-//	int	count;
-//
-//	count = 0;
-//	if (!s)
-//		return (0);
-//	while (*s)
-//	{
-//		if (*s != c && (*(s + 1) == c || *(s + 1) == '\0'))
-//			count++;
-//		s++;
-//	}
-//	return (count);
-//}
-
 static int	ft_count(char *str, char c)
 {
 	int		i;
@@ -80,19 +64,6 @@ static char	*ft_end(char *s, char c)
 	return (NULL);
 }
 
-//static char	*ft_end(char *s, char c)
-//{
-//	while (s && *s && *s != c)
-//	{
-//		if (*s == '"' || *s == '\'')
-//			s += find_last_quote(s, *s);
-//		s++;
-//	}
-//	if (!*s || *s == c)
-//		return (s);
-//	return (NULL);
-//}
-
 char	**split(char *s, char c)
 {
 	char	**split;
@@ -108,16 +79,12 @@ char	**split(char *s, char c)
 	while (i < count)
 	{
 		s = ft_start(s, c);
-		printf("sssssss == %s\n", s);
 		end = ft_end(s, c) - s + 1;
-		printf("end == %d\n", end);
 		split[i] = malloc((end + 1) * sizeof(char));
-		printf("split[i] == %s, end == %d\n", split[i], end);
 		if (ft_check_alloc(split, split[i], i))
 			return (NULL);
 		ft_strlcpy(split[i++], s, end + 1);
 		s += end;
 	}
-//	printer(split);
 	return (split);
 }

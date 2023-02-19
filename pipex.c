@@ -99,6 +99,7 @@ int	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 		if (pipe_error(pipe(pipefds[i])))
 		{
 			close_pipefds(pipefds, i, cur, 1);
+//			pipefds_free(pipefds, cmd_lst->size - 1);
 			return (1);
 		}
 	}
@@ -110,6 +111,7 @@ int	pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 	cur = cmd_lst->head;
 	closing(cur);
 	processing_status(a, cmd_lst->size);
+//	pipefds_free(pipefds, cmd_lst->size - 1);
 	return (0);
 }
 

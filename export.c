@@ -47,6 +47,8 @@ void	export_pars(char *s, t_args *a)
 	char		*data;
 	char		*unquoted;
 	char		*quoted;
+	char		*retval;
+	char		*duped;
 
 	i = 0;
 	data = NULL;
@@ -59,7 +61,13 @@ void	export_pars(char *s, t_args *a)
 	a->start = ft_strlen(data);
 	a->end = 0;
 	a->len = 11;
-	env_lst_add_last(a->exp_lst, ft_strjoin("declare -x ", data, a));
+	duped = ft_strdup("declare -x ");
+	retval = ft_strjoin(duped, data, a);
+	env_lst_add_last(a->exp_lst, retval);
+//	free(quoted);
+//	free(unquoted);
+//	free(data);
+//	free(retval);
 }
 
 t_env_lst	*exp_cpy_env(t_args *a)

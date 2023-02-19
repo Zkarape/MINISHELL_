@@ -18,7 +18,7 @@ all: $(NAME)
 	$(CC) $(CFLAGS) -o $@ -c $< 
 
 $(NAME): $(OBJS)
-	$(CC) $(READLINE) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(READLINE) -o $(NAME)
 
 lib:
 	cd libft && make 

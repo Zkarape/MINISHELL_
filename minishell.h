@@ -149,6 +149,8 @@ char		**from_lst_to_dbl(t_env_lst *env_lst);
 int			ft_strcmp(char *s1, char *s2);
 
 //ft_split
+char			*ft_strdup(char *s1);
+void			*ft_memcpy(void *dest, void *src, size_t n);
 int			ft_is_space(char c);
 int			word_cpy(char *s_m, char *s, char quote);
 
@@ -200,7 +202,7 @@ char		*ft_strjoin(char *s1, char *s2, t_args *a);
 int			ft_strncmp(char *s1, char *s2, unsigned int n);
 void		ft_putstr_fd(char *s, int fd, int fl);
 int			ft_strlen(char *s);
-char		*ft_str_tolower(char *s);
+char		*ft_str_tolower(char **s);
 void		closing(t_cmd *cur);
 //trimming
 t_list		*lst_construct(void);
@@ -297,4 +299,7 @@ char		*ft_itoa(int n);
 void		update_status(t_args *args);
 void		remove_cur_env_node(t_env_lst *env_lst, char *s);
 void		printer(char **arr);
+//frees.c
+void		pipefds_free(pid_t (*piefds)[2], int size);
+void		env_lst_destruct(t_env_lst *list);
 #endif

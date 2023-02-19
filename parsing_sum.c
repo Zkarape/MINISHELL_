@@ -28,37 +28,39 @@ void	parsing(char **env_, t_args *args)
 	while (1)
 	{
 		sig_control(1);
-		update_status(args);
+	//	env_lst_destruct(args->env_lst);
+	//	env_lst_destruct(args->exp_lst);
 		s = readline("minishell$ ");
+		update_status(args);
 		if (!s)
 		{
 			write(1, "exit\n", 5);
 			exit(g_status);
 		}
-		if (parsing_error_checks(s))
-			continue ;
-		add_history(s);
-		lst = group_until_pipe(s);
-		if (!lst)
-		{
-			g_status = 1;
-			continue ;
-		}
-		cmd_lst = grouping_with_red(lst, args);
-		if (!cmd_lst)
-		{
-			g_status = 1;
-			continue ;
-		}
-		cmd_expanded(cmd_lst, args);
-		cmd_quote_clear(cmd_lst);
-		if (!cmd_lst->head->no_cmd[0] && cmd_lst->size == 1)
-		{
-			g_status = 1;
-			continue ;
-		}
-		args->env = from_lst_to_dbl(args->env_lst);
-		pipex_main(cmd_lst, args);
+	//	if (parsing_error_checks(s))
+	//		continue ;
+	//	add_history(s);
+	//	lst = group_until_pipe(s);
+	//	if (!lst)
+	//	{
+	//		g_status = 1;
+	//		continue ;
+	//	}
+	//	cmd_lst = grouping_with_red(lst, args);
+	//	if (!cmd_lst)
+	//	{
+	//		g_status = 1;
+	//		continue ;
+	//	}
+	//	cmd_expanded(cmd_lst, args);
+	//	cmd_quote_clear(cmd_lst);
+	//	if (!cmd_lst->head->no_cmd[0] && cmd_lst->size == 1)
+	//	{
+	//		g_status = 1;
+	//		continue ;
+	//	}
+	//	args->env = from_lst_to_dbl(args->env_lst);
+	//	pipex_main(cmd_lst, args);
 	}
 }
 
@@ -103,9 +105,13 @@ void	update_status(t_args *a)
 {
 	t_env	*cur;
 	char	*itoa;
+	char	*joined;
+	char	*duped;
 
 	itoa = NULL;
+	joined = NULL;
 	cur = a->exp_lst->head->next;
+	env_lst_print(a->exp_lst);
 	while (cur->next)
 	{
 		if (cur->data[11] == '?')
@@ -116,8 +122,11 @@ void	update_status(t_args *a)
 		cur = cur->next;
 	}
 	itoa = ft_itoa(g_status);
-	env_lst_add_last(a->exp_lst, ft_strjoin3("declare -x ?=\"",
-		itoa, "\""));
+	duped = ft_strdup("declare -x ?=\""); 
+	joined = ft_strjoin3(duped, itoa, "\"");
+	env_lst_add_last(a->exp_lst, joined);
+	free(joined);
+	free(duped);
 	free(itoa);
 }
 

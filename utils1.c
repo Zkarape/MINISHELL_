@@ -83,5 +83,6 @@ char	*ft_str_tolower(char **s)
 	{
 		if (!ft_tolower((*s)[i]))
 			ft_tolower((*s)[i]);
+	}
 	return (*s);
 }
