@@ -6,7 +6,7 @@
 /*   By: aivanyan <aivanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:32:53 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/18 15:34:00 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/19 21:45:42 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,13 @@ void	heredoc(t_cmd *cmd, t_args *a)
 		s = readline("> ");
 		if (!s)
 		{
-			write(1, "\033[A", 4);
-			g_status = -5;
+			free_a(a);
 			break ;
 		}
 		if (g_status == -42)
 		{
-			//printf("g_sATUS_HEREDOC == %d", g_status);
 			g_status = 1;
-			break;
+			break ;
 		}
 		if (!(ft_strncmp(cleaned_file, s, ft_strlen(s))
 				!= 0 || s[0] == '\0'))
@@ -54,6 +52,8 @@ void	heredoc(t_cmd *cmd, t_args *a)
 	}
 	if (cmd->hdoc_fd == -1 && cmd->yep && a->hdoc_size == 0)
 		cmd->hdoc_fd = a->fd[0];
+	free(s);
+	free(cleaned_file);
 }
 
 int	big_loop(t_cmd *cmd, t_args *a)

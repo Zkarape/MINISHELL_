@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 13:36:24 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/14 21:17:21 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/20 00:15:04 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ char	*ft_strjoin2(char *s1, char *s2, int start, int end)
 		end++;
 	}
 	dst[i] = '\0';
-//	free(s1);
+	if (s1)
+		free(s1);
 	return (dst);
 }

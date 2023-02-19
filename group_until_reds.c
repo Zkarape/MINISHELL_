@@ -6,13 +6,38 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:11 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/18 15:27:52 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/19 21:44:48 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //checking, ><, <<<
+
+int	more_reds(char *s, char c)
+{
+	if (s)
+	{
+		if (*s == c || *s == '\0')
+		{
+			ft_putstr("parse error near ");
+			write(1, &c, 1);
+			write(1, "\n", 1);
+			return (1);
+		}
+		while (*s && *s == ' ')
+			s++;
+		if (*s == c || *s == '\0')
+		{
+			ft_putstr("parse error near ");
+			write(1, &c, 1);
+			write(1, "\n", 1);
+			return (1);
+		}
+	}
+	return (0);
+}
+
 int	return_type(char c, char c_next)
 {
 	if (c == '<')
@@ -85,11 +110,18 @@ int	one_cmd_init(t_node *node, t_cmd_lst *cmd_lst, t_args *a)
 	cmd_lst_add_last(cmd_lst);
 	red_lst = red_lst_construct();
 	if (find_start_end(s, cmd_lst->tail, red_lst))
+	{
+		cmd_lst->tail->red_lst = red_lst;
+		cmd_lst_destruct(cmd_lst, cmd_lst->tail);
 		return (1);
+	}
 	cmd_lst->tail->red_lst = red_lst;
 	cmd_lst->tail->yep = last_input_work(red_lst);
 	if (big_loop(cmd_lst->tail, a))
+	{
+		cmd_lst_destruct(cmd_lst, cmd_lst->tail);
 		return (1);
+	}
 	return (0);
 }
 
@@ -105,7 +137,11 @@ t_cmd_lst	*grouping_with_red(t_list *pipe_group, t_args *a)
 	while (cur)
 	{
 		if (one_cmd_init(cur, cmd_lst, a))
+		{
+			free_a(a);
+			lst_destruct(pipe_group);
 			return (NULL);
+		}
 		cur = cur->next;
 	}
 	return (cmd_lst);

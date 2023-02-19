@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:24:09 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/18 15:50:23 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/20 00:13:42 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,22 @@ int	find_del(char *s, char **del, int i, int start)
 	return (i);
 }
 
-void	find_start_end_for_expand(t_args *a, char *s, char **str)
+char	*find_start_end_for_expand(t_args *a, char *s)
 {
 	char	*del;
 	char	*get;
+	char	*str;
 
 	del = NULL;
 	get = NULL;
+	str = NULL;
 	a->end = a->i;
 	a->i++;
 	a->exp_start = a->i;
 	a->i = find_del(s, &del, a->i, a->exp_start);
 	if (del && !(*del)) // for one $
 		a->end++;
-	*str = ft_strjoin2(*str, s, a->end, a->start);
+	str = ft_strjoin2(str, s, a->end, a->start);
 	a->start = a->end + ft_strlen(del) + 1;
 	if (del && !(*del)) //for one $
 		(a->start)--;
@@ -50,24 +52,29 @@ void	find_start_end_for_expand(t_args *a, char *s, char **str)
 		get = get_env(a->env_lst, del);
 	else
 		get = get_exp(a->exp_lst, del);
-	*str = ft_strjoin2(*str, get, ft_strlen(get), 0);
+	str = ft_strjoin2(str, get, ft_strlen(get), 0);
+	return (str);
 }
 
 //end is always on '$', start is 0, then it becomes the next of del
-void	find_dollar_del(char *s, char **str, t_args *a)
+char	*find_dollar_del(char *s, t_args *a)
 {
+	char	*str;
+
+	str = NULL;
 	while (s[a->i] && a->i < a->q_idx)
 	{
 		if ((s[a->i] == '$' && s[a->i + 1] && a->i + 1 < a->q_idx)
 			|| (s[a->i] == '$' && a->i + 1 == a->q_idx && !a->hdoc_flg))
 		{
-			find_start_end_for_expand(a, s, str);
+			str = find_start_end_for_expand(a, s);
 		}
 		else
 			a->i++;
 	}
 	if (s[a->i] == '\'' && !a->hdoc_flg) // for $'$HOME'
 		a->i--;
+	return (str);
 }
 
 char	*expand(char *s, t_args *args)
@@ -78,19 +85,19 @@ char	*expand(char *s, t_args *args)
 	str = NULL;
 	args->start = 0;
 	args->hdoc_flg = 0;
-	while (s && s[++args->i])
+	while (s && *s && s[++args->i])
 	{
 		if (s[args->i] == '"')
 		{
 			args->q_idx = find_d_quote2(s, s[args->i], args->i);
-			find_dollar_del(s, &str, args);
+			str = find_dollar_del(s, args);
 		}
 		else if (s[args->i] == '\'')
 			args->i = find_d_quote2(s, s[args->i], args->i);
 		else
 		{
 			args->q_idx = find_d_quotes(s, args->i);
-			find_dollar_del(s, &str, args);
+			str = find_dollar_del(s, args);
 		}
 	}
 	str = ft_strjoin2(str, s, args->i, args->start);
@@ -108,7 +115,7 @@ char	*hdoc_expand(char *s, t_args *args)
 	while (s[++args->i])
 	{
 		args->q_idx = find_d_quotes(s, args->i);
-		find_dollar_del(s, &str, args);
+		str = find_dollar_del(s, args);
 	}
 	str = ft_strjoin2(str, s, args->i, args->start);
 	return (str);

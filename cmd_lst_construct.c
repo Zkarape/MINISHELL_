@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 15:46:18 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/10 18:01:02 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/19 17:30:01 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_cmd_lst	*cmd_lst_construct(void)
 
 	new_list = malloc(sizeof(t_cmd_lst));
 	if (!new_list)
-		return (NULL);
+		exit(1);
 	new_list->head = NULL;
 	new_list->tail = NULL;
 	new_list->size = 0;
@@ -69,28 +69,4 @@ t_cmd	*cmd_node_initialize(void)
 	node->red_lst = NULL;
 	node->no_cmd = NULL;
 	return (node);
-}
-
-int	more_reds(char *s, char c)
-{
-	if (s)
-	{
-		if (*s == c || *s == '\0')
-		{
-			ft_putstr("parse error near ");
-			write(1, &c, 1);
-			write(1, "\n", 1);
-			return (1);
-		}
-		while (*s && *s == ' ')
-			s++;
-		if (*s == c || *s == '\0')
-		{
-			ft_putstr("parse error near ");
-			write(1, &c, 1);
-			write(1, "\n", 1);
-			return (1);
-		}
-	}
-	return (0);
 }

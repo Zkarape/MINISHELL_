@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:07:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/18 18:20:56 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/20 00:07:53 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,10 +222,10 @@ int			big_loop(t_cmd *cmd, t_args *a);
 //expanding.c
 int			find_first_quote(char *s, int i);
 int			find_d_quotes(char *s, int i);
-void		find_start_end_for_expand(t_args *a, char *s, char **str);
+char		*find_start_end_for_expand(t_args *a, char *s);
 char		*expand(char *s, t_args *args);
 char		*hdoc_expand(char *s, t_args *args);
-void		find_dollar_del(char *s, char **str, t_args *a);
+char		*find_dollar_del(char *s, t_args *a);
 //expanding_utils.c
 int			find_d_quote2(char *s, char quote, int i);
 char		*get_exp(t_env_lst *exp_lst, char *del);
@@ -302,4 +302,8 @@ void		printer(char **arr);
 //frees.c
 void		pipefds_free(pid_t (*piefds)[2], int size);
 void		env_lst_destruct(t_env_lst *list);
+void		lst_destruct(t_list *list);
+void		free_a(t_args *a);
+void		dbl_free(char **arr);
+void		cmd_lst_destruct(t_cmd_lst *list, t_cmd *until);
 #endif

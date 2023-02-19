@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 21:24:08 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/16 00:04:20 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/19 20:57:04 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	remove_from_between(t_env *env, t_env_lst *env_lst)
 		env->prev->next = env->next;
 		env->next->prev = env->prev;
 		env_lst->size--;
+		free(env->data);
 		free(env);
 	}
 }

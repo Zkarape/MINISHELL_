@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 21:39:09 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/16 00:28:22 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/19 15:34:53 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,9 @@ void	export_pars(char *s, t_args *a)
 	duped = ft_strdup("declare -x ");
 	retval = ft_strjoin(duped, data, a);
 	env_lst_add_last(a->exp_lst, retval);
-//	free(quoted);
-//	free(unquoted);
-//	free(data);
-//	free(retval);
+	free(quoted);
+	free(data);
+	free(retval);
 }
 
 t_env_lst	*exp_cpy_env(t_args *a)
