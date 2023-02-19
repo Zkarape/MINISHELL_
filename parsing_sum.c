@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/20 00:19:56 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/20 00:52:23 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,14 +73,17 @@ void	cmd_expanded(t_cmd_lst *cmd_lst, t_args *args)
 {
 	t_cmd	*cur;
 	char	*str;
+	char	*str1;
 
 	cur = cmd_lst->head;
 	str = NULL;
 	while (cur)
 	{
 		str = expand(cur->args, args);
+		printf("args before == %s\n", cur->args);
 		free(cur->args);
 		cur->args = str;
+		printf("args after == %s\n", cur->args);
 		cur = cur->next;
 	}
 }

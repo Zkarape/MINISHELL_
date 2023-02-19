@@ -6,27 +6,26 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:24:09 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/20 00:13:42 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/20 00:34:29 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	find_del(char *s, char **del, int i, int start)
+char	*find_del(char *s, t_args *a)
 {
-	int	k;
+	int		k;
+	char	*del;
 
 	k = 0;
-	while (!ft_is_space(s[i]) && !is_quote(s[i]) && s[i] && s[i++] != '$')
+	del = NULL;
+	while (!ft_is_space(s[a->i]) && !is_quote(s[a->i]) && s[a->i] && s[a->i++] != '$')
 		k++;
-	if (s[i - 1] == '$' && is_quote(s[i]))
-	{
-		*del = NULL;
-		return (i);
-	}
+	if (s[a->i - 1] == '$' && is_quote(s[a->i]))
+		return (del);
 	else
-		*del = ft_substr_m(s, start, start + k);
-	return (i);
+		del = ft_substr_m(s, a->exp_start, a->exp_start + k);
+	return (del);
 }
 
 char	*find_start_end_for_expand(t_args *a, char *s)
@@ -41,7 +40,7 @@ char	*find_start_end_for_expand(t_args *a, char *s)
 	a->end = a->i;
 	a->i++;
 	a->exp_start = a->i;
-	a->i = find_del(s, &del, a->i, a->exp_start);
+	del = find_del(s, a);
 	if (del && !(*del)) // for one $
 		a->end++;
 	str = ft_strjoin2(str, s, a->end, a->start);
@@ -53,6 +52,8 @@ char	*find_start_end_for_expand(t_args *a, char *s)
 	else
 		get = get_exp(a->exp_lst, del);
 	str = ft_strjoin2(str, get, ft_strlen(get), 0);
+	if (del)
+		free(del);
 	return (str);
 }
 
