@@ -25,12 +25,13 @@ void	a_init(t_args *a)
 
 int	main(int ac, char **av, char **env)
 {
-	t_args	args;
+	t_args	*args;
 
 	(void)ac;
 	(void)av;
-	a_init(&args);
+	args = malloc(sizeof(t_args));
+	a_init(args);
 //	set_get_attr();
-	parsing(env, &args);
+	parsing(env, args);
 	return (0);
 }

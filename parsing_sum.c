@@ -17,10 +17,13 @@ int	g_status = 0;
 void	parsing(char **env_, t_args *args)
 {
 	char		*s;
+	int		ret;
 	t_list		*lst;
 	t_cmd_lst	*cmd_lst;
 
 	s = NULL;
+	lst = NULL;
+	cmd_lst = NULL;
 	args->env_lst = getting_env(env_);
 	args->exp_lst = env_lst_construct();
 	args->exp_lst = exp_cpy_env(args);
@@ -28,8 +31,10 @@ void	parsing(char **env_, t_args *args)
 	while (1)
 	{
 		sig_control(1);
-		update_status(args);
+		update_status(args, ret);
 		free(s);
+		lst_destruct(lst);
+		cmd_lst_destruct(cmd_lst, NULL);
 		s = readline("minishell$ ");
 		add_history(s);
 		if (!s)
@@ -38,7 +43,10 @@ void	parsing(char **env_, t_args *args)
 			exit(g_status);
 		}
 		if (parsing_error_checks(s))
+		{
+			printf("project a\n");
 			continue ;
+		}
 		lst = group_until_pipe(s);
 		if (!lst)
 		{
@@ -49,8 +57,6 @@ void	parsing(char **env_, t_args *args)
 		if (!cmd_lst)
 		{
 			g_status = 1;
-			free_a(args);
-			lst_destruct(lst);
 			continue ;
 		}
 		cmd_expanded(cmd_lst, args);
@@ -58,13 +64,12 @@ void	parsing(char **env_, t_args *args)
 		if (!cmd_lst->head->no_cmd[0] && cmd_lst->size == 1)
 		{
 			g_status = 1;
-			free_a(args);
-			lst_destruct(lst);
-			cmd_lst_destruct(cmd_lst, NULL);
 			continue ;
 		}
 		args->env = from_lst_to_dbl(args->env_lst);
-		pipex_main(cmd_lst, args);
+		if (build(cmd_lst->head, args) && cmd_lst->size == 1)
+			continue ;
+		ret = pipex_main(cmd_lst, args);
 	}
 }
 
@@ -104,7 +109,7 @@ char	**no_cmd_clear(char **arr)
 	return (arr);
 }
 
-void	update_status(t_args *a)
+void	update_status(t_args *a, int ret)
 {
 	t_env	*cur;
 	char	*itoa;
@@ -133,6 +138,7 @@ void	update_status(t_args *a)
 		free(duped);
 	if (itoa)
 		free(itoa);
+	free_a(a, ret);
 }
 
 void	printer(char **arr)

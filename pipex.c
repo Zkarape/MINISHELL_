@@ -17,7 +17,9 @@ void checking_fork(t_args *a, pid_t forking, int i)
 	int j;
 
 	j = -1;
+	printf("i + 1 == %d\n", i + 1);
 	a->pids[i + 1] = forking;
+	printf("forking == %d\n", forking);
 	if (forking < 0)
 	{
 		while (a->pids[++j] != a->pids[i + 1])
@@ -37,6 +39,7 @@ void processing_status(t_args *a, int size)
 	while (++i < size)
 	{
 		pid = waitpid(-1, &status, 0);
+		printf("size - 1 == %d\n", size - 1);
 		if (pid == a->pids[size - 1])
 		{
 			if (!WTERMSIG(status)) // child completed successfully
@@ -56,20 +59,12 @@ void processing_status(t_args *a, int size)
 int	forking_separately(t_args *a, t_cmd *cur, int size)
 {
 	int i;
-	int b;
 
 	i = 0;
-	b = 0;
 	a->size = size - 1;
 	a->pids = malloc(sizeof(pid_t) * (size));
 	if (size == 1)
-	{
-		b = build(cur, a);
-		if (b)
-			return (1);
-		if (!b)
-			checking_fork(a, forking(cur->fd_in, cur->fd_out, cur, a), i - 1);
-	}
+		checking_fork(a, forking(cur->fd_in, cur->fd_out, cur, a), i - 1);
 	else
 	{
 		checking_fork(a, forking(cur->fd_in, a->pipefds[0][1], cur, a), i - 1);
@@ -81,7 +76,7 @@ int	forking_separately(t_args *a, t_cmd *cur, int size)
 				i++;
 			cur = cur->next;
 		}
-		checking_fork(a, forking(a->pipefds[i][0], cur->fd_out, cur, a), i);
+			checking_fork(a, forking(a->pipefds[i][0], cur->fd_out, cur, a), i);
 		close_pipefds(a->pipefds, size - 1, NULL, 0);
 	}
 	return (0);
@@ -89,17 +84,19 @@ int	forking_separately(t_args *a, t_cmd *cur, int size)
 
 int pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 {
-	int i;
-	int	b;
-	int(*pipefds)[2];
-	t_cmd *cur;
+	int	i;
+	int	(*pipefds)[2];
+	t_cmd	*cur;
 
 	i = -1;
 	cur = cmd_lst->head;
 	a->cmd_lst_size = cmd_lst->size;
 	if (!cur)
 		return (1);
-	pipefds = malloc(sizeof(int *) * (cmd_lst->size - 1));
+	if (cmd_lst->size == 1)
+		pipefds = malloc(sizeof(int *));
+	else
+		pipefds = malloc(sizeof(int *) * (cmd_lst->size - 1));
 	while (++i < cmd_lst->size - 1)
 	{
 		if (pipe_error(pipe(pipefds[i])))
@@ -113,18 +110,10 @@ int pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 		a->pipefds = NULL;
 	else
 		a->pipefds = pipefds;
-	b = forking_separately(a, cur, cmd_lst->size);
+	forking_separately(a, cur, cmd_lst->size);
 	cur = cmd_lst->head;
 	closing(cur);
 	processing_status(a, cmd_lst->size);
-	if (b)
-	{
-		cmd_def_free(cur);
-		free_a(a);
-	}
-	else
-		free(a->pids);
-	pipefds_free(pipefds);
 	return (0);
 }
 

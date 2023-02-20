@@ -99,29 +99,3 @@ char	*ft_strjoin2(char *s1, char *s2, int start, int end)
 		free(s1);
 	return (dst);
 }
-
-char	*ft_strjoin22(char *s1, char *s2, int start, int end)
-{
-	int		i;
-	char	*dst;
-	int		len;
-
-	i = 0;
-	len = ft_strlen(s1);
-	dst = (char *)malloc((len + start - end + 1) * sizeof(char));
-	if (!dst)
-		return (NULL);
-	while (s1 && i < len)
-	{
-		dst[i] = s1[i];
-		i++;
-	}
-	while (end < start && s2)
-	{
-		dst[i] = s2[end];
-		i++;
-		end++;
-	}
-	dst[i] = '\0';
-	return (dst);
-}

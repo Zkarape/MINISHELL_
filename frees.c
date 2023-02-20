@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-void	free_a(t_args *a)
+void	free_a(t_args *a, int f)
 {
 	if (a->env)
 		dbl_free(a->env);
-	if (a->pipefds)
+	if (a->pipefds && f)
 		pipefds_free(a->pipefds);
 	if (a->file)
 		free(a->file);
@@ -81,7 +81,10 @@ void lst_destruct(t_list *list)
 	t_node *tmp;
 
 	tmp = NULL;
-	cur = list->head;
+	if (list)
+		cur = list->head;
+	else
+		cur = NULL;
 	while (cur)
 	{
 		tmp = cur->next;
@@ -107,7 +110,10 @@ void red_lst_destruct(t_red_lst *list)
 	t_red *tmp;
 
 	tmp = NULL;
-	cur = list->head;
+	if (list)
+		cur = list->head;
+	else
+		cur = NULL;
 	while (cur)
 	{
 		tmp = cur->next;
@@ -136,7 +142,10 @@ void cmd_lst_destruct(t_cmd_lst *list, t_cmd *until)
 	t_cmd *tmp;
 
 	tmp = NULL;
-	cur = list->head;
+	if (list)
+		cur = list->head;
+	else
+		cur = NULL;
 	while (cur != until)
 	{
 		tmp = cur->next;
