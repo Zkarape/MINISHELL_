@@ -110,10 +110,9 @@ void red_lst_destruct(t_red_lst *list)
 	t_red *tmp;
 
 	tmp = NULL;
+	cur = NULL;
 	if (list)
 		cur = list->head;
-	else
-		cur = NULL;
 	while (cur)
 	{
 		tmp = cur->next;

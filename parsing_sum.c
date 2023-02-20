@@ -61,13 +61,13 @@ void	parsing(char **env_, t_args *args)
 		}
 		cmd_expanded(cmd_lst, args);
 		cmd_quote_clear(cmd_lst);
-		if (!cmd_lst->head->no_cmd[0] && cmd_lst->size == 1)
+		if (cmd_lst->size == 1 && !cmd_lst->head->no_cmd[0])
 		{
 			g_status = 1;
 			continue ;
 		}
 		args->env = from_lst_to_dbl(args->env_lst);
-		if (build(cmd_lst->head, args) && cmd_lst->size == 1)
+		if (cmd_lst->size == 1 && build(cmd_lst->head, args))
 			continue ;
 		ret = pipex_main(cmd_lst, args);
 	}
@@ -84,10 +84,8 @@ void	cmd_expanded(t_cmd_lst *cmd_lst, t_args *args)
 	while (cur)
 	{
 		str = expand(cur->args, args);
-		// printf("args before == %s\n", cur->args);
 		free(cur->args);
 		cur->args = str;
-		// printf("args after == %s\n", cur->args);
 		cur = cur->next;
 	}
 }
