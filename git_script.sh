@@ -1,4 +1,6 @@
 make fclean
 git add .
-git commit -m "update"
+echo "Enter commit message:"
+read commit_message
+git commit -m "$commit_message"
 git push origin normed
