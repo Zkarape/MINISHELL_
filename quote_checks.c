@@ -65,17 +65,28 @@ char	*strcpy_noquotes(char *str, char c)
 	return (cpy);
 }
 
-char	*removing_fst_lst_dbl_quotes(char *s)
-{
-	char	*dst;
-	int		len;
-	int		i;
+char *removing_fst_lst_dbl_quotes(char *s)
+{       
+	char *dst;
+	int len;
+	int i;
+	int j;
 
-	i = 0;
-	len = ft_strlen(s);
-	dst = malloc(sizeof(char) * len - 1);
-	while (++i < len - 1)
-		dst[i - 1] = s[i];
-	dst[i - 1] = '\0';
-	return (dst);
+	len = strlen(s);
+	if (len < 2) {
+		return NULL; // invalid input
+	}
+	dst = malloc(sizeof(char) * (len - 1));
+	if (dst == NULL) {
+		return NULL; // memory allocation failed
+	}
+	i = 1;
+	j = 0;
+	while (i < len - 1) { // skip first and last quotes
+		dst[j] = s[i];
+		j++;
+		i++;
+	}
+	dst[j] = '\0';
+	return dst;
 }

@@ -82,6 +82,7 @@ char	*ft_strjoin2(char *s1, char *s2, int start, int end)
 
 	i = 0;
 	len = ft_strlen(s1);
+	printf("len == %d, start == %d, end == %d", len, start, end);
 	dst = (char *)malloc((len + start - end + 1) * sizeof(char));
 	if (!dst)
 		return (NULL);

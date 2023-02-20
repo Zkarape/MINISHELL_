@@ -44,13 +44,17 @@ char	*get_exp(t_env_lst *exp_lst, char *del)
 {
 	t_env	*exp_node;
 	int		k;
+	char		*retval;
 
 	exp_node = exp_lst->head->next;
 	while (exp_node->next && del && *del)
 	{
 		k = until_equal_sign(&exp_node->data[11]);
 		if (!ft_strncmp(&exp_node->data[11], del, k) && k == ft_strlen(del))
-			return (removing_fst_lst_dbl_quotes(&exp_node->data[11 + ft_strlen(del) + 1]));
+		{
+			retval = ft_strdup(removing_fst_lst_dbl_quotes(exp_node->data + 11 + ft_strlen(del) + 1));
+			return (retval);
+		}
 		exp_node = exp_node->next;
 	}
 	return (NULL);
