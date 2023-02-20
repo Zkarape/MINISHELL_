@@ -97,7 +97,7 @@ int	find_start_end(char *s, t_cmd *cmd_node, t_red_lst *red_lst)
 			red_add(red_lst, file_trim(&s[start + 1], end - start, type), type);
 		}
 	}
-	cmd_node->args = ft_strjoin2(str, s, i, end + 1);
+	cmd_node->args = ft_strjoin22(str, s, i, end + 1);
 	return (0);
 }
 
@@ -137,11 +137,7 @@ t_cmd_lst	*grouping_with_red(t_list *pipe_group, t_args *a)
 	while (cur)
 	{
 		if (one_cmd_init(cur, cmd_lst, a))
-		{
-			free_a(a);
-			lst_destruct(pipe_group);
 			return (NULL);
-		}
 		cur = cur->next;
 	}
 	redirections(cmd_lst);

@@ -44,9 +44,6 @@ int	find_last_quote(char *s, char quote)
 
 int	more_pipes(char *s)
 {
-	int	i;
-
-	i = 0;
 	if (*s)
 	{
 		if (*(s) == '|' || *s == '\0')
@@ -74,21 +71,23 @@ t_list	*group_until_pipe(char *s)
 	i = 0;
 	start = 0;
 	group = lst_construct();
-	if (!s)
-		return (NULL);
-	if (s[0] == '|')
+	if (s && s[0] == '|')
 	{
+		free(group);
 		ft_putstr("parse error near '|'\n");
 		return (NULL);
 	}
-	while (s[i])
+	while (s && s[i])
 	{
 		if (s[i] == '"' || s[i] == '\'')
 			i += find_last_quote(&s[i], s[i]);
 		else if (s[i] == '|')
 		{
 			if (more_pipes(&s[i + 1]))
+			{
+				lst_destruct(group);
 				return (NULL);
+			}
 			lst_add_last(group, ft_substr_m(s, start, i));
 			start = i + 1;
 		}

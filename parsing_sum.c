@@ -29,30 +29,28 @@ void	parsing(char **env_, t_args *args)
 	{
 		sig_control(1);
 		update_status(args);
+		free(s);
 		s = readline("minishell$ ");
+		add_history(s);
 		if (!s)
 		{
 			write(1, "exit\n", 5);
 			exit(g_status);
 		}
 		if (parsing_error_checks(s))
-		{
-			free(s);
 			continue ;
-		}
-		add_history(s);
 		lst = group_until_pipe(s);
 		if (!lst)
 		{
 			g_status = 1;
-			lst_destruct(lst);
-			free(s);
 			continue ;
 		}
 		cmd_lst = grouping_with_red(lst, args);
 		if (!cmd_lst)
 		{
 			g_status = 1;
+			free_a(args);
+			lst_destruct(lst);
 			continue ;
 		}
 		cmd_expanded(cmd_lst, args);
@@ -60,15 +58,11 @@ void	parsing(char **env_, t_args *args)
 		if (!cmd_lst->head->no_cmd[0] && cmd_lst->size == 1)
 		{
 			g_status = 1;
+			free_a(args);
+			lst_destruct(lst);
+			cmd_lst_destruct(cmd_lst, NULL);
 			continue ;
 		}
-		// t_cmd *tmp = cmd_lst->head;
-		// while (tmp)
-		// {
-		// 	printf("tmp->no_cmd[0] = %s\n", tmp->no_cmd[0]);
-		// 	tmp = tmp->next;
-		// }
-		
 		args->env = from_lst_to_dbl(args->env_lst);
 		pipex_main(cmd_lst, args);
 	}
@@ -133,9 +127,12 @@ void	update_status(t_args *a)
 	duped = ft_strdup("declare -x ?=\""); 
 	joined = ft_strjoin3(duped, itoa, "\"");
 	env_lst_add_last(a->exp_lst, joined);
-	free(joined);
-	free(duped);
-	free(itoa);
+	if (joined)
+		free(joined);
+	if (duped)
+		free(duped);
+	if (itoa)
+		free(itoa);
 }
 
 void	printer(char **arr)
@@ -161,7 +158,6 @@ void	cmd_quote_clear(t_cmd_lst *cmd_lst)
 	while (cur)
 	{
 		arr = split(cur->args, ' ');
-//		printer(arr);
 		if (!arr)
 			exit(1);
 		cur->no_cmd = no_cmd_clear(arr);

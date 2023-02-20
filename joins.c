@@ -34,7 +34,6 @@ char	*ft_strjoin_m(char *s1, char *s2)
 		i++;
 	}
 	join[i] = '\0';
-	free(s1);
 	return (join);
 }
 
@@ -59,7 +58,6 @@ char	*ft_strjoin(char *s1, char *s2, t_args *a)
 		a->end++;
 	}
 	dst[i] = '\0';
-	free(s1);
 	return (dst);
 }
 
@@ -70,7 +68,7 @@ char	*ft_strjoin3(char *str1, char *str2, char *str3)
 
 	str12 = ft_strjoin_m(str1, str2);
 	str123 = ft_strjoin_m(str12, str3);
-	free(str1);
+	free(str12);
 	return (str123);
 }
 
@@ -99,5 +97,31 @@ char	*ft_strjoin2(char *s1, char *s2, int start, int end)
 	dst[i] = '\0';
 	if (s1)
 		free(s1);
+	return (dst);
+}
+
+char	*ft_strjoin22(char *s1, char *s2, int start, int end)
+{
+	int		i;
+	char	*dst;
+	int		len;
+
+	i = 0;
+	len = ft_strlen(s1);
+	dst = (char *)malloc((len + start - end + 1) * sizeof(char));
+	if (!dst)
+		return (NULL);
+	while (s1 && i < len)
+	{
+		dst[i] = s1[i];
+		i++;
+	}
+	while (end < start && s2)
+	{
+		dst[i] = s2[end];
+		i++;
+		end++;
+	}
+	dst[i] = '\0';
 	return (dst);
 }

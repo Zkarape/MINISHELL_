@@ -67,6 +67,7 @@ void	export_pars(char *s, t_args *a)
 	free(quoted);
 	free(data);
 	free(retval);
+	free(duped);
 }
 
 t_env_lst	*exp_cpy_env(t_args *a)

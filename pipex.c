@@ -14,7 +14,6 @@
 
 void checking_fork(t_args *a, pid_t forking, int i)
 {
-	// static int	i = 0;
 	int j;
 
 	j = -1;
@@ -34,6 +33,7 @@ void processing_status(t_args *a, int size)
 	int status;
 
 	i = -1;
+	status = 0;
 	while (++i < size)
 	{
 		pid = waitpid(-1, &status, 0);
@@ -53,19 +53,23 @@ void processing_status(t_args *a, int size)
 	}
 }
 
-void forking_separately(t_args *a, t_cmd *cur, int size)
+int	forking_separately(t_args *a, t_cmd *cur, int size)
 {
 	int i;
-	int j;
 	int b;
 
 	i = 0;
-	j = 0;
 	b = 0;
 	a->size = size - 1;
 	a->pids = malloc(sizeof(pid_t) * (size));
 	if (size == 1)
-		checking_fork(a, forking(cur->fd_in, cur->fd_out, cur, a), i - 1);
+	{
+		b = build(cur, a);
+		if (b)
+			return (1);
+		if (!b)
+			checking_fork(a, forking(cur->fd_in, cur->fd_out, cur, a), i - 1);
+	}
 	else
 	{
 		checking_fork(a, forking(cur->fd_in, a->pipefds[0][1], cur, a), i - 1);
@@ -80,11 +84,13 @@ void forking_separately(t_args *a, t_cmd *cur, int size)
 		checking_fork(a, forking(a->pipefds[i][0], cur->fd_out, cur, a), i);
 		close_pipefds(a->pipefds, size - 1, NULL, 0);
 	}
+	return (0);
 }
 
 int pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 {
 	int i;
+	int	b;
 	int(*pipefds)[2];
 	t_cmd *cur;
 
@@ -99,7 +105,7 @@ int pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 		if (pipe_error(pipe(pipefds[i])))
 		{
 			close_pipefds(pipefds, i, cur, 1);
-			//			pipefds_free(pipefds, cmd_lst->size - 1);
+			pipefds_free(pipefds);
 			return (1);
 		}
 	}
@@ -107,20 +113,25 @@ int pipex_main(t_cmd_lst *cmd_lst, t_args *a)
 		a->pipefds = NULL;
 	else
 		a->pipefds = pipefds;
-	forking_separately(a, cur, cmd_lst->size);
+	b = forking_separately(a, cur, cmd_lst->size);
 	cur = cmd_lst->head;
 	closing(cur);
 	processing_status(a, cmd_lst->size);
-	//	pipefds_free(pipefds, cmd_lst->size - 1);
+	if (b)
+	{
+		cmd_def_free(cur);
+		free_a(a);
+	}
+	else
+		free(a->pids);
+	pipefds_free(pipefds);
 	return (0);
 }
 
 pid_t forking(int pipefd_in, int pipefd_out, t_cmd *cur, t_args *a)
 {
 	pid_t pid;
-	int i;
 
-	i = -1;
 	pid = fork();
 	if (pid == 0)
 	{

@@ -145,6 +145,7 @@ int			ft_tolower(int c);
 char		*get_environment(char *name, char **env);
 char		*ft_strjoin_m(char *s1, char *s2);
 char		*ft_strjoin2(char *s1, char *s2, int start, int end);
+char		*ft_strjoin22(char *s1, char *s2, int start, int end);
 char		*ft_strjoin3(char *str1, char *str2, char *str3);
 char		**from_lst_to_dbl(t_env_lst *env_lst);
 int			ft_strcmp(char *s1, char *s2);
@@ -301,10 +302,11 @@ void		update_status(t_args *args);
 void		remove_cur_env_node(t_env_lst *env_lst, char *s);
 void		printer(char **arr);
 //frees.c
-void		pipefds_free(pid_t (*piefds)[2], int size);
+void		pipefds_free(pid_t (*piefds)[2]);
 void		env_lst_destruct(t_env_lst *list);
 void		lst_destruct(t_list *list);
 void		free_a(t_args *a);
 void		dbl_free(char **arr);
+void		cmd_def_free(t_cmd *node);
 void		cmd_lst_destruct(t_cmd_lst *list, t_cmd *until);
 #endif

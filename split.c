@@ -86,7 +86,5 @@ char	**split(char *s, char c)
 		ft_strlcpy(split[i++], s, end + 1);
 		s += end;
 	}
-//	printf("split$$$$$$$$$\n");
-//	printer(split);
 	return (split);
 }
