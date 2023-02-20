@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 13:36:24 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/20 00:52:02 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:54:16 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*ft_strjoin_m(char *s1, char *s2)
 		i++;
 	}
 	join[i] = '\0';
-//	free(s1);
+	free(s1);
 	return (join);
 }
 
@@ -59,7 +59,7 @@ char	*ft_strjoin(char *s1, char *s2, t_args *a)
 		a->end++;
 	}
 	dst[i] = '\0';
-//	free(s1);
+	free(s1);
 	return (dst);
 }
 
@@ -70,7 +70,7 @@ char	*ft_strjoin3(char *str1, char *str2, char *str3)
 
 	str12 = ft_strjoin_m(str1, str2);
 	str123 = ft_strjoin_m(str12, str3);
-//	free(str1);
+	free(str1);
 	return (str123);
 }
 
@@ -82,7 +82,6 @@ char	*ft_strjoin2(char *s1, char *s2, int start, int end)
 
 	i = 0;
 	len = ft_strlen(s1);
-	// printf("len == %d, start == %d, end == %d", len, start, end);
 	dst = (char *)malloc((len + start - end + 1) * sizeof(char));
 	if (!dst)
 		return (NULL);
