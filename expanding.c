@@ -82,11 +82,11 @@ char	*expand(char *s, t_args *args)
 {
 	char	*str;
 
-	args->i = -1;
+	args->i = 0;
 	str = NULL;
 	args->start = 0;
 	args->hdoc_flg = 0;
-	while (s && *s && s[++args->i])
+	while (s && *s && s[args->i])
 	{
 		if (s[args->i] == '"')
 		{
@@ -100,6 +100,8 @@ char	*expand(char *s, t_args *args)
 			args->q_idx = find_d_quotes(s, args->i);
 			str = find_dollar_del(s, args);
 		}
+		if (s[args->i])
+			args->i++;
 	}
 	str = ft_strjoin2(str, s, args->i, args->start);
 	return (str);

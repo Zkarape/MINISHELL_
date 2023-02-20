@@ -48,6 +48,7 @@ void	dup_in_or_not_ttq(t_cmd *cur, int pipe_fd_in)
 
 void	dup_out_or_not_ttq(t_cmd *cur, int pipe_fd_out)
 {
+	printf("cur->fd_out == %d\n", cur->fd_out);
 	if (cur->fd_out == 1)
 	{
 		if (dup2(pipe_fd_out, STDOUT_FILENO) < 0)

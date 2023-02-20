@@ -33,7 +33,7 @@ int	find_d_quotes(char *s, int i)
 		{
 			if (s[i] == '$')
 				return (i + 1);
-			return (i);
+			return (i + 1);
 		}
 		i++;
 	}

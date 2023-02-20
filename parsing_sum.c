@@ -64,6 +64,13 @@ void	parsing(char **env_, t_args *args)
 			g_status = 1;
 			continue ;
 		}
+		// t_cmd *tmp = cmd_lst->head;
+		// while (tmp)
+		// {
+		// 	printf("tmp->no_cmd[0] = %s\n", tmp->no_cmd[0]);
+		// 	tmp = tmp->next;
+		// }
+		
 		args->env = from_lst_to_dbl(args->env_lst);
 		pipex_main(cmd_lst, args);
 	}
@@ -80,10 +87,10 @@ void	cmd_expanded(t_cmd_lst *cmd_lst, t_args *args)
 	while (cur)
 	{
 		str = expand(cur->args, args);
-		printf("args before == %s\n", cur->args);
+		// printf("args before == %s\n", cur->args);
 		free(cur->args);
 		cur->args = str;
-		printf("args after == %s\n", cur->args);
+		// printf("args after == %s\n", cur->args);
 		cur = cur->next;
 	}
 }
