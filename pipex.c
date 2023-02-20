@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 18:29:04 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/18 19:04:20 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:50:00 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,14 +140,10 @@ void process(int pipefd_in, int pipefd_out, t_cmd *cmd, t_args *a)
 
 	i = -1;
 	b = 0;
-	if (red_big_loop(cmd))
-		ft_print_error_and_exit("file not found\n", 127);
+//	if (red_big_loop(cmd))
+//		ft_print_error_and_exit("file not found\n", 127);
 	dup_in_or_not_ttq(cmd, pipefd_in);
-	// printf("00000000011111 ========== %s\n", cmd->no_cmd[0]);
-	// printf("11111111122222 ========== %s\n", cmd->no_cmd[1]);
 	dup_out_or_not_ttq(cmd, pipefd_out);
-	printf("000000000 ========== %s\n", cmd->no_cmd[0]);
-	printf("111111111 ========== %s\n", cmd->no_cmd[1]);
 	while (a->pipefds && ++i < a->size)
 	{
 		close(a->pipefds[i][0]);
@@ -158,17 +154,11 @@ void process(int pipefd_in, int pipefd_out, t_cmd *cmd, t_args *a)
 	close_in_out(cmd->hdoc_fd);
 	if (!cmd->no_cmd[0])
 		exit(1);
-
 	b = build(cmd, a);
 	if (!b)
-	{
 		execute(cmd, a->env);
-	}
 	else
-	{
-		printf("exited\n");
 		exit(g_status);
-	}
 }
 
 void execute(t_cmd *cmd, char **env)
@@ -180,10 +170,8 @@ void execute(t_cmd *cmd, char **env)
 
 	i = 0;
 	absolue_path = NULL;
-	printer(cmd->no_cmd);
 
-	//	if (execve(cmd->no_cmd[0], cmd->no_cmd, env) == -1)
-	//		perror(cmd->no_cmd[0]);
+	execve(cmd->no_cmd[0], cmd->no_cmd, env);
 	paths = get_environment("PATH=", env);
 	path = split(paths, ':');
 	if (path)
@@ -191,12 +179,12 @@ void execute(t_cmd *cmd, char **env)
 		while (path[i])
 		{
 			absolue_path = ft_strjoin3(path[i++], "/", cmd->no_cmd[0]);
-			//	printf("absolute path before%s\n", absolue_path);
 			execve(absolue_path, cmd->no_cmd, env);
-			//		perror(cmd->no_cmd[0]);
-			//	printf("absolute path after%s\n", absolue_path);
 			free(absolue_path);
 		}
 	}
-	ft_print_error_and_exit("cmd not found\n", 127);
+	perror(cmd->no_cmd[0]);
+	g_status = 127;
+	exit(127);
+//	ft_print_error_and_exit("cmd not found\n", 127);
 }

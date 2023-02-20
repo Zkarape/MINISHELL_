@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/20 00:52:23 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:27:26 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ void	parsing(char **env_, t_args *args)
 	{
 		sig_control(1);
 		update_status(args);
-	//	env_lst_destruct(args->env_lst);
-	//	env_lst_destruct(args->exp_lst);
 		s = readline("minishell$ ");
 		if (!s)
 		{
@@ -162,7 +160,6 @@ void	cmd_quote_clear(t_cmd_lst *cmd_lst)
 	arr = NULL;
 	while (cur)
 	{
-		printf("args == %s\n", cur->args);
 		arr = split(cur->args, ' ');
 //		printer(arr);
 		if (!arr)

@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:49:14 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/18 19:40:45 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:24:23 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,7 @@ char	**split(char *s, char c)
 		ft_strlcpy(split[i++], s, end + 1);
 		s += end;
 	}
+//	printf("split$$$$$$$$$\n");
+//	printer(split);
 	return (split);
 }

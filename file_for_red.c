@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:00 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/18 14:32:08 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:44:53 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,7 @@ int	func_for_reds(t_cmd *cmd_node, t_red *red_node)
 				| O_TRUNC | O_CREAT, 0644);
 	}
 	if (cmd_node->fd_in == -1 || cmd_node->fd_out == -1)
-	{
-		perror("error");
 		return (1);
-	}
 	return (0);
 }
 

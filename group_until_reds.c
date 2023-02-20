@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:11 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/20 00:39:37 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/20 15:47:59 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,5 +144,19 @@ t_cmd_lst	*grouping_with_red(t_list *pipe_group, t_args *a)
 		}
 		cur = cur->next;
 	}
+	redirections(cmd_lst);
 	return (cmd_lst);
+}
+
+void	redirections(t_cmd_lst *lst)
+{
+	t_cmd	*cur;
+
+	cur = lst->head;
+	while (cur)
+	{
+		if (red_big_loop(cur))
+			ft_print_error_with_arg("minishell", NULL);
+		cur = cur->next;
+	}
 }
