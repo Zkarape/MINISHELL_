@@ -17,7 +17,7 @@ int	find_unquoted(char *s)
 	int	i;
 
 	i = 0;
-	while (s[i])
+	while (s && s[i])
 	{
 		if (s[i] == '"')
 		{

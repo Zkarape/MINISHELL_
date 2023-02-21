@@ -57,7 +57,7 @@ void	ft_print_error_with_arg(char *cmd, char *arg)
 
 int	parsing_error_checks(char *s)
 {
-	if (s[0] == '\0')
+	if (s && s[0] == '\0')
 	{
 		//g_status = 1;
 		return (1);

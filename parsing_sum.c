@@ -34,17 +34,17 @@ void	parsing(char **env_, t_args *args)
 		update_status(args, ret);
 		free_a(args, ret);
 		free(s);
-		lst_destruct(lst);
-		cmd_lst_destruct(cmd_lst, NULL);
+		lst_destruct(&lst);
+		cmd_lst_destruct(&cmd_lst, NULL);
 		s = readline("minishell$ ");
-		add_history(s);
-		if (parsing_error_checks(s))
-			continue ;
 		if (!s)
 		{
 			write(1, "exit\n", 5);
 			exit(g_status);
 		}
+		if (parsing_error_checks(s))
+			continue ;
+		add_history(s);
 		lst = group_until_pipe(s);
 		if (!lst)
 		{
@@ -126,7 +126,6 @@ void	update_status(t_args *a, int ret)
 	free(joined);
 	free(duped);
 	free(itoa);
-//	free_a(a, ret);
 }
 
 void	printer(char **s)
@@ -136,7 +135,6 @@ void	printer(char **s)
 	i = -1;
 	while (s[++i])
 	{
-		printf("aaaaaaaaaaaaa\n");
 		printf("%s\n", s[i]);
 	}
 }

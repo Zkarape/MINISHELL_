@@ -15,11 +15,11 @@
 void	free_a(t_args *a, int f)
 {
 	dbl_free(a->env);
-	pipefds_free(a->pipefds);
+	if (f)
+		pipefds_free(a->pipefds);
 	free(a->file);
 	free(a->pids);
 	a->env = NULL;
-	a->pipefds = NULL;
 	a->file = NULL;
 	a->pids = NULL;
 }
@@ -36,10 +36,7 @@ void	dbl_free(char **arr)
 
 	i = -1;
 	while (arr && arr[++i])
-	{
 		free(arr[i]);
-		arr[i] = NULL;
-	}
 	free(arr);
 	arr = NULL;
 }
@@ -50,18 +47,21 @@ void env_def_free(t_env *node)
 	node = NULL;
 }
 
-void env_lst_destruct(t_env_lst *list)
+void env_lst_destruct(t_env_lst **list)
 {
 	t_env *cur;
 	t_env *tmp;
 
 	tmp = NULL;
-	cur = list->head->next;
-	while (cur)
+	if (list && *list)
 	{
-		tmp = cur->next;
-		env_def_free(cur);
-		cur = tmp;
+		cur = (*list)->head->next;
+		while (cur)
+		{
+			tmp = cur->next;
+			env_def_free(cur);
+			cur = tmp;
+		}
 	}
 	free(list);
 	list = NULL;
@@ -73,18 +73,17 @@ void node_def_free(t_node *node)
 	{
 		free(node->data);
 		free(node);
-		node = NULL;
 	}
 }
 
-void lst_destruct(t_list *list)
+void lst_destruct(t_list **list)
 {
 	t_node *cur;
 	t_node *tmp;
 
 	tmp = NULL;
-	if (list)
-		cur = list->head;
+	if (list && *list)
+		cur = (*list)->head;
 	else
 		cur = NULL;
 	while (cur)
@@ -93,8 +92,8 @@ void lst_destruct(t_list *list)
 		node_def_free(cur);
 		cur = tmp;
 	}
-	free(list);
-	list = NULL;
+	free(*list);
+	*list = NULL;
 }
 
 void red_def_free(t_red *node)
@@ -103,28 +102,26 @@ void red_def_free(t_red *node)
 	{
 		free(node->file);
 		free(node);
-		node->file = NULL;
-		node = NULL;
 	}
 }
 
-void red_lst_destruct(t_red_lst *list)
+void red_lst_destruct(t_red_lst **list)
 {
 	t_red *cur;
 	t_red *tmp;
 
 	tmp = NULL;
 	cur = NULL;
-	if (list)
-		cur = list->head;
+	if (list && *list)
+		cur = (*list)->head;
 	while (cur)
 	{
 		tmp = cur->next;
 		red_def_free(cur);
 		cur = tmp;
 	}
-	free(list);
-	list = NULL;
+	free(*list);
+	*list = NULL;
 }
 
 void cmd_def_free(t_cmd *node)
@@ -132,24 +129,20 @@ void cmd_def_free(t_cmd *node)
 	if (node)
 	{
 		free(node->args);
-		red_lst_destruct(node->red_lst);
+		red_lst_destruct(&node->red_lst);
 		dbl_free(node->no_cmd);
 		free(node);
-		node->args = NULL;
-		node->red_lst = NULL;
-		node->no_cmd = NULL;
-		node = NULL;
 	}
 }
 
-void cmd_lst_destruct(t_cmd_lst *list, t_cmd *until)
+void cmd_lst_destruct(t_cmd_lst **list, t_cmd *until)
 {
 	t_cmd *cur;
 	t_cmd *tmp;
 
 	tmp = NULL;
-	if (list)
-		cur = list->head;
+	if (list && *list)
+		cur = (*list)->head;
 	else
 		cur = NULL;
 	while (cur != until)
@@ -159,7 +152,6 @@ void cmd_lst_destruct(t_cmd_lst *list, t_cmd *until)
 		cur = tmp;
 	}
 	free(until);
-	free(list);
-	until = NULL;
-	list = NULL;
+	free(*list);
+	*list = NULL;
 }

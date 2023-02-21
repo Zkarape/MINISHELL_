@@ -303,11 +303,11 @@ void		remove_cur_env_node(t_env_lst *env_lst, char *s);
 void		printer(char **arr);
 //frees.c
 void		pipefds_free(pid_t (*piefds)[2]);
-void		env_lst_destruct(t_env_lst *list);
-void		lst_destruct(t_list *list);
+void		env_lst_destruct(t_env_lst **list);
+void		lst_destruct(t_list **list);
 void		free_a(t_args *a, int f);
 void		dbl_free(char **arr);
 void		cmd_def_free(t_cmd *node);
-void		cmd_lst_destruct(t_cmd_lst *list, t_cmd *until);
-void	printer(char **s);
+void		cmd_lst_destruct(t_cmd_lst **list, t_cmd *until);
+void		printer(char **s);
 #endif
