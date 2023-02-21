@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 21:39:09 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/19 15:34:53 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/21 22:08:03 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_export(t_cmd *cmd, t_args *a)
 	while (cmd->no_cmd[++i])
 	{
 		val = equality_out_of_quotes(cmd->no_cmd[i]);
-		f = is_in_export_or_not(a->exp_lst, cmd->no_cmd[i], val);
+		f = is_in_export_or_not(cmd->no_cmd[i], val, a);
 		if (f == 1)
 			return (1);
 		if (f == 2)
@@ -43,14 +43,12 @@ int	ft_export(t_cmd *cmd, t_args *a)
 
 void	export_pars(char *s, t_args *a)
 {
-	int			i;
 	char		*data;
 	char		*unquoted;
 	char		*quoted;
 	char		*retval;
 	char		*duped;
 
-	i = 0;
 	data = NULL;
 	unquoted = equality_out_of_quotes(s);
 	quoted = adding_quotes(unquoted);
@@ -93,34 +91,31 @@ int	cmp_remove(int k, t_env *cur, t_env_lst *exp_lst, char *arg)
 	return (0);
 }
 
-int	is_in_export_or_not(t_env_lst *exp_lst, char *arg, char *val)
+int	is_in_export_or_not(char *arg, char *val, t_args *a)
 {
 	t_env	*cur;
-	int		k;
-	int		k1;
-	int		q;
 
-	cur = exp_lst->head->next;
-	q = 0;
+	cur = a->exp_lst->head->next;
+	a->q = 0;
 	while (cur->next)
 	{
-		k = until_equal_sign(&cur->data[11]);
-		if (error_checks_for_var(&cur->data[11], k, 0))
+		a->k = until_equal_sign(&cur->data[11]);
+		if (error_checks_for_var(&cur->data[11], a->k, 0))
 			return (1);
-		k1 = until_equal_sign(arg);
-		if (k1 > k)
-			k = k1;
-		if (!(*(cur->data + 11 + k) == '='
-				&& !val && !ft_strncmp(&cur->data[11], arg, k)))
+		a->k1 = until_equal_sign(arg);
+		if (a->k1 > a->k)
+			a->k = a->k1;
+		if (!(*(cur->data + 11 + a->k) == '='
+				&& !val && !ft_strncmp(&cur->data[11], arg, a->k)))
 		{
-			if (cmp_remove(k, cur, exp_lst, arg))
+			if (cmp_remove(a->k, cur, a->exp_lst, arg))
 				break ;
 			else
-				q++;
+				a->q++;
 		}
 		cur = cur->next;
 	}
-	if (q == exp_lst->size)
+	if (a->q == a->exp_lst->size)
 		return (2);
 	return (0);
 }

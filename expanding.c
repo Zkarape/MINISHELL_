@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:24:09 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/20 00:34:29 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/21 21:56:57 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ char	*find_del(char *s, t_args *a)
 
 	k = 0;
 	del = NULL;
-	while (!ft_is_space(s[a->i]) && !is_quote(s[a->i]) && s[a->i] && s[a->i++] != '$')
+	while (!ft_is_space(s[a->i]) && !is_quote(s[a->i])
+		&& s[a->i] && s[a->i++] != '$')
 		k++;
 	if (s[a->i - 1] == '$' && is_quote(s[a->i]))
 		return (del);

@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 21:06:39 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/19 20:59:11 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/21 21:51:57 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	env_lst_print(t_env_lst *list)
 	cur = list->head->next;
 	while (cur->next)
 	{
-		if (cur->data)// && cur->data[11] != '?')
+		if (cur->data && cur->data[11] != '?')
 			printf("%s\n", cur->data);
 		cur = cur->next;
 	}

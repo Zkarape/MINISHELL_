@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 11:37:14 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/19 14:41:37 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/21 22:08:37 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,28 +60,6 @@ char	*equality_out_of_quotes(char *s)
 		}
 	}
 	return (NULL);
-}
-
-char	*adding_quotes(char *s)
-{
-	int		i;
-	int		j;
-	char	*dst;
-
-	i = -1;
-	j = 1;
-	if (!s)
-		return (NULL);
-	dst = malloc(sizeof(char) * (ft_strlen(s) + 3));
-	dst[0] = '"';
-	while (s[++i])
-	{
-		dst[j] = s[i];
-		j++;
-	}
-	dst[j] = '"';
-	dst[++j] = '\0';
-	return (dst);
 }
 
 t_env	*is_in_env_or_not(t_env_lst *env_lst, char *arg)

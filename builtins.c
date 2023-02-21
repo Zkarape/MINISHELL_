@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/25 19:06:24 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/17 21:46:03 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/21 21:26:57 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,15 @@ void	remove_cur_env_node(t_env_lst *env_lst, char *s)
 int	unset(t_env_lst *env_lst, t_env_lst *exp_lst, t_cmd *cmd_node)
 {
 	int		i;
-	int		j;
 	int		k;
 	t_env	*exp_node;
 
 	i = 0;
-	j = -1;
 	exp_node = exp_lst->head->next;
 	while (cmd_node->no_cmd[++i])
 	{
 		if (error_checks_for_var(cmd_node->no_cmd[i],
-			ft_strlen(cmd_node->no_cmd[i]), 1))
+				ft_strlen(cmd_node->no_cmd[i]), 1))
 			return (1);
 		while (exp_node->next)
 		{
