@@ -213,7 +213,7 @@ char		*clean_fst_last(char *s);
 char		*filling_without_c(char *s, char c, int len, int count);
 char		*filling_with_nulls(char *s);
 //heredoc.c
-void		heredoc(t_cmd *cmd, t_args *a);
+int		heredoc(t_cmd *cmd, t_args *a);
 void		red_lst_print(t_red_lst *list);
 t_red_lst	*red_lst_construct(void);
 t_red		*red_node_initialize(void);
@@ -309,4 +309,5 @@ void		free_a(t_args *a, int f);
 void		dbl_free(char **arr);
 void		cmd_def_free(t_cmd *node);
 void		cmd_lst_destruct(t_cmd_lst *list, t_cmd *until);
+void	printer(char **s);
 #endif

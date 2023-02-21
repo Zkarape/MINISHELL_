@@ -57,11 +57,11 @@ void	ft_print_error_with_arg(char *cmd, char *arg)
 
 int	parsing_error_checks(char *s)
 {
-//	if (s[0] == '\n')
-//	{
-//		g_status = 1;
-//		return (1);
-//	}
+	if (s[0] == '\0')
+	{
+		//g_status = 1;
+		return (1);
+	}
 	if (!find_unquoted(s))
 	{
 		ft_putstr_fd("Missing quote\n", 1, 0);

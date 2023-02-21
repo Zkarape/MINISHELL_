@@ -64,7 +64,6 @@ char	**from_lst_to_dbl(t_env_lst *env_lst)
 		exit(1);
 	while (env->next)
 	{
-//		printf("env->data == %s\n", env->data);
 		arr[i] = malloc(sizeof(char) * (ft_strlen(env->data) + 1));
 		if (ft_check_alloc(arr, arr[i], i))
 			exit(1);

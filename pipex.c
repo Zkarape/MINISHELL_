@@ -17,9 +17,7 @@ void checking_fork(t_args *a, pid_t forking, int i)
 	int j;
 
 	j = -1;
-	printf("i + 1 == %d\n", i + 1);
 	a->pids[i + 1] = forking;
-	printf("forking == %d\n", forking);
 	if (forking < 0)
 	{
 		while (a->pids[++j] != a->pids[i + 1])
@@ -39,7 +37,6 @@ void processing_status(t_args *a, int size)
 	while (++i < size)
 	{
 		pid = waitpid(-1, &status, 0);
-		printf("size - 1 == %d\n", size - 1);
 		if (pid == a->pids[size - 1])
 		{
 			if (!WTERMSIG(status)) // child completed successfully

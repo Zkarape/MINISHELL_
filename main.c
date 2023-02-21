@@ -31,7 +31,6 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	args = malloc(sizeof(t_args));
 	a_init(args);
-//	set_get_attr();
 	parsing(env, args);
 	return (0);
 }

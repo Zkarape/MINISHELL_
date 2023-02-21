@@ -12,14 +12,12 @@
 
 #include "minishell.h"	
 
-//int g_status = -2;
-
-void	heredoc(t_cmd *cmd, t_args *a)
+int	heredoc(t_cmd *cmd, t_args *a)
 {
 	char	*tmp;
 	char	*s;
 	char	*cleaned_file;
-
+	
 	cleaned_file = filling_with_nulls(a->file);
 	while (1)
 	{
@@ -30,7 +28,10 @@ void	heredoc(t_cmd *cmd, t_args *a)
 		if (g_status == -42)
 		{
 			g_status = 1;
-			break ;
+			printf("HELLOOOO\n");
+			free(cleaned_file);
+			free(s);
+			return (1);
 		}
 		if (!(ft_strncmp(cleaned_file, s, ft_strlen(s))
 				!= 0 || s[0] == '\0'))
@@ -52,6 +53,7 @@ void	heredoc(t_cmd *cmd, t_args *a)
 		cmd->hdoc_fd = a->fd[0];
 	free(cleaned_file);
 	free(s);
+	return (0);
 }
 
 int	big_loop(t_cmd *cmd, t_args *a)
@@ -74,14 +76,13 @@ int	big_loop(t_cmd *cmd, t_args *a)
 			a->hdoc_size = cmd->red_lst->heredoc_k;
 			a->fd = fd;
 			a->file = cur->file;
-			heredoc(cmd, a);
+			if (heredoc(cmd, a))
+				return (1);
 			close(fd[1]);
 			if (cmd->hdoc_fd == -1 && cmd->red_lst->heredoc_k == 0)
 				close(fd[0]);
 		}
 		cur = cur->next;
-		if (g_status == 1)
-			return (1);
 	}
 	return (0);
 }

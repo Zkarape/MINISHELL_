@@ -28,21 +28,17 @@ void	sig_control(int a)
 		signal(SIGINT, SIG_DFL);
 		if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
 			perror("quited");
-	//	ft_putstr_fd("\n", 1, 0);
-	//	return (0);
 	}
 	else if (a == 1)
 	{
 		init_term();
 		signal(SIGINT, sigint_handler);
 		signal(SIGQUIT, SIG_IGN);
-	//	return (1);
 	}
 	else if (a == 2)
 	{
 		signal(SIGINT, sig_handler_hdoc);	
 		signal(SIGQUIT, SIG_IGN);
-	//	return (2);
 	}
 }
 

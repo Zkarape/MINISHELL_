@@ -32,20 +32,18 @@ void	parsing(char **env_, t_args *args)
 	{
 		sig_control(1);
 		update_status(args, ret);
+		free_a(args, ret);
 		free(s);
 		lst_destruct(lst);
 		cmd_lst_destruct(cmd_lst, NULL);
 		s = readline("minishell$ ");
 		add_history(s);
+		if (parsing_error_checks(s))
+			continue ;
 		if (!s)
 		{
 			write(1, "exit\n", 5);
 			exit(g_status);
-		}
-		if (parsing_error_checks(s))
-		{
-			printf("project a\n");
-			continue ;
 		}
 		lst = group_until_pipe(s);
 		if (!lst)
@@ -61,11 +59,6 @@ void	parsing(char **env_, t_args *args)
 		}
 		cmd_expanded(cmd_lst, args);
 		cmd_quote_clear(cmd_lst);
-		if (cmd_lst->size == 1 && !cmd_lst->head->no_cmd[0])
-		{
-			g_status = 1;
-			continue ;
-		}
 		args->env = from_lst_to_dbl(args->env_lst);
 		if (cmd_lst->size == 1 && build(cmd_lst->head, args))
 			continue ;
@@ -130,23 +123,21 @@ void	update_status(t_args *a, int ret)
 	duped = ft_strdup("declare -x ?=\""); 
 	joined = ft_strjoin3(duped, itoa, "\"");
 	env_lst_add_last(a->exp_lst, joined);
-	if (joined)
-		free(joined);
-	if (duped)
-		free(duped);
-	if (itoa)
-		free(itoa);
-	free_a(a, ret);
+	free(joined);
+	free(duped);
+	free(itoa);
+//	free_a(a, ret);
 }
 
-void	printer(char **arr)
+void	printer(char **s)
 {
 	int	i;
 
 	i = -1;
-	while (arr[++i])
+	while (s[++i])
 	{
-		printf("arr[i] == %s\n", arr[i]);
+		printf("aaaaaaaaaaaaa\n");
+		printf("%s\n", s[i]);
 	}
 }
 
@@ -162,6 +153,7 @@ void	cmd_quote_clear(t_cmd_lst *cmd_lst)
 	while (cur)
 	{
 		arr = split(cur->args, ' ');
+		printer(arr);
 		if (!arr)
 			exit(1);
 		cur->no_cmd = no_cmd_clear(arr);

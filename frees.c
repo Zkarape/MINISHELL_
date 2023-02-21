@@ -14,20 +14,20 @@
 
 void	free_a(t_args *a, int f)
 {
-	if (a->env)
-		dbl_free(a->env);
-	if (a->pipefds && f)
-		pipefds_free(a->pipefds);
-	if (a->file)
-		free(a->file);
-	if (a->pids)
-		free(a->pids);
+	dbl_free(a->env);
+	pipefds_free(a->pipefds);
+	free(a->file);
+	free(a->pids);
+	a->env = NULL;
+	a->pipefds = NULL;
+	a->file = NULL;
+	a->pids = NULL;
 }
 
 void	pipefds_free(pid_t (*pipefds)[2])
 {
-	if (pipefds)
-		free(pipefds);
+	free(pipefds);
+	pipefds = NULL;
 }
 
 void	dbl_free(char **arr)
@@ -38,15 +38,16 @@ void	dbl_free(char **arr)
 	while (arr && arr[++i])
 	{
 		free(arr[i]);
+		arr[i] = NULL;
 	}
-	if (arr)
-		free(arr);
+	free(arr);
+	arr = NULL;
 }
 
 void env_def_free(t_env *node)
 {
-	if (node)
-		free(node);
+	free(node);
+	node = NULL;
 }
 
 void env_lst_destruct(t_env_lst *list)
@@ -63,15 +64,16 @@ void env_lst_destruct(t_env_lst *list)
 		cur = tmp;
 	}
 	free(list);
+	list = NULL;
 }
 
 void node_def_free(t_node *node)
 {
 	if (node)
 	{
-		if (node->data)
-			free(node->data);
+		free(node->data);
 		free(node);
+		node = NULL;
 	}
 }
 
@@ -92,15 +94,17 @@ void lst_destruct(t_list *list)
 		cur = tmp;
 	}
 	free(list);
+	list = NULL;
 }
 
 void red_def_free(t_red *node)
 {
 	if (node)
 	{
-		if (node->file)
-			free(node->file);
+		free(node->file);
 		free(node);
+		node->file = NULL;
+		node = NULL;
 	}
 }
 
@@ -120,18 +124,21 @@ void red_lst_destruct(t_red_lst *list)
 		cur = tmp;
 	}
 	free(list);
+	list = NULL;
 }
 
 void cmd_def_free(t_cmd *node)
 {
 	if (node)
 	{
-		if (node->args)
-			free(node->args);
-		if (node->no_cmd)
-			dbl_free(node->no_cmd);
+		free(node->args);
 		red_lst_destruct(node->red_lst);
+		dbl_free(node->no_cmd);
 		free(node);
+		node->args = NULL;
+		node->red_lst = NULL;
+		node->no_cmd = NULL;
+		node = NULL;
 	}
 }
 
@@ -153,4 +160,6 @@ void cmd_lst_destruct(t_cmd_lst *list, t_cmd *until)
 	}
 	free(until);
 	free(list);
+	until = NULL;
+	list = NULL;
 }
