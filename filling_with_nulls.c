@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:27:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/14 17:56:40 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/21 22:09:20 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*filling_with_nulls(char *str)
 	int		len;
 	char	quote;
 	int		null_count;
-	char		*s;
+	char	*s;
 
 	i = -1;
 	s = ft_strdup(str);

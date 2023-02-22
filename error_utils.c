@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 14:30:41 by aivanyan          #+#    #+#             */
-/*   Updated: 2023/02/20 15:49:42 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/21 21:52:43 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,27 +53,4 @@ void	ft_print_error_with_arg(char *cmd, char *arg)
 	s2 = ft_strjoin_m(arg, ": ");
 	msg = ft_strjoin3(s1, s2, "No such file or directory\n");
 	ft_putstr(msg);
-}
-
-int	parsing_error_checks(char *s)
-{
-	if (s && s[0] == '\0')
-	{
-		//g_status = 1;
-		return (1);
-	}
-	if (!find_unquoted(s))
-	{
-		ft_putstr_fd("Missing quote\n", 1, 0);
-		g_status = 1;
-		return (1);
-	}
-	else if (!last_pipe_check(s))
-	{
-		ft_putstr_fd("Parsing error near '|'\n", 1, 0);
-		g_status = 1;
-		return (1);
-	}
-	g_status = 0;
-	return (0);
 }

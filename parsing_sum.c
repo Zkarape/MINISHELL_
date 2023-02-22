@@ -6,7 +6,7 @@
 /*   By: aivanyan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 19:54:15 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/20 14:27:26 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/21 22:04:17 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	parsing(char **env_, t_args *args)
 	s = NULL;
 	lst = NULL;
 	cmd_lst = NULL;
+	ret = 0;
 	args->env_lst = getting_env(env_);
 	args->exp_lst = env_lst_construct();
 	args->exp_lst = exp_cpy_env(args);
@@ -31,7 +32,7 @@ void	parsing(char **env_, t_args *args)
 	while (1)
 	{
 		sig_control(1);
-		update_status(args, ret);
+		update_status(args);
 		free_a(args, ret);
 		free(s);
 		lst_destruct(&lst);
@@ -70,7 +71,6 @@ void	cmd_expanded(t_cmd_lst *cmd_lst, t_args *args)
 {
 	t_cmd	*cur;
 	char	*str;
-	char	*str1;
 
 	cur = cmd_lst->head;
 	str = NULL;
@@ -100,7 +100,7 @@ char	**no_cmd_clear(char **arr)
 	return (arr);
 }
 
-void	update_status(t_args *a, int ret)
+void	update_status(t_args *a)
 {
 	t_env	*cur;
 	char	*itoa;
@@ -151,7 +151,6 @@ void	cmd_quote_clear(t_cmd_lst *cmd_lst)
 	while (cur)
 	{
 		arr = split(cur->args, ' ');
-		printer(arr);
 		if (!arr)
 			exit(1);
 		cur->no_cmd = no_cmd_clear(arr);

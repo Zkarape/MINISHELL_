@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/21 20:07:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/20 15:49:16 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/21 22:15:27 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,9 @@ typedef struct s_env_lst
 typedef struct s_args
 {
 	int			i;
+	int			k;
+	int			k1;
+	int			q;
 	int			q_idx;
 	int			start;
 	int			end;
@@ -281,7 +284,7 @@ char		*equality_out_of_quotes(char *s);
 void		sort(t_env_lst	*exp_lst);
 t_env		*is_in_env_or_not(t_env_lst *env_lst, char *arg);
 t_env		*is_in_exp_or_not(t_env_lst *exp_lst, char *arg);
-int			is_in_export_or_not(t_env_lst *exp_lst, char *arg, char *val);
+int			is_in_export_or_not(char *arg, char *val, t_args *a);
 //error
 void		error_dup(int du);
 
@@ -298,9 +301,9 @@ void		sigquit_handler(int sig);
 //utils2.c
 int			last_pipe_check(char *s);
 char		*ft_itoa(int n);
-void		update_status(t_args *args, int f);
+void		update_status(t_args *args);
 void		remove_cur_env_node(t_env_lst *env_lst, char *s);
-void		printer(char **arr);
+void		redirections(t_cmd_lst *lst);
 //frees.c
 void		pipefds_free(pid_t (*piefds)[2]);
 void		env_lst_destruct(t_env_lst **list);

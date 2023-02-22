@@ -6,7 +6,7 @@
 /*   By: aivanyan <aivanyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 14:32:53 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/19 21:45:42 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/21 22:17:56 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	heredoc(t_cmd *cmd, t_args *a)
 	char	*tmp;
 	char	*s;
 	char	*cleaned_file;
-	
+
 	cleaned_file = filling_with_nulls(a->file);
 	while (1)
 	{
@@ -28,7 +28,6 @@ int	heredoc(t_cmd *cmd, t_args *a)
 		if (g_status == -42)
 		{
 			g_status = 1;
-			printf("HELLOOOO\n");
 			free(cleaned_file);
 			free(s);
 			return (1);

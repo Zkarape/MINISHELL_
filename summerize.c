@@ -85,7 +85,7 @@ t_list	*group_until_pipe(char *s)
 		{
 			if (more_pipes(&s[i + 1]))
 			{
-				lst_destruct(group);
+				lst_destruct(&group);
 				return (NULL);
 			}
 			lst_add_last(group, ft_substr_m(s, start, i));

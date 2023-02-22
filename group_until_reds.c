@@ -6,56 +6,11 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:11 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/02/20 15:47:59 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/21 22:17:15 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//checking, ><, <<<
-
-int	more_reds(char *s, char c)
-{
-	if (s)
-	{
-		if (*s == c || *s == '\0')
-		{
-			ft_putstr("parse error near ");
-			write(1, &c, 1);
-			write(1, "\n", 1);
-			return (1);
-		}
-		while (*s && *s == ' ')
-			s++;
-		if (*s == c || *s == '\0')
-		{
-			ft_putstr("parse error near ");
-			write(1, &c, 1);
-			write(1, "\n", 1);
-			return (1);
-		}
-	}
-	return (0);
-}
-
-int	return_type(char c, char c_next)
-{
-	if (c == '<')
-	{
-		if (c_next == '<')
-			return (2);
-		else
-			return (1);
-	}
-	if (c == '>')
-	{
-		if (c_next == '>')
-			return (3);
-		else
-			return (4);
-	}
-	return (42);
-}
 
 int	ankap_checks(int *i, char *s, int type, int *start)
 {
@@ -142,17 +97,4 @@ t_cmd_lst	*grouping_with_red(t_list *pipe_group, t_args *a)
 	}
 	redirections(cmd_lst);
 	return (cmd_lst);
-}
-
-void	redirections(t_cmd_lst *lst)
-{
-	t_cmd	*cur;
-
-	cur = lst->head;
-	while (cur)
-	{
-		if (red_big_loop(cur))
-			ft_print_error_with_arg("minishell", NULL);
-		cur = cur->next;
-	}
 }
