@@ -6,27 +6,11 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 17:49:14 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/28 16:01:44 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:24:23 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//static int	ft_count(char const *s, char c)
-//{
-//	int	count;
-//
-//	count = 0;
-//	if (!s)
-//		return (0);
-//	while (*s)
-//	{
-//		if (*s != c && (*(s + 1) == c || *(s + 1) == '\0'))
-//			count++;
-//		s++;
-//	}
-//	return (count);
-//}
 
 static int	ft_count(char *str, char c)
 {
@@ -72,25 +56,13 @@ static char	*ft_end(char *s, char c)
 	while (*s)
 	{	
 		if (*s == '"' || *s == '\'')
-	 		s += find_last_quote(s, *s);    
+			s += find_last_quote(s, *s);
 		if (*s != c && ((*(s + 1) == c) || (*(s + 1) == '\0')))
 			return (s);
 		s++;
 	}
 	return (NULL);
 }
-//static char	*ft_end(char *s, char c)
-//{
-//	while (s && *s && *s != c)
-//	{
-//		if (*s == '"' || *s == '\'')
-//			s += find_last_quote(s, *s);
-//		s++;
-//	}
-//	if (!*s || *s == c)
-//		return (s);
-//	return (NULL);
-//}
 
 char	**split(char *s, char c)
 {

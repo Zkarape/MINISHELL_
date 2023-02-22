@@ -6,7 +6,7 @@
 /*   By: zkarapet <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 13:17:00 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/28 16:49:29 by aivanyan         ###   ########.fr       */
+/*   Updated: 2023/02/22 18:51:31 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,15 @@ int	is_red(char c)
 	return (c == '<' || c == '>');
 }
 
-char	*filename_trim(char *s, int k, int type)
+char	*file_trim(char *s, int k, int type)
 {
 	int		i;
 	char	*file;
-	char	*file_trimmed = NULL;
+	char	*file_trimmed;
 
 	i = 0;
+	file_trimmed = NULL;
+	file = NULL;
 	if (k < 0)
 		return (NULL);
 	file = malloc(sizeof(char) * (k + 1));
@@ -35,20 +37,14 @@ char	*filename_trim(char *s, int k, int type)
 		i++;
 	}
 	file[i] = '\0';
-	return (file);
 	file_trimmed = file;
 	if (type != 2)
 	{
+		file_trimmed = filling_with_nulls(file);
 		free(file);
-		file = filling_with_nulls(file_trimmed);
+		file = file_trimmed;
 	}
 	return (file);
-}
-
-void	dup_error(int du)
-{
-	if (du < 0)
-		ft_print_error_and_exit("dup2 is < 0", 1);
 }
 
 void	close_in_out(int fd)
@@ -57,40 +53,44 @@ void	close_in_out(int fd)
 		close(fd);
 }
 
-void	func_for_reds(t_cmd *cmd_node, t_red *red_node, int yep)
+int	func_for_reds(t_cmd *cmd_node, t_red *red_node)
 {
 	if (red_node->type == INPUT_REDIRECTION)
 	{
 		close_in_out(cmd_node->fd_in);
 		cmd_node->fd_in = open(red_node->file, O_RDONLY);
 	}
-	else if (red_node->type == HEREDOC && yep)
+	else if (red_node->type == HEREDOC && cmd_node->yep)
 	{
 		close_in_out(cmd_node->fd_in);
 	}
 	else if (red_node->type == APPEND_REDIRECTION)
 	{
 		close_in_out(cmd_node->fd_out);
-		cmd_node->fd_out = open(red_node->file, O_WRONLY | O_APPEND | O_CREAT, 0644);
+		cmd_node->fd_out = open(red_node->file, O_WRONLY
+				| O_APPEND | O_CREAT, 0644);
 	}
 	else if (red_node->type == OUTPUT_REDIRECTION)
 	{
 		close_in_out(cmd_node->fd_out);
-		cmd_node->fd_out = open(red_node->file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+		cmd_node->fd_out = open(red_node->file, O_WRONLY
+				| O_TRUNC | O_CREAT, 0644);
 	}
-	printf("out == %d; in ==%d\n", cmd_node->fd_out, cmd_node->fd_in);
 	if (cmd_node->fd_in == -1 || cmd_node->fd_out == -1)
-		ft_print_error_and_exit("file not found\n", EXIT_FAILURE);
+		return (1);
+	return (0);
 }
 
-void	red_big_loop(t_red_lst *red_lst, t_cmd *cmd, int yep)
+int	red_big_loop(t_cmd *cmd)
 {
 	t_red	*cur;
 
-	cur = red_lst->head;
+	cur = cmd->red_lst->head;
 	while (cur)
 	{
-		func_for_reds(cmd, cur, yep);
+		if (func_for_reds(cmd, cur))
+			return (1);
 		cur = cur->next;
 	}
+	return (0);
 }

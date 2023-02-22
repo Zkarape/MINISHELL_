@@ -6,7 +6,7 @@
 /*   By: vpetrosy <vpetrosy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 13:27:49 by zkarapet          #+#    #+#             */
-/*   Updated: 2023/01/22 18:16:57 by zkarapet         ###   ########.fr       */
+/*   Updated: 2023/02/21 22:09:20 by zkarapet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,28 +21,34 @@ char	*filling_without_c(char *s, char c, int len, int count)
 	i = -1;
 	j = 0;
 	dst = malloc(sizeof(char) * count + 1);
-	while (++i < len)
+	if (s)
 	{
-		if (s[i] != c)
-			dst[j++] = s[i];
+		while (++i < len)
+		{
+			if (s[i] != c)
+				dst[j++] = s[i];
+		}
 	}
 	dst[j] = '\0';
+	free(s);
 	return (dst);
 }
 
-char	*filling_with_nulls(char *s)
+char	*filling_with_nulls(char *str)
 {
 	int		i;
 	int		len;
 	char	quote;
 	int		null_count;
+	char	*s;
 
 	i = -1;
+	s = ft_strdup(str);
 	len = ft_strlen(s);
 	null_count = 0;
-	while (s[++i])
+	while (s && s[++i])
 	{
-		if (s[i] == '\'' || s[i] == '"')
+		if ((s[i] == '\'' || s[i] == '"') && find_last_quote(&s[i], s[i]))
 		{
 			quote = s[i];
 			s[i] = '\0';
