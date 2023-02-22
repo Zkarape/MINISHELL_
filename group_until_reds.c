@@ -67,14 +67,14 @@ int	one_cmd_init(t_node *node, t_cmd_lst *cmd_lst, t_args *a)
 	if (find_start_end(s, cmd_lst->tail, red_lst))
 	{
 		cmd_lst->tail->red_lst = red_lst;
-		cmd_lst_destruct(cmd_lst, cmd_lst->tail);
+		cmd_lst_destruct(&cmd_lst, cmd_lst->tail);
 		return (1);
 	}
 	cmd_lst->tail->red_lst = red_lst;
 	cmd_lst->tail->yep = last_input_work(red_lst);
 	if (big_loop(cmd_lst->tail, a))
 	{
-		cmd_lst_destruct(cmd_lst, cmd_lst->tail);
+		cmd_lst_destruct(&cmd_lst, cmd_lst->tail);
 		return (1);
 	}
 	return (0);
@@ -82,11 +82,9 @@ int	one_cmd_init(t_node *node, t_cmd_lst *cmd_lst, t_args *a)
 
 t_cmd_lst	*grouping_with_red(t_list *pipe_group, t_args *a)
 {
-	int			i;
 	t_node		*cur;
 	t_cmd_lst	*cmd_lst;
 
-	i = -1;
 	cmd_lst = cmd_lst_construct();
 	cur = pipe_group->head;
 	while (cur)

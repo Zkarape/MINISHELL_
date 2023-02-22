@@ -99,4 +99,5 @@ int	ft_exit(t_cmd *cmd_head)
 		put_status_and_exit(x % 256);
 	}
 	put_status_and_exit(0);
+	return (0);
 }

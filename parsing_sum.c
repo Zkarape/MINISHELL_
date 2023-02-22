@@ -143,10 +143,8 @@ void	cmd_quote_clear(t_cmd_lst *cmd_lst)
 {
 	t_cmd	*cur;
 	char	**arr;
-	char	*str;
 
 	cur = cmd_lst->head;
-	str = NULL;
 	arr = NULL;
 	while (cur)
 	{
